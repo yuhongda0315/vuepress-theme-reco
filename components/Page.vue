@@ -232,7 +232,7 @@ function flatten (items, res) {
   padding-bottom 2rem
   display block
   .page-title
-    max-width: 740px;
+    // max-width: 740px;
     margin: 0 auto;
     padding: 1rem 2.5rem;
     color var(--text-color)
