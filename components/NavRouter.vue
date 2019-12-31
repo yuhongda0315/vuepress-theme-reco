@@ -1,5 +1,5 @@
 <template>
-  <div class="categories-wrapper">
+  <div class="categories-wrapper" v-if="isShow">
     <div class="iconfont category-current reco-down" @click="change">{{selectedText}}</div>
     <ul class="category-wrapper" v-if="showCategoryItem" @mouseleave="hide">
       <li
@@ -39,7 +39,7 @@ export default {
     let _default = navs[0] || { };
     utils.extend(this, {
       navs,
-      isShow: navs.length == 0,
+      isShow: navs.length > 0,
       selectedText: _default.text
     });
   },

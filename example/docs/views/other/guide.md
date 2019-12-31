@@ -86,3 +86,16 @@ yarn dev
 
 ## License
 [MIT](https://github.com/recoluan/vuepress-theme-reco/blob/master/LICENSE)
+
+:::: tabs type:card
+ 
+::: tab IMKit
+__markdown content__
+:::
+ 
+ 
+::: tab IMLib
+
+:::
+ 
+::::

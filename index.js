@@ -17,8 +17,8 @@ module.exports = (options, ctx) => ({
       '@SearchBox': path.resolve(__dirname, 'components/SearchBox.vue')
     }
   },
-
   plugins: [
+    'vuepress-plugin-element-tabs',
     '@vuepress-reco/back-to-top',
     '@vuepress-reco/extract-code',
     '@vuepress-reco/loading-page',
