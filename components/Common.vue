@@ -97,9 +97,9 @@ export default {
   data () {
     return {
       isSidebarOpen: false,
-      isHasKey: false,
-      isHasPageKey: false,
-      firstLoad: true
+      isHasKey: true,
+      isHasPageKey: true,
+      firstLoad: false
     }
   },
 
