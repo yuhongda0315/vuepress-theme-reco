@@ -6,9 +6,9 @@
 
     <ModuleTransition delay="0.08">
       <div v-show="recoShowModule" class="page-title">
-        <h1>{{$page.title}}</h1>
+        <h3>{{$page.title}}</h3>
         <hr />
-        <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo>
+        <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
       </div>
     </ModuleTransition>
 
@@ -213,7 +213,8 @@ function flatten(items, res) {
   .page-title {
     // max-width: 740px;
     margin: 0 auto;
-    padding: 1rem 2.5rem;
+    line-height: 50%;
+    padding: 0 2.5rem 0rem 2.5rem;
     color: var(--text-color);
   }
 
@@ -336,13 +337,13 @@ function flatten(items, res) {
     }
 
     & > li {
-      border-left: 3px solid #000;
+      border-left: 3px solid #2b3e50;
       padding-left: 4px;
 
       & > a {
         text-decoration: none !important;
         font-weight: 500;
-        font-size: 18px;
+        font-size: 0.9rem;
         color: var(--text-color);
         &:before {
           content: ' ';
