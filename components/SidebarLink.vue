@@ -99,8 +99,7 @@ a.sidebar-link
     color $accentColor
   &.active
     font-weight 600
-    color #fff
-    background $accentColor
+    color $accentColor
     // border-left-color $accentColor
   .sidebar-group &
     // padding-left 2rem
