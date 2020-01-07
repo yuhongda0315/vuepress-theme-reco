@@ -34,24 +34,10 @@ export default {
     }
   },
   updated(){
-    let routerConfig = this.$themeConfig.routerConfig || {};
-    let navs = routerConfig.navs || [];
-    let _default = navs.filter((nav) =>{ return nav.link == location.pathname})[0] || { };
-    utils.extend(this, {
-      selectedLink: _default.link,
-      selectedText: _default.text
-    });
+    selected(this);
   },
   mounted() {
-    let routerConfig = this.$themeConfig.routerConfig || {};
-    let navs = routerConfig.navs || [];
-    let _default = navs.filter((nav) =>{ return nav.link == location.pathname})[0] || { };
-    utils.extend(this, {
-      navs,
-      isShow: navs.length > 0,
-      selectedLink: _default.link,
-      selectedText: _default.text
-    });
+    selected(this);
   },
   methods: {
     change: function() {
@@ -64,6 +50,17 @@ export default {
 };
 function hide(context) {
   context.showCategoryItem = false;
+}
+function selected(context){
+  let routerConfig = context.$themeConfig.routerConfig || {};
+  let navs = routerConfig.navs || [];
+  let _default = navs.filter((nav) =>{ return nav.link == location.pathname})[0] || { };
+  utils.extend(context, {
+    navs,
+    isShow: navs.length > 0,
+    selectedLink: _default.link,
+    selectedText: _default.text
+  });
 }
 </script>
 
