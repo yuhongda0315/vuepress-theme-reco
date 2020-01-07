@@ -36,7 +36,7 @@ export default {
   mounted() {
     let routerConfig = this.$themeConfig.routerConfig || {};
     let navs = routerConfig.navs || [];
-    let _default = navs[0] || { };
+    let _default = navs.filter((nav) =>{ return nav.link == location.pathname})[0] || { };
     utils.extend(this, {
       navs,
       isShow: navs.length > 0,
