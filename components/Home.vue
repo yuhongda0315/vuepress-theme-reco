@@ -1,34 +1,35 @@
 <template>
   <div class="home">
     <div class="hero">
-      <ModuleTransition>
+      <!-- <ModuleTransition>
         <img
           v-if="recoShowModule && $frontmatter.heroImage"
           :style="heroImageStyle || {}"
           :src="$withBase($frontmatter.heroImage)"
           alt="hero">
-      </ModuleTransition>
-      <ModuleTransition delay="0.04">
+      </ModuleTransition> -->
+      <!-- <ModuleTransition delay="0.04">
         <h1 v-if="recoShowModule && $frontmatter.isShowTitleInHome !== false">{{ $frontmatter.heroText || $title || '午后南杂' }}</h1>
       </ModuleTransition>
       <ModuleTransition delay="0.08">
         <p v-show="recoShowModule" class="description">{{ $description || 'Welcome to your vuePress-theme-reco site' }}</p>
-      </ModuleTransition>
-      <ModuleTransition delay="0.24">
+      </ModuleTransition> -->
+      <!-- <ModuleTransition delay="0.24">
         <p class="action" v-if="recoShowModule && $frontmatter.actionText && $frontmatter.actionLink">
           <NavLink class="action-button" :item="actionLink"/>
         </p>
-      </ModuleTransition>
+      </ModuleTransition> -->
     </div>
 
     <ModuleTransition delay="0.32">
       <div class="features" v-if="recoShowModule && $frontmatter.features && $frontmatter.features.length">
-        <div v-for="(feature, index) in $frontmatter.features" :key="index" class="feature">
-          <h2>{{ feature.title }}</h2>
-          <p>{{ feature.details }}</p>
-        </div>
+        <router-link :to="feature.link" v-for="(feature, index) in $frontmatter.features" :key="index" class="feature">
+            <h2>{{ feature.title }}</h2>
+            <p>{{ feature.details }}</p>
+        </router-link>
       </div>
     </ModuleTransition>
+
     <ModuleTransition delay="0.4">
       <Content class="home-center" v-show="recoShowModule" custom/>
     </ModuleTransition>
@@ -105,7 +106,7 @@ export default {
   }
 
   .features {
-    border-top: 1px solid var(--border-color);;
+    // border-top: 1px solid var(--border-color);;
     padding: 1.2rem 0;
     margin-top: 2.5rem;
     display: flex;
