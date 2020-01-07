@@ -28,12 +28,18 @@ module.exports = {
     search: true,
     searchMaxSuggestions: 10,
     // 自动形成侧边导航
-    sidebar: 'auto',
+    // sidebar: 'auto',
+    sidebar: {
+      '/views/other/': [
+        ['guide', '产品概述']
+      ]
+    },
     // 备案号
     record: '京公网安备 11010502033445 号',
     startYear: '2019'
   },
   markdown: {
-    lineNumbers: true
+    lineNumbers: true,
+    toc: [2,3]
   }
 }

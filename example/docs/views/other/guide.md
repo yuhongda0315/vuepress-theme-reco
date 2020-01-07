@@ -37,7 +37,7 @@ categories:
 > 测试
 
 
-## Use
+### Use
 
 **Build**
 
@@ -59,9 +59,9 @@ npm run dev
 yarn dev
 ```
 
-## Play Together
+##### Play Together
 
-### 0.x
+#### 0.x
 
 `vuepress-theme-reco@0.x` 是基于 `vuepress@0.x` 的博客主题。
 
@@ -71,7 +71,7 @@ yarn dev
 
 因为我是一名前端开发工程师，开发的过程中，总是想着能不能加入一些炫酷的效果，有很多次都是添加上又去掉，反反复复，最后都是被 **简洁** 的这个原则阻止掉，毕竟，现在我是将它当作一个产品来看待，并不是一个技术或者是技巧的尝试项目。
 
-### 1.x
+#### 1.x
 
 随着不断有用户过来询问：为什么 `vuepress-theme-reco@0.x` 不能在 `vuepress@1.x` 上使用？本来只是打算对 `vuepress-theme-reco@0.x` 进行简单的bug修复的我，终究还是忍不住，开始了 `vuepress-theme-reco@1.x` 的开发。又是在一个寂静的凌晨两点半（晚上就是出活快），我默默地开始了。
 
@@ -79,28 +79,27 @@ yarn dev
 
 `vuepress-theme-reco@0.x` 的开发中，更加深刻地明白了模块化和组件化编程的重要性，如果当初没有把一些功能进行封装，而是直接简单的复制，这次升级也不会这么顺利。模块拆分的越细，使用就会越灵活。
 
-### CLI
+#### CLI
 
 还是衷心地希望能有更多的朋友参与进来，更快地去完善它。接下来时间允许的情况下，我会开源一款自动生成博客的脚手架，略过配置步骤，直接书写优质内容，这也是我后来逐渐形成的一种信念，就是希望能让这款主题，功能越完善，使用越来越简单。
 
-## License
+### License
 [MIT](https://github.com/recoluan/vuepress-theme-reco/blob/master/LICENSE)
 
 :::: tabs type:card
  
 ::: tab IMKit
-# Heading
+### Heading
 
 [[toc]]
 
-## Sub heading 1
+### Sub heading 1
 Some nice text
 
-### Sub heading 2
+#### Sub heading 2
 
 #### Sub heading 3
 :::
- 
  
 ::: tab IMLib
 
