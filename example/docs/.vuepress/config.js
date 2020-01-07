@@ -1,6 +1,7 @@
 module.exports = {
   title: "融云开发者文档",
   dest: 'example/docs/public',
+  plugins: ['@vuepress/active-header-links'],
   head: [
     ['link', { rel: 'icon', href: 'https://docs.rongcloud.cn/assets/images/favicon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]

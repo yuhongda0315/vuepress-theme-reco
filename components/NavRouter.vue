@@ -4,7 +4,7 @@
     <ul class="category-wrapper" v-if="showCategoryItem" @mouseleave="hide">
       <li
         class="category-item"
-        :class="selectedText == item.text ? 'active': ''"
+        :class="selectedLink == item.link ? 'active': ''"
         v-for="(item, index) in navs"
         :key="index">
         <router-link :to="item.link">
@@ -40,6 +40,7 @@ export default {
     utils.extend(this, {
       navs,
       isShow: navs.length > 0,
+      selectedLink: _default.link,
       selectedText: _default.text
     });
   },

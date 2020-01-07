@@ -36,6 +36,7 @@ categories:
 
 > 测试
 
+
 ## Use
 
 **Build**
@@ -88,7 +89,16 @@ yarn dev
 :::: tabs type:card
  
 ::: tab IMKit
-__markdown content__
+# Heading
+
+[[toc]]
+
+## Sub heading 1
+Some nice text
+
+### Sub heading 2
+
+#### Sub heading 3
 :::
  
  
