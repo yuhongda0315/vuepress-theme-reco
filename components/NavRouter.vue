@@ -33,6 +33,15 @@ export default {
       return "";
     }
   },
+  updated(){
+    let routerConfig = this.$themeConfig.routerConfig || {};
+    let navs = routerConfig.navs || [];
+    let _default = navs.filter((nav) =>{ return nav.link == location.pathname})[0] || { };
+    utils.extend(this, {
+      selectedLink: _default.link,
+      selectedText: _default.text
+    });
+  },
   mounted() {
     let routerConfig = this.$themeConfig.routerConfig || {};
     let navs = routerConfig.navs || [];
