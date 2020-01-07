@@ -4,13 +4,13 @@
       <slot v-show="recoShowModule" name="top" />
     </ModuleTransition>
 
-    <ModuleTransition delay="0.08">
+    <!-- <ModuleTransition delay="0.08">
       <div v-show="recoShowModule" class="page-title">
         <h3>{{$page.title}}</h3>
         <hr />
-        <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
+        <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo>
       </div>
-    </ModuleTransition>
+    </ModuleTransition> -->
 
     <!-- <ModuleTransition delay="0.16"> -->
     <Content v-show="recoShowModule" />
