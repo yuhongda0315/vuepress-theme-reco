@@ -79,6 +79,7 @@ function selected(context){
   text-align: center;
   cursor: pointer;
   position: relative;
+  z-index 99;
 
   .category-current {
     height: 30px;
@@ -156,7 +157,7 @@ function selected(context){
 
 @media (max-width: $MQMobile) {
   .categories-wrapper {
-    padding: 4.6rem 1rem 0;
+    padding: 0 1rem 0;
   }
 
   .page-edit {

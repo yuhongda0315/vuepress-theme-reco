@@ -292,24 +292,12 @@ function flatten(items, res) {
 
 .table-of-contents {
   position: fixed;
-  right: 0;
+  right: 5%;
   top: 80px;
   overflow-y: -moz-scrollbars-none;
   -ms-overflow-style: none;
   overflow-y: auto;
   max-width: 240px;
-
-  @media (min-width: 768px) {
-    right: calc(((100% - 750px) / 2));
-  }
-
-  @media (min-width: 992px) {
-    right: calc(((100% - 970px) / 2));
-  }
-
-  @media (min-width: 1200px) {
-    right: calc(((100% - 1140px) / 2));
-  }
 
   @media (max-width: 768px) {
     display: none;
@@ -337,7 +325,7 @@ function flatten(items, res) {
     }
 
     & > li {
-      border-left: 3px solid #2b3e50;
+      border-left: 3px solid #CCC;
       padding-left: 4px;
 
       & > a {

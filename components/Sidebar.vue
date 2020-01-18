@@ -1,6 +1,6 @@
 <template>
   <aside class="sidebar">
-    <PersonalInfo/>
+    <!-- <PersonalInfo/> -->
     <NavRouter/>
     <NavLinks/>
     <slot name="top"/>
