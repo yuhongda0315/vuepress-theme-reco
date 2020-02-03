@@ -1,7 +1,7 @@
 module.exports = {
   title: "融云开发者文档",
   dest: 'example/docs/public',
-  plugins: ['@vuepress/active-header-links'],
+  plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs'],
   head: [
     ['link', { rel: 'icon', href: 'https://docs.rongcloud.cn/assets/images/favicon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
@@ -20,7 +20,7 @@ module.exports = {
       }
     ],
     routerConfig: {
-      navs: [{ text: 'Home', link: '/', icon: 'reco-home' },
+      navs: [{ text: 'Home', link: '/views/other/guide.html', icon: 'reco-home' },
         { text: 'TimeLine', link: '/timeLine/', icon: 'reco-date' }]
     },
     // logo: '/head.png',
