@@ -6,7 +6,8 @@
         class="category-item"
         :class="selectedLink == item.link ? 'active': ''"
         v-for="(item, index) in navs"
-        :key="index">
+        :key="index"
+      >
         <router-link :to="item.link">
           <span class="category-name">{{ item.text }}</span>
         </router-link>
@@ -16,13 +17,12 @@
 </template>
 
 <script>
-
-const utils = require('../helpers/utils');
+const utils = require("../helpers/utils");
 
 export default {
   data() {
     return {
-      selectedText: '',
+      selectedText: "",
       navs: [],
       isShow: false,
       showCategoryItem: false
@@ -44,8 +44,8 @@ export default {
       hide(this);
     }
   },
-  watch:{
-    '$route': function() {
+  watch: {
+    $route: function() {
       selected(this);
     }
   }
@@ -53,10 +53,13 @@ export default {
 function hide(context) {
   context.showCategoryItem = false;
 }
-function selected(context){
+function selected(context) {
   let routerConfig = context.$themeConfig.routerConfig || {};
   let navs = routerConfig.navs || [];
-  let _default = navs.filter((nav) =>{ return location.pathname.indexOf(nav.keyword) > -1})[0] || { };
+  let _default =
+    navs.filter(nav => {
+      return location.pathname.indexOf(nav.keyword) > -1;
+    })[0] || {};
   utils.extend(context, {
     navs,
     isShow: navs.length > 0,
@@ -81,7 +84,7 @@ function selected(context){
   text-align: center;
   cursor: pointer;
   position: relative;
-  z-index 99;
+  z-index: 99;
 
   .category-current {
     height: 30px;
