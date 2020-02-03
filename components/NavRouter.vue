@@ -33,9 +33,6 @@ export default {
       return "";
     }
   },
-  updated(){
-    selected(this);
-  },
   mounted() {
     selected(this);
   },
@@ -46,6 +43,11 @@ export default {
     hide: function() {
       hide(this);
     }
+  },
+  watch:{
+    '$route': function() {
+      selected(this);
+    }
   }
 };
 function hide(context) {
@@ -54,7 +56,7 @@ function hide(context) {
 function selected(context){
   let routerConfig = context.$themeConfig.routerConfig || {};
   let navs = routerConfig.navs || [];
-  let _default = navs.filter((nav) =>{ return nav.link == location.pathname})[0] || { };
+  let _default = navs.filter((nav) =>{ return location.pathname.indexOf(nav.keyword) > -1})[0] || { };
   utils.extend(context, {
     navs,
     isShow: navs.length > 0,
