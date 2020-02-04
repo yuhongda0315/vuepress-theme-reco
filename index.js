@@ -29,32 +29,7 @@ module.exports = (options, ctx) => ({
       selector: '.theme-reco-content :not(a) > img'
     }],
     '@vuepress/plugin-nprogress',
-    ['@vuepress/plugin-blog', {
-      permalink: '/:regular',
-      frontmatters: [
-        {
-          id: 'tags',
-          keys: ['tags'],
-          path: '/tag/',
-          layout: 'Tags',
-          scopeLayout: 'Tag'
-        },
-        {
-          id: 'categories',
-          keys: ['categories'],
-          path: '/categories/',
-          layout: 'Categories',
-          scopeLayout: 'Category'
-        },
-        {
-          id: 'timeline',
-          keys: ['timeline'],
-          path: '/timeline/',
-          layout: 'TimeLines',
-          scopeLayout: 'TimeLine'
-        }
-      ]
-    }],
+    ['@vuepress/plugin-blog'],
     ['container', {
       type: 'tip',
       defaultTitle: {

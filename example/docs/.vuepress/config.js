@@ -20,8 +20,10 @@ module.exports = {
       }
     ],
     routerConfig: {
-      navs: [{ text: 'Home', link: '/views/other/guide.html', icon: 'reco-home' },
-        { text: 'TimeLine', link: '/timeLine/', icon: 'reco-date' }]
+      navs: [
+        { text: 'Guide', link: '/views/other/guide', keyword: '/views/other/', icon: 'reco-home' },
+        { text: 'Android', link: '/views/other/android', keyword: '/views/andoird/', icon: 'reco-home' },
+        { text: 'TimeLine', link: '/timeLine/', keyword: 'timeLine', icon: 'reco-date' }]
     },
     // logo: '/head.png',
     // 搜索设置

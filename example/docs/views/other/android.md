@@ -8,35 +8,6 @@ languages:
   - {name: 'java', text: 'Java', link: '/views/other/guide'}
 ---
 
-[[toc]]
- 
-:::: tabs type:card
-
-::: tab label='存储 IMKit'
-
-### Heading1
-
-### Sub heading 1
-Some nice text
- 
-#### Sub heading 2
-
-#### Sub heading 3
-:::
- 
-::: tab label='测试 IMLib 啊嗷嗷'&lazy
-
-:::
- 
-::::
-
-|a|b|
-|-|-|
-|这是一个vuepress主题，旨在添加博客所需的分类、TAB墙、分页、评论等能；a|b这是一个vuepress主题，旨在添加博客所需的分类、TAB墙、分页、评论等能；|
-|a|b|
-|a|b|
-|a|b|
-
 ::: tip 介绍
 1. 这是一个vuepress主题，旨在添加博客所需的分类、TAB墙、分页、评论等能；<br>
 2. 主题追求极简，根据 vuepress 的默认主题修改而成，官方的主题配置仍然适用；<br>

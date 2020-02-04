@@ -10,13 +10,34 @@
         <hr />
         <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo>
       </div>
-    </ModuleTransition> -->
+    </ModuleTransition>-->
 
-    <!-- <ModuleTransition delay="0.16"> -->
+    <ul class="category-wrapper">
+      <router-link
+        v-for="(item, index) in this.$page.frontmatter.platforms"
+        :key="index"
+        :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
+      >
+        <li class="category-item" :class="isSelected(item) ? 'active': ''">
+          <span class="category-name">{{ item.text }}</span>
+        </li>
+      </router-link>
+    </ul>
+
+    <ul class="category-wrapper">
+      <li
+        class="category-item"
+        :class="isSelected(item) ? 'active': ''"
+        v-for="(item, index) in this.$page.frontmatter.languages"
+        :key="index"
+      >
+        <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
+          <span class="category-name">{{ item.text }}</span>
+        </router-link>
+      </li>
+    </ul>
+
     <Content v-show="recoShowModule" />
-
-    <!-- </ModuleTransition> -->
-
     <ModuleTransition delay="0.24">
       <footer v-show="recoShowModule" class="page-edit">
         <div class="edit-link" v-if="editLink">
@@ -141,8 +162,13 @@ export default {
       );
     }
   },
-
   methods: {
+    formatNavName: function(name) {
+      return name.toLocaleLowerCase();
+    },
+    isSelected: function(item) {
+      return location.href.indexOf(item.name.toLocaleLowerCase()) > -1;
+    },
     createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
       const bitbucket = /bitbucket.org/;
       if (bitbucket.test(repo)) {
@@ -209,6 +235,30 @@ function flatten(items, res) {
   padding-bottom: 2rem;
   display: block;
   margin-right: 190px;
+
+  .category-wrapper {
+  }
+
+  .category-item {
+    display: inline-block;
+    border: 1px solid #2b3e50;
+    min-width: 70px;
+    text-align: center;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 5px;
+    cursor: pointer;
+    padding: 0 2px;
+    box-sizing: border-box;
+
+    &:hover, &.active {
+      background: #2b3e50;
+
+        span.category-name {
+        color: #fff;
+      }
+    }
+  }
 
   .page-title {
     // max-width: 740px;
@@ -333,6 +383,7 @@ function flatten(items, res) {
         font-weight: 500;
         font-size: 0.9rem;
         color: var(--text-color);
+
         &:before {
           content: ' ';
           position: absolute;
@@ -340,8 +391,9 @@ function flatten(items, res) {
           top: 10px;
           left: -16px;
         }
-        &:hover{
-          color: #3eaf7c
+
+        &:hover {
+          color: #3eaf7c;
         }
       }
 
@@ -379,7 +431,7 @@ function flatten(items, res) {
             }
 
             &:hover {
-              color: #3eaf7c
+              color: #3eaf7c;
             }
           }
         }
