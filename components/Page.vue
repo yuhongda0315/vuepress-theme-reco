@@ -1,16 +1,25 @@
 <template>
   <main class="page">
     <ModuleTransition>
-      <slot v-show="recoShowModule" name="top" />
+      <ul class="header-navs">
+      <li
+        class="header-nav"
+        v-for="(item,index) in navs"
+        :key="item.url"
+        :class="{'is-active': navs.length -1 == index}"
+      >
+        <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
+      </li>
+    </ul>
     </ModuleTransition>
 
-    <!-- <ModuleTransition delay="0.08">
+    <ModuleTransition delay="0.08">
       <div v-show="recoShowModule" class="page-title">
         <h3>{{$page.title}}</h3>
         <hr />
-        <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo>
+        <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
       </div>
-    </ModuleTransition>-->
+    </ModuleTransition>
 
     <ul class="category-wrapper">
       <router-link
@@ -86,6 +95,7 @@ export default {
 
   data() {
     return {
+      navs: [],
       isHasKey: true
     };
   },
@@ -163,6 +173,13 @@ export default {
     }
   },
   methods: {
+    navigateTo:function(url){
+      let context = this;
+      if(url && url != location.pathname){
+        context.$router.push(url)
+      }
+      console.log(url);
+    },
     formatNavName: function(name) {
       return name.toLocaleLowerCase();
     },
@@ -194,8 +211,92 @@ export default {
         path
       );
     }
+  },
+  created: function(){
+    getNavs(this);
+  },
+  watch: {
+    $route: function() {
+      getNavs(this);
+    }
   }
 };
+
+function getLinks(path){
+ /** 路径项 */
+  const routePaths = path.split('#')[0].split('/');
+  /** 链接 */
+  const links = [];
+  let link = '';
+  // 生成链接
+  routePaths.forEach((element, index) => {
+    if (index !== routePaths.length - 1) {
+      link += `${element}/`;
+      links.push(link);
+    } else if (element !== '') {
+      link += element;
+      links.push(link);
+    }
+  });
+  return links;
+}
+function formatSidebars(bars, parent, root){
+  parent = parent || '';
+  var sidebars = [];
+  bars.forEach((bar) => {
+    var name = parent + bar.depth;
+    if(bar.path){
+      name = root + bar.path;
+    }
+    let hasChild = !!bar.children;
+
+    sidebars.push({
+      title: bar.title,
+      name: name,
+      url: hasChild ? bar.cpath : name
+    })
+    if(hasChild){
+      let children = formatSidebars(bar.children, name, root);
+      sidebars = sidebars.concat(children);
+    }
+  });
+  return sidebars;
+}
+
+function getElements(sidebar, pages){
+  let elements = [];
+  for(let name in sidebar){
+    let bars = sidebar[name];
+    let sidebars = formatSidebars(bars, name, name);
+      sidebars.forEach((bar) => {
+        elements.push(bar);
+    });
+  }
+  
+  pages.forEach(({title, path: url}) => {
+    elements.push({
+      title,
+      name: url,
+      url
+    });
+  });
+  return elements;
+}
+function getNavs(context){
+  let { $route,$site:{ pages, themeConfig: { sidebar } } } = context;
+  let links = getLinks($route.fullPath);
+  let elements = getElements(sidebar, pages);
+  let navs = [];
+  links.forEach((link) => {
+    elements.forEach((element) => {
+      let name = element.name;
+      if(name == link && name != '/'){
+        navs.push(element)
+      }
+    });
+  });
+  context.navs = navs;
+}
 
 function resolvePrev(page, items) {
   return find(page, items, -1);
@@ -236,6 +337,30 @@ function flatten(items, res) {
   display: block;
   margin-right: 190px;
 
+  .header-navs{
+
+  }
+  .header-nav{
+    list-style: none;
+    display: inline-block;
+    cursor pointer;
+    a {
+      &:hover{
+        color: #3eaf7c
+      }
+    }
+    &:nth-child(even){
+      &:after, &:before  {
+        content: '>'
+        margin: 0 4px
+      }
+    }
+    &:last-child{
+      &:after{
+        content: '';
+      }
+    }
+  }
   .category-wrapper {
   }
 
