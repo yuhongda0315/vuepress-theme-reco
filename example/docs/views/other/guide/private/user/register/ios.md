@@ -1,5 +1,5 @@
 ---
-title: vuepress-theme-reco
+title: 用户注册
 date: 2019-04-10
 platforms:
   - {name: 'ios', text: 'iOS', link: '/views/other/guide'}
@@ -9,26 +9,6 @@ languages:
 ---
 
 [[toc]]
- 
-:::: tabs type:card
-
-::: tab label='存储 IMKit'
-
-### Heading1
-
-### Sub heading 1
-Some nice text
- 
-#### Sub heading 2
-
-#### Sub heading 3
-:::
- 
-::: tab label='测试 IMLib 啊嗷嗷'&lazy
-
-:::
- 
-::::
 
 |a|b|
 |-|-|

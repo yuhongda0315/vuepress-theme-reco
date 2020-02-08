@@ -21,8 +21,8 @@ module.exports = {
     ],
     routerConfig: {
       navs: [
-        { text: 'Guide', link: '/views/other/guide', keyword: '/views/other/', icon: 'reco-home' },
-        { text: 'Android', link: '/views/other/android', keyword: '/views/andoird/', icon: 'reco-home' },
+        { text: 'iOS', link: '/views/other/guide/private/user/register/ios', keyword: 'user/register/ios', icon: 'reco-home' },
+        { text: 'Android', link: '/views/other/guide/private/user/register/android', keyword: 'user/register/android', icon: 'reco-home' },
         { text: 'TimeLine', link: '/timeLine/', keyword: 'timeLine', icon: 'reco-date' }]
     },
     // logo: '/head.png',
@@ -33,7 +33,18 @@ module.exports = {
     // sidebar: 'auto',
     sidebar: {
       '/views/other/': [
-        ['guide', '产品概述']
+        {
+          title: '单聊会话集成',
+          depth: 'guide/private/',
+          children: [{
+            title: '用户管理',
+            depth: 'user/',
+            children: [{
+              title: '用户注册',
+              path: 'guide/private/user/register/ios'
+            }]
+        }]
+        }
       ]
     },
     // 备案号

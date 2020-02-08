@@ -11,9 +11,9 @@ home: true
 # }
 # isShowTitleInHome: false
 actionText: 开始 
-actionLink: /views/other/guide
+actionLink: /views/other/guide/private/user/register/ios
 features:
 - title: 昨天
   details: 开发一款看着开心、写着顺手的 vuepress 博客主题
-  link: /views/other/guide
+  link: /views/other/guide/private/user/register/ios
 ---
