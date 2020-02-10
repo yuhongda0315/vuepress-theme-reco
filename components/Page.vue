@@ -250,7 +250,7 @@ function formatSidebars(bars, parent, root){
     sidebars.push({
       title: bar.title,
       name: name,
-      url: hasChild ? bar.cpath : name
+      url: bar.cpath
     })
     if(hasChild){
       let children = formatSidebars(bar.children, name, root);
@@ -287,7 +287,7 @@ function getNavs(context){
   links.forEach((link) => {
     elements.forEach((element) => {
       let name = element.name;
-      if(name == link && name != '/'){
+      if(name == link && name != '/' && element.title){
         navs.push(element)
       }
     });
