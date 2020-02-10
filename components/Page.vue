@@ -245,9 +245,6 @@ function formatSidebars(bars, parent, root){
   var sidebars = [];
   bars.forEach((bar) => {
     var name = parent + bar.depth;
-    if(bar.path){
-      name = root + bar.path;
-    }
     let hasChild = !!bar.children;
 
     sidebars.push({
