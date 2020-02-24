@@ -518,46 +518,6 @@ function flatten(items, res) {
           color: #3eaf7c;
         }
       }
-
-      & > ul {
-        padding-left: 17px;
-        list-style-type: none;
-
-        li {
-          cursor: pointer;
-
-          a {
-            text-decoration: none !important;
-            color: var(--text-color);
-            display: inline-block;
-            position: relative;
-            width: 100%;
-            padding: 5px 0;
-            text-indent: 5px;
-            border-radius: 2px;
-
-            &:before {
-              content: '';
-              position: absolute;
-              background-color: #827c7c;
-              height: 5px;
-              width: 5px;
-              top: 17px;
-              left: -6px;
-              border-radius: 44%;
-            }
-
-            &.active {
-              background-color: #FF6700;
-              color: #FFF;
-            }
-
-            &:hover {
-              color: #3eaf7c;
-            }
-          }
-        }
-      }
     }
   }
 }

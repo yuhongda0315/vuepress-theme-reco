@@ -44,7 +44,7 @@ module.exports = {
     },
     extendMarkdown: md => {
       md.use(require('markdown-it-include'), 'docs/views/');
-      md.use(require('markdown-it-super-header'));
+      
       md.use(require('markdown-it-toc-done-right'), {
         listType: 'ul',
         slugify: function(s){
@@ -58,6 +58,7 @@ module.exports = {
           return `${htmlencode(label)}`;
         }
       });
+      md.use(require('markdown-it-super-header'));
     }
   }
 }
