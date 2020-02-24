@@ -3,22 +3,11 @@ languages:
   - {name: 'java', text: 'Java', link: './java'}
   - {name: 'node', text: 'Node.js', link: './nodejs'}
 ---
+111
+#### 功能描述 {#intro1} 
 
-[[toc]]
+#### 功能描述 {#test} 
 
-#### 功能描述
+#### 功能描述 {#name} 
 
-!!!include(im/noui/guide/common/user/block/intro.md)!!!
-
-#### 实现方法
-
-!!!include(im/noui/guide/common/user/block/nodejs/add.md)!!!
-
-!!!include(im/noui/guide/common/user/block/nodejs/remove.md)!!!
-
-!!!include(im/noui/guide/common/user/block/nodejs/list.md)!!!
-
-#### 注意事项
-
-!!!include(im/noui/guide/common/user/block/warn.md)!!!
-
+#### 功能描述 {#connect} 

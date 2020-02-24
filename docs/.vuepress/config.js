@@ -21,72 +21,7 @@ module.exports = {
       ]
     },
     sidebar: {
-      '/views/im/ui/': [{
-        title: '产品简介',
-        sidebarDepth: 1,
-        children: [
-          ['intro/', '架构介绍'],
-          ['intro/', '主要功能'],
-        ]
-      },{
-        title: '快速集成',
-        sidebarDepth: 1,
-        children: [
-          ['quick-start/', '前提条件'],
-          ['quick-start/', '导入 SDK'],
-          ['quick-start/', '初始化'],
-          ['quick-start/', '连接融云服务'],
-          ['quick-start/', '集成会话列表'],
-          ['quick-start/', '集成会话界面'],
-          ['quick-start/', '设置用户信息'],
-        ]
-      },{
-        title: '集成文档',
-        children: [
-          {
-            title: '用户管理',
-            sidebarDepth: 1,
-            children: [
-              ['integrate-guide/', '注册用户']
-            ]
-          },
-          {
-            title: '群组管理',
-            sidebarDepth: 1
-          },
-          {
-            title: '全局配置',
-            sidebarDepth: 1
-          },
-          {
-            title: '初始化',
-            sidebarDepth: 1
-          },
-          {
-            title: '连接管理',
-            sidebarDepth: 1
-          },
-          {
-            title: '会话列表',
-            sidebarDepth: 1
-          },
-          {
-            title: '会话界面',
-            sidebarDepth: 1
-          },
-          {
-            title: '聊天室',
-            sidebarDepth: 1
-          }
-        ]
-      },{
-        title: 'API 文档',
-        children: [
-          ['api', 'Android'],
-          ['api', 'iOS'],
-          ['api', 'Web']
-        ]
-      }],
+      '/views/im/ui/': [],
       '/views/im/noui/': NoUINavs,
       '/helper/': [
         ['', '组织逻辑']
@@ -105,10 +40,24 @@ module.exports = {
   markdown: {
     lineNumbers: true,
     toc: {
-      includeLevel: [3,4,5]
+      includeLevel: [3,4,5],
     },
     extendMarkdown: md => {
-      md.use(require('markdown-it-include'), 'docs/views/')
+      md.use(require('markdown-it-include'), 'docs/views/');
+      md.use(require('./header'), {});
+      // md.use(require('markdown-it-toc-done-right'), {
+      //   listType: 'ul',
+      //   slugify: function(s){
+      //     let matches = s.match(/\\?\{([^}]+)\}/) || [];
+      //     let id = matches[1] || s;
+      //     id = id.replace('#', '');
+      //     return id;
+      //   },
+      //   format: function(label, htmlencode){
+      //     label = label.replace(/\\?\{([^}]+)\}/, '');
+      //     return `${htmlencode(label)}`;
+      //   }
+      // });
     }
   }
 }

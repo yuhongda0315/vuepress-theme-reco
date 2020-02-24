@@ -12,13 +12,3 @@ languages:
 [[toc]]
 
 #### 功能描述
-
-!!!include(im/noui/guide/common/message/intro.md)!!!
-
-#### 实现方法
-
-#### 注意事项 
-
-> 1、发送消息必须在成功连接融云服务器 connect 成功之后进行
-
-> 2、每秒最多发送 5 条消息

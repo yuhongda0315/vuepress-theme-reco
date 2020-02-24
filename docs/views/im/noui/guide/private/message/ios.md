@@ -13,8 +13,4 @@ languages:
 #### 功能描述
 
 #### 实现方法
-
-!!!include(im/noui/guide/common/message/ios/text.md)!!!
-!!!include(im/noui/guide/common/message/ios/image.md)!!!
-
 #### 注意事项 
