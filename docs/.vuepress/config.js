@@ -44,20 +44,20 @@ module.exports = {
     },
     extendMarkdown: md => {
       md.use(require('markdown-it-include'), 'docs/views/');
-      md.use(require('./header'), {});
-      // md.use(require('markdown-it-toc-done-right'), {
-      //   listType: 'ul',
-      //   slugify: function(s){
-      //     let matches = s.match(/\\?\{([^}]+)\}/) || [];
-      //     let id = matches[1] || s;
-      //     id = id.replace('#', '');
-      //     return id;
-      //   },
-      //   format: function(label, htmlencode){
-      //     label = label.replace(/\\?\{([^}]+)\}/, '');
-      //     return `${htmlencode(label)}`;
-      //   }
-      // });
+      md.use(require('markdown-it-super-header'));
+      md.use(require('markdown-it-toc-done-right'), {
+        listType: 'ul',
+        slugify: function(s){
+          let matches = s.match(/\\?\{([^}]+)\}/) || [];
+          let id = matches[1] || s;
+          id = id.replace('#', '');
+          return id;
+        },
+        format: function(label, htmlencode){
+          label = label.replace(/\\?\{([^}]+)\}/, '');
+          return `${htmlencode(label)}`;
+        }
+      });
     }
   }
 }
