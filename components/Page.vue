@@ -1,19 +1,19 @@
 <template>
-  <main class="page">
+  <main class="page" :class="{'page-api': isAPI()}">
     <ModuleTransition>
       <ul class="header-navs">
-      <li
-        class="header-nav"
-        v-for="(item,index) in navs"
-        :key="item.url"
-        :class="{'is-active': navs.length -1 == index}"
-      >
-        <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
-      </li>
-    </ul>
+        <li
+          class="header-nav"
+          v-for="(item,index) in navs"
+          :key="item.url"
+          :class="{'is-active': navs.length -1 == index}"
+        >
+          <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
+        </li>
+      </ul>
     </ModuleTransition>
 
-    <ModuleTransition delay="0.08">
+    <ModuleTransition delay="0.08" v-if="!isAPI()">
       <div v-show="recoShowModule" class="page-title">
         <h3>{{$page.title}}</h3>
         <hr />
@@ -45,8 +45,10 @@
         </router-link>
       </li>
     </ul>
+    
+    <APIPage v-if="isAPI()"/>
+    <Content v-else />
 
-    <Content v-show="recoShowModule" />
     <ModuleTransition delay="0.24">
       <footer v-show="recoShowModule" class="page-edit">
         <div class="edit-link" v-if="editLink">
@@ -61,7 +63,7 @@
       </footer>
     </ModuleTransition>
 
-    <ModuleTransition delay="0.32">
+    <ModuleTransition delay="0.32" v-if="!isAPI()">
       <div class="page-nav" v-if="recoShowModule && (prev || next)">
         <p class="inner">
           <span v-if="prev" class="prev">
@@ -83,13 +85,14 @@
 
 <script>
 import PageInfo from "@theme/components/PageInfo";
+import APIPage from "@theme/components/APIPage";
 import { resolvePage, outboundRE, endingSlashRE } from "@theme/helpers/utils";
 import ModuleTransition from "@theme/components/ModuleTransition";
 import moduleTransitonMixin from "@theme/mixins/moduleTransiton";
 
 export default {
   mixins: [moduleTransitonMixin],
-  components: { PageInfo, ModuleTransition },
+  components: { PageInfo, ModuleTransition, APIPage },
 
   props: ["sidebarItems"],
 
@@ -173,10 +176,10 @@ export default {
     }
   },
   methods: {
-    navigateTo:function(url){
+    navigateTo: function(url) {
       let context = this;
-      if(url && url != location.pathname){
-        context.$router.push(url)
+      if (url && url != location.pathname) {
+        context.$router.push(url);
       }
       console.log(url);
     },
@@ -185,6 +188,9 @@ export default {
     },
     isSelected: function(item) {
       return location.href.indexOf(item.name.toLocaleLowerCase()) > -1;
+    },
+    isAPI: function() {
+      return this.$frontmatter.APIConf;
     },
     createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
       const bitbucket = /bitbucket.org/;
@@ -212,7 +218,7 @@ export default {
       );
     }
   },
-  created: function(){
+  created: function() {
     getNavs(this);
   },
   watch: {
@@ -222,28 +228,28 @@ export default {
   }
 };
 
-function getLinks(path){
- /** 路径项 */
-  const routePaths = path.split('#')[0].split('/');
+function getLinks(path) {
+  /** 路径项 */
+  const routePaths = path.split("#")[0].split("/");
   /** 链接 */
   const links = [];
-  let link = '';
+  let link = "";
   // 生成链接
   routePaths.forEach((element, index) => {
     if (index !== routePaths.length - 1) {
       link += `${element}/`;
       links.push(link);
-    } else if (element !== '') {
+    } else if (element !== "") {
       link += element;
       links.push(link);
     }
   });
   return links;
 }
-function formatSidebars(bars, parent, root){
-  parent = parent || '';
+function formatSidebars(bars, parent, root) {
+  parent = parent || "";
   var sidebars = [];
-  bars.forEach((bar) => {
+  bars.forEach(bar => {
     var name = parent + bar.depth;
     let hasChild = !!bar.children;
 
@@ -251,8 +257,8 @@ function formatSidebars(bars, parent, root){
       title: bar.title,
       name: name,
       url: bar.cpath
-    })
-    if(hasChild){
+    });
+    if (hasChild) {
       let children = formatSidebars(bar.children, name, root);
       sidebars = sidebars.concat(children);
     }
@@ -260,17 +266,17 @@ function formatSidebars(bars, parent, root){
   return sidebars;
 }
 
-function getElements(sidebar, pages){
+function getElements(sidebar, pages) {
   let elements = [];
-  for(let name in sidebar){
+  for (let name in sidebar) {
     let bars = sidebar[name];
     let sidebars = formatSidebars(bars, name, name);
-      sidebars.forEach((bar) => {
-        elements.push(bar);
+    sidebars.forEach(bar => {
+      elements.push(bar);
     });
   }
-  
-  pages.forEach(({title, path: url}) => {
+
+  pages.forEach(({ title, path: url }) => {
     elements.push({
       title,
       name: url,
@@ -279,16 +285,22 @@ function getElements(sidebar, pages){
   });
   return elements;
 }
-function getNavs(context){
-  let { $route,$site:{ pages, themeConfig: { sidebar } } } = context;
+function getNavs(context) {
+  let {
+    $route,
+    $site: {
+      pages,
+      themeConfig: { sidebar }
+    }
+  } = context;
   let links = getLinks($route.fullPath);
   let elements = getElements(sidebar, pages);
   let navs = [];
-  links.forEach((link) => {
-    elements.forEach((element) => {
+  links.forEach(link => {
+    elements.forEach(element => {
       let name = element.name;
-      if(name == link && name != '/' && element.title){
-        navs.push(element)
+      if (name == link && name != "/" && element.title) {
+        navs.push(element);
       }
     });
   });
@@ -328,36 +340,41 @@ function flatten(items, res) {
 <style lang="stylus">
 @require '../styles/wrapper.styl';
 
+
 .page {
   padding-top: 5rem;
   padding-bottom: 2rem;
   display: block;
   margin-right: 190px;
 
-  .header-navs{
-
+  .header-navs {
   }
-  .header-nav{
+
+  .header-nav {
     list-style: none;
     display: inline-block;
-    cursor pointer;
+    cursor: pointer;
+
     a {
-      &:hover{
-        color: #3eaf7c
+      &:hover {
+        color: #3eaf7c;
       }
     }
-    &:nth-child(even){
-      &:after, &:before  {
-        content: '>'
-        margin: 0 4px
+
+    &:nth-child(even) {
+      &:after, &:before {
+        content: '>';
+        margin: 0 4px;
       }
     }
-    &:last-child{
-      &:after{
+
+    &:last-child {
+      &:after {
         content: '';
       }
     }
   }
+
   .category-wrapper {
   }
 
@@ -376,7 +393,7 @@ function flatten(items, res) {
     &:hover, &.active {
       background: #2b3e50;
 
-        span.category-name {
+      span.category-name {
         color: #fff;
       }
     }
@@ -421,7 +438,9 @@ function flatten(items, res) {
     }
   }
 }
-
+.page-api{
+  margin-right: 0;
+}
 .page-nav {
   @extend $wrapper;
   padding-top: 1rem;

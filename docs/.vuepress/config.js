@@ -1,7 +1,7 @@
 const NoUINavs = require('./navs/noui');
 module.exports = {
   title: "融云开发者文档",
-  plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs'],
+  plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs', '@codeciting/vuepress-plugin-plantuml'],
   head: [
     ['link', { rel: 'icon', href: 'https://docs.rongcloud.cn/assets/images/favicon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]

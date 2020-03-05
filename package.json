@@ -47,6 +47,7 @@
     "vuepress-theme-reco": "https://github.com/yuhongda0315/vuepress-theme-reco.git"
   },
   "devDependencies": {
+    "@codeciting/vuepress-plugin-plantuml": "^0.2.0",
     "babel-eslint": "10.0.3",
     "eslint": "6.4.0",
     "eslint-plugin-vue": "5.2.3",

@@ -12,3 +12,20 @@ languages:
 [[toc]]
 
 #### 功能描述
+
+Plantuml blow:
+ 
+@startuml Sequence
+ 
+Alice -> Bob: Hi
+Bob -> Alice: Hi ACK
+ 
+@enduml
+
+@startuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+@enduml

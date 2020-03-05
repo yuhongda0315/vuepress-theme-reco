@@ -1,9 +1,9 @@
 ---
 home: true
 actionText: 开始
-actionLink: /views/im/ui/quick-start
+actionLink: /views/im/noui/guide/private/message/web
 features:
 - title: 一对一
-  details: 开发一款看着开心、写着顺手的 vuepress 博客主题
-  link: /views/im/ui/quick-start
+  details: 走你
+  link: /views/im/noui/guide/private/message/web
 ---
