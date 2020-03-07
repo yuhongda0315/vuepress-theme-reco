@@ -1,7 +1,7 @@
 <template>
   <div class="rong-container">
     <div class="rong-search-box">
-      <SearchAPI class="rong-search" />
+      <APISearch class="rong-search" @showAPIs="show"/>
     </div>
     <ul class="rong-modules">
       <li class="rong-module" v-for="(module, index) in modules" :key="index">
@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import SearchAPI from "@theme/components/SearchAPI";
+import APISearch from "@theme/components/APISearch";
 import APIContent from "@theme/components/APIContent";
 export default {
-  components: { SearchAPI, APIContent },
+  components: { APISearch, APIContent },
   data() {
     return {
       selectedAPI: null,
@@ -58,6 +58,9 @@ export default {
   },
   computed: {},
   methods: {
+    show: function(api){
+      this.showAPI(api);
+    },
     showAPI: function(api){
       var context = this;
       context.selectedAPI = api;

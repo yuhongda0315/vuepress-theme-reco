@@ -96,6 +96,36 @@ function getAPIs(context) {
         { name: "userId", desc: "用户 ID，在开发者应用服务器生成" }
       ],
       warnings: [{ desc: "已废弃，请勿使用" }]
+    },
+    {
+      name: "连接方法",
+      code:
+        "- (RCMessage *)sendMessage:(RCConversationType)conversationType targetId:(NSString *)targetId content:(RCMessageContent *)content pushContent:(NSString *)pushContent success:(void (^)(long messageId))successBlock error:(void (^)(RCErrorCode nErrorCode, long messageId))errorBlock",
+      params: [
+        { name: "token", desc: "用户 Token" },
+        {
+          name: "userId",
+          desc:
+            "用户 ID，在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成"
+        },
+        { name: "userId", desc: "用户 ID，在开发者应用服务器生成" }
+      ],
+      warnings: [{ desc: "已废弃，请勿使用" }]
+    },
+    {
+      name: "连接方法",
+      code:
+        "- (RCMessage *)sendMessage:(RCConversationType)conversationType targetId:(NSString *)targetId content:(RCMessageContent *)content pushContent:(NSString *)pushContent success:(void (^)(long messageId))successBlock error:(void (^)(RCErrorCode nErrorCode, long messageId))errorBlock",
+      params: [
+        { name: "token", desc: "用户 Token" },
+        {
+          name: "userId",
+          desc:
+            "用户 ID，在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成"
+        },
+        { name: "userId", desc: "用户 ID，在开发者应用服务器生成" }
+      ],
+      warnings: [{ desc: "已废弃，请勿使用" }]
     }
   ];
 }
@@ -201,7 +231,7 @@ function getAPIs(context) {
   margin-left: 200px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   box-sizing: border-box;
   font-family: "Source Code Pro", Monaco, Menlo, Consolas, monospace;
   font-size: 0.9em;
@@ -215,12 +245,17 @@ function getAPIs(context) {
   padding: 0;
 }
 .rong-api {
-  border-bottom: 2px solid #f1eeee;
+  border-bottom: 2px solid #dbf0dc;
   padding-bottom: 5px;
+  margin-bottom: 10px;  
 }
 .rong-api-name {
-  margin: 0;
+  margin: 10px 0 0 0;
   font-weight: bold;
+  font-size: 1.2em;
+}
+.rong-api-name:first-child{
+  margin-top: 0;
 }
 .rong-part-name {
   display: inline-block;
