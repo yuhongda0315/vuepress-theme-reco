@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="rong-outer">
     <Common>
       <component v-if="$frontmatter.home" :is="homeCom"></component>
       <Page

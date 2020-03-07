@@ -1,5 +1,5 @@
 <template>
-  <main class="page" :class="{'page-api': isAPI()}">
+  <main class="page rong-page" :class="{'page-api': isAPI()}">
     <ModuleTransition>
       <ul class="header-navs">
         <li
@@ -357,7 +357,7 @@ function flatten(items, res) {
 
     a {
       &:hover {
-        color: #3eaf7c;
+        color: #0099FF;
       }
     }
 
@@ -534,7 +534,7 @@ function flatten(items, res) {
         }
 
         &:hover {
-          color: #3eaf7c;
+          color: #0099FF;
         }
       }
     }

@@ -1,12 +1,14 @@
 <template>
-  <aside class="sidebar">
-    <!-- <PersonalInfo/> -->
-    <NavRouter/>
-    <NavLinks/>
-    <slot name="top"/>
-    <SidebarLinks :depth="0" :items="items"/>
-    <slot name="bottom"/>
-  </aside>
+  <div class="rong-sidebar-box">
+    <aside class="sidebar rong-sidebar">
+      <!-- <PersonalInfo/> -->
+      <NavRouter/>
+      <NavLinks/>
+      <slot name="top"/>
+      <SidebarLinks :depth="0" :items="items"/>
+      <slot name="bottom"/>
+    </aside>
+  </div>
 </template>
 
 <script>

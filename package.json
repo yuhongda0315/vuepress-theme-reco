@@ -38,7 +38,7 @@
     "leancloud-storage": "3.13.2",
     "markdown-it-anchor": "^5.2.5",
     "markdown-it-head-attr": "^1.0.5",
-    "markdown-it-include": "^1.1.0",
+    "markdown-it-include": "git+https://github.com/yuhongda0315/markdown-it-include.git",
     "markdown-it-toc-done-right": "^4.1.0",
     "md5": "2.2.1",
     "valine": "1.3.6",

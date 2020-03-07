@@ -1,51 +1,91 @@
 <template>
   <div class="home">
-    <div class="hero">
-      <!-- <ModuleTransition>
-        <img
-          v-if="recoShowModule && $frontmatter.heroImage"
-          :style="heroImageStyle || {}"
-          :src="$withBase($frontmatter.heroImage)"
-          alt="hero">
-      </ModuleTransition> -->
-      <!-- <ModuleTransition delay="0.04">
-        <h1 v-if="recoShowModule && $frontmatter.isShowTitleInHome !== false">{{ $frontmatter.heroText || $title || '午后南杂' }}</h1>
-      </ModuleTransition>
-      <ModuleTransition delay="0.08">
-        <p v-show="recoShowModule" class="description">{{ $description || 'Welcome to your vuePress-theme-reco site' }}</p>
-      </ModuleTransition> -->
-      <!-- <ModuleTransition delay="0.24">
-        <p class="action" v-if="recoShowModule && $frontmatter.actionText && $frontmatter.actionLink">
-          <NavLink class="action-button" :item="actionLink"/>
-        </p>
-      </ModuleTransition> -->
+    <div class="rong-home-nav">
+      <a>即时通讯
+        </a><a>实时音视频</a>
     </div>
-
-    <ModuleTransition delay="0.32">
-      <div class="features" v-if="recoShowModule && $frontmatter.features && $frontmatter.features.length">
-        <router-link :to="feature.link" v-for="(feature, index) in $frontmatter.features" :key="index" class="feature">
-            <h2>{{ feature.title }}</h2>
-            <p>{{ feature.details }}</p>
-        </router-link>
+    <div class="rong-home-vertical-list">
+      <div class="rong-home-vertical-content">
+        <h4>服务指南</h4>
+        <ul>
+          <li><a>产品简介</a></li>
+          <li><a>名词列表</a></li>
+          <li><a>常见问题</a></li>
+          <li><a>状态码</a></li>
+        </ul>
       </div>
-    </ModuleTransition>
+      <div class="rong-home-vertical-content">
+        <h4>服务指南</h4>
+        <ul>
+          <li><a>产品简介</a></li>
+          <li><a>名词列表</a></li>
+          <li><a>常见问题</a></li>
+          <li><a>状态码</a></li>
+        </ul>
+      </div>
+      <div class="rong-home-vertical-content">
+        <h4>服务指南</h4>
+        <ul>
+          <li><a>产品简介</a></li>
+          <li><a>名词列表</a></li>
+          <li><a>常见问题</a></li>
+          <li><a>状态码</a></li>
+        </ul>
+      </div>
+      <div class="rong-home-vertical-content">
+        <h4>服务指南</h4>
+        <ul>
+          <li><a>产品简介</a></li>
+          <li><a>名词列表</a></li>
+          <li><a>常见问题</a></li>
+          <li><a>状态码</a></li>
+        </ul>
+      </div>
+      <div class="rong-home-vertical-content">
+        <h4>服务指南</h4>
+        <ul>
+          <li><a>产品简介</a></li>
+          <li><a>名词列表</a></li>
+          <li><a>常见问题</a></li>
+          <li><a>状态码</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rong-home-horizontal-list">
+      <div class="rong-home-horizontal-content">
+        <h4>运营服务</h4>
+        <ul>
+          <li>产品简介</li>
+          <li>短信</li>
+          <li>预防黑产</li>
+          <li>初次集成</li>
+        </ul>
+      </div>
 
-    <ModuleTransition delay="0.4">
-      <Content class="home-center" v-show="recoShowModule" custom/>
-    </ModuleTransition>
+      <div class="rong-home-horizontal-content">
+        <h4>初次集成</h4>
+        <ul>
+          <li>集成必须</li>
+          <li>视频教程</li>
+          <li>寻求帮助</li>
+          <li>三分钟跑通 Demo</li>
+          <li>一天接入 SDK</li>
+          <li>十分钟上线</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import NavLink from '@theme/components/NavLink'
-import ModuleTransition from '@theme/components/ModuleTransition'
+// import NavLink from '@theme/components/NavLink'
+// import ModuleTransition from '@theme/components/ModuleTransition'
 import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
 
 export default {
   mixins: [moduleTransitonMixin],
-  components: { NavLink, ModuleTransition },
+  // components: { NavLink, ModuleTransition },
   computed: {
-
     actionLink () {
       return {
         link: this.$frontmatter.actionLink,
@@ -59,6 +99,15 @@ export default {
         margin: '6rem auto 1.5rem'
       }
     }
+
+    // list() {
+    //   return [
+    //     {
+    //       title: '即时通讯',
+
+    //     }
+    //   ]
+    // }
   }
 }
 </script>
@@ -66,10 +115,87 @@ export default {
 <style lang="stylus">
 @require '../styles/mode.styl'
 
+.rong-home-nav {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 60px;
+  padding-right: 85px;
+  box-sizing: border-box;
+  a {
+    display: inline-block;
+    width: 165px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #2B2E3D;
+    font-size 18px;
+    color: white;
+  }
+}
+.rong-home-horizontal-list {
+  margin-top: 120px;
+  width: 100%;
+  // text-align: center;
+  margin-bottom: 100px;
+  .rong-home-horizontal-content {
+    text-align: left;
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+    h4 {
+      color: black;
+      font-size: 18px;
+      margin: 0;
+      margin-bottom: 20px;
+    }
+    ul {
+      padding: 0;
+    }
+    li {
+      list-style: none;
+      display: inline-block;
+      font-size: 14px;
+      color: #0099FF;
+      margin-right: 38px;
+      margin-bottom: 15px;
+    }
+  }
+}
+.rong-home-vertical-list {
+  // text-align: center;
+  .rong-home-vertical-content {
+    // min-width: 135px;
+    // margin-right: 15px;
+    width: 220px;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-align: left;
+    h4 {
+      font-size: 18px;
+      color: #666666;
+      margin: 0;
+    }
+    ul {
+      padding: 0;
+    }
+    li {
+      list-style: none;
+      font-size 14px;
+      margin-top: 20px;
+      a {
+        color: #0099FF;
+      }
+    }
+  }
+}
+
 .home {
   padding: $navbarHeight 2rem 0;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0px auto;
+  padding-top: 60px;
+  padding-left: 85px;
+  padding-right: 0;
+  box-sizing: border-box;
 
   .hero {
     text-align: center;

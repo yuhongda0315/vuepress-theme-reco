@@ -7,6 +7,7 @@
       :value="query"
       :class="{ 'focused': focused }"
       :placeholder="placeholder"
+      placeholder="搜索"
       autocomplete="off"
       spellcheck="false"
       @focus="focused = true"

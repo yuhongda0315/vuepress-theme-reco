@@ -8,12 +8,26 @@ module.exports = {
   ],
   theme: require.resolve('../../'),
   themeConfig: {
-    nav: [
-      { text: '书写规范', link: '/helper/', icon: 'reco-chanpin' },
-      { text: 'SDK 下载', link: 'https://www.rongcloud.cn/downloads', icon: 'reco-xiazai' },
-      { text: '工单', link: 'https://developer.rongcloud.cn/ticket/create', icon: 'reco-gongdan' },
-      { text: '我的控制台/登录', link: 'https://developer.rongcloud.cn', icon: 'reco-denglu' },
-    ],
+    nav: {
+      logo: 'http://www.rongcloud.cn/pc/images/logo.png',
+      titles: [
+        { text: '文档首页', link: '' },
+        { text: '即时通讯', link: '' },
+        { text: '运营服务', link: '' },
+        { text: '音视频', link: '' },
+      ],
+      subTitles: [
+        { text: 'SDK 下载', link: '' },
+        { text: '工单', link: '' },
+        { text: '登录', link: '' }
+      ]
+    },
+    // nav: [
+    //   { text: '书写规范', link: '/helper/', icon: 'reco-chanpin' },
+    //   { text: 'SDK 下载', link: 'https://www.rongcloud.cn/downloads', icon: 'reco-xiazai' },
+    //   { text: '工单', link: 'https://developer.rongcloud.cn/ticket/create', icon: 'reco-gongdan' },
+    //   { text: '我的控制台/登录', link: 'https://developer.rongcloud.cn', icon: 'reco-denglu' },
+    // ],
     routerConfig: {
       navs: [
         { text: '含 UI 集成', link: '/views/im/ui/intro/', keyword: '/views/im/ui' },

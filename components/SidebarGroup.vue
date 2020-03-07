@@ -1,6 +1,6 @@
 <template>
   <section
-    class="sidebar-group"
+    class="sidebar-group rong-sidebar-group"
     :class="[
       {
         collapsable,
@@ -11,7 +11,7 @@
   >
     <router-link
       v-if="item.path"
-      class="sidebar-heading clickable"
+      class="sidebar-heading clickable rong-sidebar-heading"
       :class="{
         open,
         'active': isActive($route, item.path)
@@ -21,7 +21,7 @@
     >
       <span>{{ item.title }}</span>
       <span
-        class="arrow"
+        class="arrow rong-sidebar-arrow"
         v-if="collapsable"
         :class="open ? 'down' : 'right'">
       </span>
@@ -29,13 +29,13 @@
 
     <p
       v-else
-      class="sidebar-heading"
+      class="sidebar-heading rong-sidebar-heading"
       :class="{ open }"
       @click="$emit('toggle')"
     >
       <span>{{ item.title }}</span>
       <span
-        class="arrow"
+        class="arrow rong-sidebar-arrow"
         v-if="collapsable"
         :class="open ? 'down' : 'right'">
       </span>

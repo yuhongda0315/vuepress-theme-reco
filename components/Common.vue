@@ -1,6 +1,6 @@
 <template>
   <div
-    class="theme-container"
+    class="theme-container rong-box"
     :class="pageClasses"
     @touchstart="onTouchStart"
     @touchend="onTouchEnd">

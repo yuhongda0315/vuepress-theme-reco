@@ -1,8 +1,27 @@
 <template>
-  <header class="navbar">
-    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+  <header class="navbar rong-nav">
+    <div class="rong-nav-box">
+      <img class="rong-nav-logo" :src="$themeConfig.nav.logo" alt="">
+      <a
+        class="rong-nav-title"
+        v-for="title in $themeConfig.nav.titles"
+        :key="title.text">
+        {{ title.text }}
+      </a>
+      <AlgoliaSearchBox
+        v-if="isAlgoliaSearch"
+        :options="algolia"/>
+      <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
+      <a
+        class="rong-nav-subtitle"
+        v-for="subtitle in $themeConfig.nav.subTitles"
+        :key="subtitle.text">
+        {{ subtitle.text }}
+      </a>
+    </div>
+    <!-- <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/> -->
 
-    <router-link
+    <!-- <router-link
       :to="$localePath"
       class="home-link">
       <img
@@ -14,21 +33,19 @@
         ref="siteName"
         class="site-name"
         v-if="$siteTitle">{{ $siteTitle }}</span>
-    </router-link>
+    </router-link> -->
 
-    <div
+    <!-- <div
       class="links"
       :style="linksWrapMaxWidth ? {
         'max-width': linksWrapMaxWidth + 'px'
       } : {}">
-
-      <!-- <Mode /> -->
       <AlgoliaSearchBox
         v-if="isAlgoliaSearch"
         :options="algolia"/>
       <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
       <NavLinks class="can-hide"/>
-    </div>
+    </div> -->
   </header>
 </template>
 
