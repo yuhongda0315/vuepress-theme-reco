@@ -1,85 +1,86 @@
 <template>
   <main class="page" :class="{'page-api': isAPI()}">
-    <ModuleTransition>
-      <ul class="header-navs">
-        <li
-          class="header-nav"
-          v-for="(item,index) in navs"
-          :key="item.url"
-          :class="{'is-active': navs.length -1 == index}"
+    <APIPage v-if="isAPI()" />
+    <div v-else>
+      <ModuleTransition>
+        <ul class="header-navs">
+          <li
+            class="header-nav"
+            v-for="(item,index) in navs"
+            :key="item.url"
+            :class="{'is-active': navs.length -1 == index}"
+          >
+            <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
+          </li>
+        </ul>
+      </ModuleTransition>
+
+      <ModuleTransition delay="0.08">
+        <div v-show="recoShowModule" class="page-title">
+          <h3>{{$page.title}}</h3>
+          <hr />
+          <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
+        </div>
+      </ModuleTransition>
+
+      <ul class="category-wrapper">
+        <router-link
+          v-for="(item, index) in this.$page.frontmatter.platforms"
+          :key="index"
+          :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
         >
-          <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
+          <li class="category-item" :class="isSelected(item) ? 'active': ''">
+            <span class="category-name">{{ item.text }}</span>
+          </li>
+        </router-link>
+      </ul>
+
+      <ul class="category-wrapper">
+        <li
+          class="category-item"
+          :class="isSelected(item) ? 'active': ''"
+          v-for="(item, index) in this.$page.frontmatter.languages"
+          :key="index"
+        >
+          <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
+            <span class="category-name">{{ item.text }}</span>
+          </router-link>
         </li>
       </ul>
-    </ModuleTransition>
+      <Content />
 
-    <ModuleTransition delay="0.08" v-if="!isAPI()">
-      <div v-show="recoShowModule" class="page-title">
-        <h3>{{$page.title}}</h3>
-        <hr />
-        <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
-      </div>
-    </ModuleTransition>
+      <ModuleTransition delay="0.24">
+        <footer v-show="recoShowModule" class="page-edit">
+          <div class="edit-link" v-if="editLink">
+            <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
+            <OutboundLink />
+          </div>
 
-    <ul class="category-wrapper">
-      <router-link
-        v-for="(item, index) in this.$page.frontmatter.platforms"
-        :key="index"
-        :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
-      >
-        <li class="category-item" :class="isSelected(item) ? 'active': ''">
-          <span class="category-name">{{ item.text }}</span>
-        </li>
-      </router-link>
-    </ul>
+          <div class="last-updated" v-if="lastUpdated">
+            <span class="prefix">{{ lastUpdatedText }}:</span>
+            <span class="time">{{ lastUpdated }}</span>
+          </div>
+        </footer>
+      </ModuleTransition>
 
-    <ul class="category-wrapper">
-      <li
-        class="category-item"
-        :class="isSelected(item) ? 'active': ''"
-        v-for="(item, index) in this.$page.frontmatter.languages"
-        :key="index"
-      >
-        <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
-          <span class="category-name">{{ item.text }}</span>
-        </router-link>
-      </li>
-    </ul>
-    
-    <APIPage v-if="isAPI()"/>
-    <Content v-else />
+      <ModuleTransition delay="0.32">
+        <div class="page-nav" v-if="recoShowModule && (prev || next)">
+          <p class="inner">
+            <span v-if="prev" class="prev">
+              ←
+              <router-link v-if="prev" class="prev" :to="prev.path">{{ prev.title || prev.path }}</router-link>
+            </span>
 
-    <ModuleTransition delay="0.24">
-      <footer v-show="recoShowModule" class="page-edit">
-        <div class="edit-link" v-if="editLink">
-          <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
-          <OutboundLink />
+            <span v-if="next" class="next">
+              <router-link v-if="next" :to="next.path">{{ next.title || next.path }}</router-link>→
+            </span>
+          </p>
         </div>
-
-        <div class="last-updated" v-if="lastUpdated">
-          <span class="prefix">{{ lastUpdatedText }}:</span>
-          <span class="time">{{ lastUpdated }}</span>
-        </div>
-      </footer>
-    </ModuleTransition>
-
-    <ModuleTransition delay="0.32" v-if="!isAPI()">
-      <div class="page-nav" v-if="recoShowModule && (prev || next)">
-        <p class="inner">
-          <span v-if="prev" class="prev">
-            ←
-            <router-link v-if="prev" class="prev" :to="prev.path">{{ prev.title || prev.path }}</router-link>
-          </span>
-
-          <span v-if="next" class="next">
-            <router-link v-if="next" :to="next.path">{{ next.title || next.path }}</router-link>→
-          </span>
-        </p>
-      </div>
-    </ModuleTransition>
-    <ModuleTransition delay="0.40">
-      <slot v-show="recoShowModule" name="bottom" />
-    </ModuleTransition>
+      </ModuleTransition>
+      <ModuleTransition delay="0.40">
+        <slot v-show="recoShowModule" name="bottom" />
+      </ModuleTransition>
+    </div>
   </main>
 </template>
 
@@ -340,7 +341,6 @@ function flatten(items, res) {
 <style lang="stylus">
 @require '../styles/wrapper.styl';
 
-
 .page {
   padding-top: 5rem;
   padding-bottom: 2rem;
@@ -438,9 +438,11 @@ function flatten(items, res) {
     }
   }
 }
-.page-api{
+
+.page-api {
   margin-right: 0;
 }
+
 .page-nav {
   @extend $wrapper;
   padding-top: 1rem;

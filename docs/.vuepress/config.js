@@ -8,6 +8,7 @@ module.exports = {
   ],
   theme: require.resolve('../../'),
   themeConfig: {
+    apiSearchPlaceholder: '输入 API 快速检索',
     nav: [
       { text: '书写规范', link: '/helper/', icon: 'reco-chanpin' },
       { text: 'SDK 下载', link: 'https://www.rongcloud.cn/downloads', icon: 'reco-xiazai' },
