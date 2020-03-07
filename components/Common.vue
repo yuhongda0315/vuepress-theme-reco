@@ -16,21 +16,23 @@
             class="sidebar-mask"
             @click="toggleSidebar(false)"></div>
 
-          <Sidebar
-            :items="sidebarItems"
-            @toggle-sidebar="toggleSidebar">
-            <slot
-              name="sidebar-top"
-              slot="top"/>
-            <slot
-              name="sidebar-bottom"
-              slot="bottom"/>
-          </Sidebar>
+          <div class="rong-content-box">
+            <Sidebar
+              :items="sidebarItems"
+              @toggle-sidebar="toggleSidebar">
+              <slot
+                name="sidebar-top"
+                slot="top"/>
+              <slot
+                name="sidebar-bottom"
+                slot="bottom"/>
+            </Sidebar>
 
-          <Password v-if="!isHasPageKey" :isPage="true"></Password>
-          <div v-else>
-            <slot></slot>
-            <Comments :isShowComments="shouldShowComments"/>
+            <Password v-if="!isHasPageKey" :isPage="true"></Password>
+            <div v-else class="rong-page-content">
+              <slot></slot>
+              <Comments :isShowComments="shouldShowComments"/>
+            </div>
           </div>
         </div>
       </transition>

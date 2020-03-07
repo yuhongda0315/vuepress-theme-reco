@@ -220,13 +220,13 @@ th, td
 $navHeight = 50px
 
 .rong-box
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
 .rong-nav 
   height: $navHeight;
   background-color: #323746;
   padding: 0;
-  position: absolute;
+  position: fixed;
   * {
     float: left;
     color: white;
@@ -271,28 +271,17 @@ $navHeight = 50px
     border: none;
     border-radius: 0;
     color: white;
-.rong-sidebar-box
-  position: fixed;
-  width: 200px;
-  left: 50%;
-  transform: translateX(-580px);
-  height: 100%;
-  background-color: #f7f8fa;
 .rong-sidebar
   width: 100%;
   height: 100%;
   overflow: auto;
   background-color: #f7f8fa;
 .rong-page
-  max-width: 980px;
   margin: 0 0 0 auto;
-.table-of-contents
-  right: 50%;
-  transform: translateX(639px);
-// .rong-outer
-//   background-color: rgb(247, 248, 250);
-// .comments-wrapper
-//   background-color: rgb(247, 248, 250);
+  padding-top: 20px;
+  padding-right: 30px;
+  .page-title h3 + hr
+    display: none;
 .rong-sidebar-box::before
   position: absolute;
   content: '';
@@ -334,8 +323,74 @@ $navHeight = 50px
   a.sidebar-link.active
     color: #0099FF;
     background-color: #ECF3FF;
+  a.sidebar-link
+    margin-left: 17px;
+    padding-left: 19px;
+    border-radius: 0;
     
 .sidebar > .sidebar-links > li:not(:first-child)
   margin-top: 0;
 // .rong-sidebar-group .open
 //   padding-bottom: 0;
+.rong-sidebar-links .is-sub-group
+  a.sidebar-link
+    margin-left: 0;
+    padding-left: 23px;
+.table-of-contents
+  padding-left: 10px;
+  ul
+    padding: 5px;
+    padding: 0 5px;
+    li
+      padding-left: 15px;
+      list-style: none;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      a
+        font-size: 14px;
+        color: #333;
+      a:hover
+        color: #09f;
+  ul > li
+    border: none;
+.table-of-contents > ul:before
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #E8E8E8;
+  opacity: 0.5;
+.table-of-contents > ul > li > a
+  position relative;
+.table-of-contents > ul > li > a:before
+  content: ' ';
+  position: absolute;
+  background-color: #E8E8E8;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -22px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+
+.table-of-contents > ul > li > a + ul li a
+  color: #666666;
+
+.rong-content-box
+  margin: 0 auto;
+  padding-top: 50px;
+  position: relative;
+  .rong-sidebar-box
+    width: 200px;
+    position: fixed;
+    background-color: #f7f8fa;
+    height: 100%;
+  .rong-sidebar
+    position: absolute;
+    left: 0;
+    top: 0;
+  .rong-page-content
+    padding-left: 200px;
+// .table-of-contents
