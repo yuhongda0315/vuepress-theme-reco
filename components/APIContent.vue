@@ -236,6 +236,11 @@ function getAPIs(context) {
   font-family: "Source Code Pro", Monaco, Menlo, Consolas, monospace;
   font-size: 0.9em;
 }
+.rong-sidebars::-webkit-scrollbar , .rong-main::-webkit-scrollbar {
+  height: 0;
+  width: 0px;
+}
+
 .rong-navs,
 .rong-apis,
 .rong-params,
@@ -247,14 +252,14 @@ function getAPIs(context) {
 .rong-api {
   border-bottom: 2px solid #dbf0dc;
   padding-bottom: 5px;
-  margin-bottom: 10px;  
+  margin-bottom: 10px;
 }
 .rong-api-name {
   margin: 10px 0 0 0;
   font-weight: bold;
   font-size: 1.2em;
 }
-.rong-api-name:first-child{
+.rong-api-name:first-child {
   margin-top: 0;
 }
 .rong-part-name {
