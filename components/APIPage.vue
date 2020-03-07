@@ -13,14 +13,14 @@
           </tr>
           <tr class="rong-api" v-for="(api, i) in module.apis" :key="i">
             <td>
-              <a class="rong-api-name" @click="$modal.show('size-modal')" >{{api.name}}</a>
+              <a class="rong-api-name" @click="showAPI(api)" >{{api.name}}</a>
             </td>
             <td>{{api.desc}}</td>
           </tr>
         </table>
       </li>
     </ul>
-    <APIContent/>
+    <APIContent :api="selectedAPI" :platform="platform"/>
   </div>
 </template>
 
@@ -31,6 +31,8 @@ export default {
   components: { SearchAPI, APIContent },
   data() {
     return {
+      selectedAPI: null,
+      platform: 'iOS',
       modules: [
         {
           name: "连接模块",
@@ -56,6 +58,11 @@ export default {
   },
   computed: {},
   methods: {
+    showAPI: function(api){
+      var context = this;
+      context.selectedAPI = api;
+      context.$modal.show('api-modal')
+    },
     showTip: function(api) {
       api.isTip = true;
     },
