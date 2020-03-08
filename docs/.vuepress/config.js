@@ -1,4 +1,6 @@
 const NoUINavs = require('./navs/noui');
+const summary = require('./summary');
+console.log(summary);
 module.exports = {
   title: "融云开发者文档",
   plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs', '@codeciting/vuepress-plugin-plantuml'],
@@ -11,8 +13,8 @@ module.exports = {
     nav: {
       logo: 'http://www.rongcloud.cn/pc/images/logo.png',
       titles: [
-        { text: '文档首页', link: '' },
-        { text: '即时通讯', link: '' },
+        { text: '文档首页', link: '/' },
+        { text: '即时通讯', link: '/views/im/noui/guide/private/message/web' },
         { text: '运营服务', link: '' },
         { text: '音视频', link: '' },
       ],
@@ -28,6 +30,7 @@ module.exports = {
     //   { text: '工单', link: 'https://developer.rongcloud.cn/ticket/create', icon: 'reco-gongdan' },
     //   { text: '我的控制台/登录', link: 'https://developer.rongcloud.cn', icon: 'reco-denglu' },
     // ],
+    summary: summary,
     routerConfig: {
       navs: [
         { text: '含 UI 集成', link: '/views/im/ui/intro/', keyword: '/views/im/ui' },

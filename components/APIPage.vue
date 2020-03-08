@@ -1,7 +1,21 @@
 <template>
   <div class="rong-container">
     <div class="rong-search"></div>
-    <ul class="rong-modules">
+    <div class="rong-api-list">
+      <div class="rong-api-content" v-for="(module, index) in modules" :key="index">
+        <table>
+          <tr>
+            <th>{{module.name}}</th>
+            <th>描述</th>
+          </tr>
+          <tr v-for="(api, index) in module.apis" :key="index">
+            <td>{{api.name}}</td>
+            <td>{{api.desc}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- <ul class="rong-modules">
       <li class="rong-module" v-for="(module, index) in modules" :key="index">
         <span class="rong-module-name">{{module.name}}</span>
         <ul class="rong-apis">
@@ -11,7 +25,7 @@
           </li>
         </ul>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -21,21 +35,61 @@ export default {
     return {
       modules: [
         {
-          name: "连接模块",
+          name: '群组 API',
           apis: [
             {
-              name: "connect",
-              desc: "Lorem ipsum dolor sit amet",
+              name: 'getGroupList',
+              desc: '获取群组列表',
+              isTip: false
+            },
+            {
+              name: 'getGroupList',
+              desc: '获取群组列表',
+              isTip: false
+            },
+            {
+              name: 'getGroupList',
+              desc: '获取群组列表',
               isTip: false
             }
           ]
         },
         {
-          name: "连接模块",
+          name: '群组 API',
           apis: [
             {
-              name: "connect",
-              desc: "Lorem ipsum dolor sit amet",
+              name: 'getGroupList',
+              desc: '获取群组列表',
+              isTip: false
+            },
+            {
+              name: 'getGroupList',
+              desc: '获取群组列表',
+              isTip: false
+            },
+            {
+              name: 'getGroupList',
+              desc: '获取群组列表',
+              isTip: false
+            }
+          ]
+        },
+        {
+          name: '连接模块',
+          apis: [
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            },
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            },
+            {
+              name: 'connect',
+              desc: '开始链接',
               isTip: false
             }
           ]

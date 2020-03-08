@@ -5,7 +5,8 @@
       <a
         class="rong-nav-title"
         v-for="title in $themeConfig.nav.titles"
-        :key="title.text">
+        :key="title.text"
+        :href="title.link">
         {{ title.text }}
       </a>
       <AlgoliaSearchBox
@@ -15,11 +16,12 @@
       <a
         class="rong-nav-subtitle"
         v-for="subtitle in $themeConfig.nav.subTitles"
-        :key="subtitle.text">
+        :key="subtitle.text"
+        :href="subtitle.link">
         {{ subtitle.text }}
       </a>
     </div>
-    <!-- <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/> -->
+    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
 
     <!-- <router-link
       :to="$localePath"

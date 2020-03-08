@@ -1,76 +1,27 @@
 <template>
   <div class="home">
-    <div class="rong-home-nav">
-      <a>即时通讯
-        </a><a>实时音视频</a>
+    <div class="rong-home-nav" v-if="mainSummary">
+      <a v-for="(summary, index) in mainSummary" :key="index" :selected="isSelected(summary)" @click="select(summary)">
+        {{summary.name}}
+      </a>
     </div>
-    <div class="rong-home-vertical-list">
-      <div class="rong-home-vertical-content">
-        <h4>服务指南</h4>
+    <div class="rong-home-vertical-list" v-if="selectedSummary">
+      <div class="rong-home-vertical-content" v-for="(subSummary, index) in selectedSummary.sub" :key="index">
+        <h4>{{subSummary.name}}</h4>
         <ul>
-          <li><a>产品简介</a></li>
-          <li><a>名词列表</a></li>
-          <li><a>常见问题</a></li>
-          <li><a>状态码</a></li>
-        </ul>
-      </div>
-      <div class="rong-home-vertical-content">
-        <h4>服务指南</h4>
-        <ul>
-          <li><a>产品简介</a></li>
-          <li><a>名词列表</a></li>
-          <li><a>常见问题</a></li>
-          <li><a>状态码</a></li>
-        </ul>
-      </div>
-      <div class="rong-home-vertical-content">
-        <h4>服务指南</h4>
-        <ul>
-          <li><a>产品简介</a></li>
-          <li><a>名词列表</a></li>
-          <li><a>常见问题</a></li>
-          <li><a>状态码</a></li>
-        </ul>
-      </div>
-      <div class="rong-home-vertical-content">
-        <h4>服务指南</h4>
-        <ul>
-          <li><a>产品简介</a></li>
-          <li><a>名词列表</a></li>
-          <li><a>常见问题</a></li>
-          <li><a>状态码</a></li>
-        </ul>
-      </div>
-      <div class="rong-home-vertical-content">
-        <h4>服务指南</h4>
-        <ul>
-          <li><a>产品简介</a></li>
-          <li><a>名词列表</a></li>
-          <li><a>常见问题</a></li>
-          <li><a>状态码</a></li>
+          <li v-for="(title, index) in subSummary.titles" :key="index">
+            <a :href="title.link">{{title.name}}</a>
+          </li>
         </ul>
       </div>
     </div>
     <div class="rong-home-horizontal-list">
-      <div class="rong-home-horizontal-content">
-        <h4>运营服务</h4>
+      <div class="rong-home-horizontal-content" v-for="(summary, index) in otherSummary" :key="index">
+        <h4>{{summary.name}}</h4>
         <ul>
-          <li>产品简介</li>
-          <li>短信</li>
-          <li>预防黑产</li>
-          <li>初次集成</li>
-        </ul>
-      </div>
-
-      <div class="rong-home-horizontal-content">
-        <h4>初次集成</h4>
-        <ul>
-          <li>集成必须</li>
-          <li>视频教程</li>
-          <li>寻求帮助</li>
-          <li>三分钟跑通 Demo</li>
-          <li>一天接入 SDK</li>
-          <li>十分钟上线</li>
+          <li v-for="(title, index) in summary.titles" :key="index">
+            <a :href="title.link">{{title.name}}</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -83,6 +34,13 @@
 import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
 
 export default {
+  data: function () {
+    return {
+      mainSummary: [],
+      otherSummary: [],
+      selectedSummary: {}
+    }
+  },
   mixins: [moduleTransitonMixin],
   // components: { NavLink, ModuleTransition },
   computed: {
@@ -108,6 +66,20 @@ export default {
     //     }
     //   ]
     // }
+  },
+  methods: {
+    isSelected: function (summary) {
+      return this.selectedSummary === summary
+    },
+    select: function (summary) {
+      this.selectedSummary = summary
+    }
+  },
+  mounted: function () {
+    var summary = this.$themeConfig.summary || {}
+    this.mainSummary = summary.main
+    this.otherSummary = summary.other
+    this.selectedSummary = this.mainSummary[0]
   }
 }
 </script>
@@ -126,8 +98,15 @@ export default {
     width: 165px;
     height: 50px;
     line-height: 50px;
-    background-color: #2B2E3D;
+    background-color: white;
     font-size 18px;
+    color: black;
+    cursor: pointer;
+    border: 1px solid #2B2E3D;
+    box-sizing: border-box;
+  }
+  a[selected] {
+    background-color: #2B2E3D;
     color: white;
   }
 }
@@ -165,10 +144,11 @@ export default {
   .rong-home-vertical-content {
     // min-width: 135px;
     // margin-right: 15px;
-    width: 220px;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     text-align: left;
+    vertical-align: top;
+    margin-right: 110px;
     h4 {
       font-size: 18px;
       color: #666666;
@@ -193,7 +173,7 @@ export default {
   max-width: 1200px;
   margin: 0px auto;
   padding-top: 60px;
-  padding-left: 85px;
+  padding-left: 100px;
   padding-right: 0;
   box-sizing: border-box;
 

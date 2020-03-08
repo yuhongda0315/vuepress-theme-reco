@@ -1,7 +1,7 @@
 <template>
   <div class="categories-wrapper" v-if="isShow">
-    <div class="iconfont category-current reco-down" @click="change">{{selectedText}}</div>
-    <ul class="category-wrapper" v-if="showCategoryItem" @mouseleave="hide">
+    <div class="iconfont category-current reco-down rong-category-current" @click="change">{{selectedText}}</div>
+    <!-- <ul class="category-wrapper" v-if="showCategoryItem" @mouseleave="hide">
       <li
         class="category-item"
         :class="selectedLink == item.link ? 'active': ''"
@@ -12,7 +12,7 @@
           <span class="category-name">{{ item.text }}</span>
         </router-link>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 

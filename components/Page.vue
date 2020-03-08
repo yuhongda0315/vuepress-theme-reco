@@ -21,33 +21,58 @@
       </div>
     </ModuleTransition>
 
-    <ul class="category-wrapper">
-      <router-link
-        v-for="(item, index) in this.$page.frontmatter.platforms"
-        :key="index"
-        :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
-      >
-        <li class="category-item" :class="isSelected(item) ? 'active': ''">
-          <span class="category-name">{{ item.text }}</span>
-        </li>
-      </router-link>
-    </ul>
-
-    <ul class="category-wrapper">
-      <li
-        class="category-item"
-        :class="isSelected(item) ? 'active': ''"
-        v-for="(item, index) in this.$page.frontmatter.languages"
-        :key="index"
-      >
-        <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
-          <span class="category-name">{{ item.text }}</span>
+    <div>
+      <ul class="category-wrapper rong-category-wrapper rong-category-padding" v-if="this.$page.frontmatter.platforms && !categorys.length">
+        <router-link
+          v-for="(item, index) in this.$page.frontmatter.platforms"
+          :key="index"
+          :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
+        >
+          <li class="category-item" :class="isSelected(item) ? 'active': ''">
+            <span class="category-name">{{ item.text }}</span>
+          </li>
         </router-link>
-      </li>
-    </ul>
-    
+      </ul>
+    </div>
+
+    <div>
+      <ul class="category-wrapper rong-category-wrapper rong-category-padding" v-if="this.$page.frontmatter.languages && !categorys.length">
+        <li
+          class="category-item"
+          :class="isSelected(item) ? 'active': ''"
+          v-for="(item, index) in this.$page.frontmatter.languages"
+          :key="index"
+        >
+          <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
+            <span class="category-name">{{ item.text }}</span>
+          </router-link>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rong-category-box rong-category-padding" v-if="categorys.length">
+      <div class="rong-category-titles">
+        <a v-for="(category, index) in categorys"  :key="index" class="rong-category-title" @click="selectCategory(category)" :selected="isCategorySelected(category)">
+          {{category.name}}
+        </a>
+      </div>
+      <div class="rong-category-titles">
+        <ul class="category-wrapper rong-category-wrapper" v-for="(category, index) in categorys"  :key="index" v-if="isCategorySelected(category)">
+          <li
+            class="category-item"
+            :class="isSelected(item) ? 'active': ''"
+            v-for="(item, index) in category.languages"
+            :key="index">
+            <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
+              <span class="category-name">{{ item.text }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <APIPage v-if="isAPI()"/>
-    <Content v-else />
+    <Content class="rong-page-box" v-else />
 
     <ModuleTransition delay="0.24">
       <footer v-show="recoShowModule" class="page-edit">
@@ -99,7 +124,9 @@ export default {
   data() {
     return {
       navs: [],
-      isHasKey: true
+      isHasKey: true,
+      categorys: [],
+      selectedCategory: {}
     };
   },
 
@@ -176,6 +203,12 @@ export default {
     }
   },
   methods: {
+    isCategorySelected: function (category) {
+      return this.selectedCategory === category
+    },
+    selectCategory: function (category) {
+      this.selectedCategory = category
+    },
     navigateTo: function(url) {
       let context = this;
       if (url && url != location.pathname) {
@@ -216,14 +249,39 @@ export default {
         (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
         path
       );
+    },
+    initCategorys: function () {
+      var categorys = this.$frontmatter.categorys || []
+      var selectedCategory
+      for (var i = 0, max = categorys.length; i < max; i++) {
+        var category = categorys[i]
+        var languages = category.languages || []
+        for (var j = 0; j < languages.length; j++) {
+          var language = languages[j]
+          if (this.isSelected(language)) {
+            selectedCategory = category
+          }
+        }
+      }
+
+      this.categorys = categorys
+      if (selectedCategory) {
+        this.selectedCategory = selectedCategory
+      } else if (categorys.length) {
+        this.selectedCategory = categorys[0]
+      }
     }
   },
   created: function() {
-    getNavs(this);
+    getNavs(this)
+  },
+  mounted: function () {
+    this.initCategorys()
   },
   watch: {
     $route: function() {
-      getNavs(this);
+      getNavs(this)
+      this.initCategorys()
     }
   }
 };
@@ -483,7 +541,6 @@ function flatten(items, res) {
 
 .table-of-contents {
   position: fixed;
-  right: 5%;
   top: 80px;
   overflow-y: -moz-scrollbars-none;
   -ms-overflow-style: none;
@@ -537,6 +594,127 @@ function flatten(items, res) {
           color: #0099FF;
         }
       }
+    }
+  }
+}
+.rong-category-titles {
+  margin-bottom: 28px;
+}
+.rong-page {
+  .rong-category-title {
+    width: 112px;
+    height: 32px;
+    line-height: 30px;
+    border: 1px solid #979797;
+    border-right: none;
+    font-size: 16px;
+    color: #333333;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .rong-category-title[selected] {
+    border: 1px solid #0099FF;
+    color: #0099FF;
+  }
+  .rong-category-title + .rong-category-title {
+    // border-left: none;
+    border-right: 1px solid #979797;
+  }
+  .rong-category-title + .rong-category-title[selected] {
+    border-right: 1px solid #0099FF;
+  }
+  .rong-category-title[selected] + .rong-category-title {
+    border-left: none;
+  }
+  .rong-category-wrapper:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 1px;
+    background-color: #F0F0F0;
+    width: 100%;
+  }
+  .rong-category-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    z-index: 19;
+    padding-left: 0;
+    padding-bottom: 5px;
+    // border-bottom: 1px solid #F0F0F0;
+    .category-item + .category-item {
+      margin: 0 38px;
+    }
+    .category-item {
+      border: none;
+      font-size: 18px;
+      margin-right: 38px;
+      margin-left: 0;
+      min-width: auto;
+      padding: 0 3px;
+      a {
+        color: #333;
+      }
+    }
+    // .category-item:last-child {
+    //   margin-right: 0;
+    // }
+    .category-item.active {
+      background-color: transparent;
+      position: relative;
+      z-index: 20;
+      .category-name {
+        color: #0099FF;
+      }
+    }
+    .category-item:hover {
+      background-color: transparent;
+      .category-name {
+        color: #0099FF;
+      }
+    }
+    .category-item.active:before {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      height: 2px;
+      background-color: #0099FF;
+      width: 100%;
+      z-index: 21;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  .rong-category-padding {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+.rong-page .rong-page-box {
+  color: #333;
+  h1, h2 {
+    font-size: 1.95rem;
+    padding: 0;
+  }
+  h4 {
+    font-size: 1.5rem;
+  }
+  h5 {
+    font-size: 1.15rem;
+  }
+  h6 {
+    font-size: 0.8rem;
+  }
+  .table-of-contents {
+    // margin-left: 100%;
+    margin-left: 998px;
+    min-width: 180px;
+    ul li {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

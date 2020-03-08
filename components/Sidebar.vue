@@ -1,5 +1,33 @@
 <template>
   <div class="rong-sidebar-box">
+    <div class="rong-sidebar-all">
+      <div class="rong-sidebar-all-title">
+        全部文档
+        <div class="rong-sidebar-all-content">
+          <div v-for="(summary, index) in mainSummary" :key="index" class="rong-sidebar-summary">
+            <p class="rong-sidebar-summary-title">{{summary.name}}</p>
+            <div v-for="(subSummary, index) in summary.sub" :key="index" class="rong-sidebar-sub-summary">
+              <p class="rong-sidebar-sub-summary-title">{{subSummary.name}}</p>
+              <ul>
+                <li v-for="(title, index) in subSummary.titles" :key="index">
+                  <a :href="title.link">{{title.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="rong-sidebar-summary rong-sidebar-other-summary">
+            <div v-for="(summary, index) in otherSummary" :key="index" class="rong-sidebar-sub-summary">
+              <p class="rong-sidebar-summary-title">{{summary.name}}</p>
+              <ul>
+                <li v-for="(title, index) in summary.titles" :key="index">
+                  <a :href="title.link">{{title.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <aside class="sidebar rong-sidebar">
       <!-- <PersonalInfo/> -->
       <NavRouter/>
@@ -20,7 +48,21 @@ import NavRouter from '@theme/components/NavRouter'
 export default {
   name: 'Sidebar',
 
+  data: function () {
+    return {
+      mainSummary: [],
+      otherSummary: []
+    }
+  },
+
   components: { SidebarLinks, NavLinks, PersonalInfo, NavRouter },
+
+  mounted: function () {
+    var summary = this.$themeConfig.summary || {}
+    this.mainSummary = summary.main
+    this.otherSummary = summary.other
+    console.log(summary)
+  },
 
   props: ['items']
 }
