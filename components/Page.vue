@@ -23,7 +23,7 @@
         </div>
       </ModuleTransition>
 
-      <div>
+      <div v-if="this.$page.frontmatter.platforms && !categorys.length">
         <ul class="category-wrapper rong-category-wrapper rong-category-padding">
           <router-link
             v-for="(item, index) in this.$page.frontmatter.platforms"
@@ -37,7 +37,7 @@
         </ul>
       </div>
 
-      <div>
+      <div v-if="this.$page.frontmatter.languages && !categorys.length">
         <ul class="category-wrapper rong-category-wrapper rong-category-padding">
           <li
             class="category-item"
