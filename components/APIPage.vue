@@ -11,7 +11,9 @@
             <th>描述</th>
           </tr>
           <tr v-for="(api, index) in module.apis" :key="index">
-            <td>{{api.name}}</td>
+            <td>
+              <a @click="showAPI(api)">{{api.name}}</a>
+            </td>
             <td>{{api.desc}}</td>
           </tr>
         </table>

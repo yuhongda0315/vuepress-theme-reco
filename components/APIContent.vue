@@ -24,8 +24,8 @@
       </div>
       <div class="rong-wrapper" v-if="navs.length">
         <div class="rong-sidebars">
-          <ul class="rong-navs">
-            <li class="rong-nav" v-for="(nav, index) in navs" :key="index">
+          <ul class="rong-api-navs">
+            <li class="rong-api-nav" v-for="(nav, index) in navs" :key="index">
               <a :href="'#' + nav.id">{{nav.name}}</a>
             </li>
           </ul>
@@ -168,16 +168,16 @@ function getAPIs(context) {
   overflow-y: auto;
   border-right: 2px solid rgb(231, 227, 227);
 }
-.rong-nav {
+.rong-api-nav {
   margin: 3px;
   padding: 0 10px;
   border-radius: 3px;
   word-break: break-all;
 }
-.rong-nav a {
+.rong-api-nav a {
   color: var(--text-color);
 }
-.rong-nav:hover {
+.rong-api-nav:hover {
   background-color: #0000000d;
 }
 .rong-loading-box {
@@ -241,7 +241,7 @@ function getAPIs(context) {
   width: 0px;
 }
 
-.rong-navs,
+.rong-api-navs,
 .rong-apis,
 .rong-params,
 .rong-warings {
