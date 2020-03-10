@@ -343,4 +343,7 @@ export default {
     }
   }
 }
+.rong-outer .no-sidebar .rong-page-content {
+  padding-right: 0;
+}
 </style>

@@ -1,5 +1,15 @@
 <template>
-  <div class="rong-sidebar-box">
+  <div v-if="isSidebarOpen" class="rong-sidebar-box rong-mobile-sidebar-box">
+    <aside class="sidebar rong-sidebar">
+          <!-- <PersonalInfo/> -->
+          <NavRouter/>
+          <NavLinks/>
+          <slot name="top"/>
+          <SidebarLinks :depth="0" :items="items"/>
+          <slot name="bottom"/>
+    </aside>
+  </div>
+  <div v-else class="rong-sidebar-box">
     <div class="rong-sidebar-all">
       <div class="rong-sidebar-all-title">
         全部文档
@@ -64,7 +74,7 @@ export default {
     console.log(summary)
   },
 
-  props: ['items']
+  props: ['items', 'isSidebarOpen']
 }
 </script>
 
