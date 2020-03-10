@@ -105,7 +105,7 @@ const extend = (destination, sources) => {
   return destination;
 };
 const deferred = (callback) => {
-  return new Defer(callback);
+  return new Promise(callback);
 };
 const tplEngine = (tpl, data, regexp) => {
   if (!(isArray(data))) {

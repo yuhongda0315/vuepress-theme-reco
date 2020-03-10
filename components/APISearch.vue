@@ -9,6 +9,7 @@
       :placeholder="placeholder"
       autocomplete="off"
       spellcheck="false"
+      @keydown="onKeyDown"
       @focus="focused = true"
       @blur="focused = false"
       @keyup.enter="go(focusIndex)"
@@ -26,7 +27,8 @@
         @mouseenter="focus(i)"
       >
         <a @click="showAPIs(s)">
-          <span class="page-title">{{ s.title }}</span>
+          <span class="page-title">{{ s.desc }}</span>
+          <i class="page-desc">({{ s.name }})</i>
         </a>
       </li>
     </ul>
@@ -34,12 +36,15 @@
 </template>
 
 <script>
+import utils from "@theme/components/utils";
+let timer = 0;
 export default {
+  props: ["platform"],
   data() {
     return {
       suggestions: [
-        { title: "测试1", platform: "iOS" },
-        { title: "测试2", platform: "iOS" }
+        // { title: "测试1", platform: "iOS" },
+        // { title: "测试2", platform: "iOS" }
       ],
       query: "",
       focused: false,
@@ -85,6 +90,17 @@ export default {
         }
       }
     },
+    onKeyDown() {
+      let conext = this;
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if(!conext.query){
+          conext.suggestions = [];
+          return;
+        }
+        search(conext);
+      }, 500);
+    },
     go(i) {
       if (!this.showSuggestions) {
         return;
@@ -103,6 +119,25 @@ export default {
 };
 function showAPIs(context, api) {
   context.$emit("showAPIs", api);
+}
+function search(context) {
+  let { APIUrl } = context.$themeConfig;
+  let url = APIUrl || "//localhost:8992";
+  url = `${url}/misc/search`;
+  utils
+    .request(url, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        keyword: context.query,
+        platform: context.platform
+      })
+    })
+    .then(({ result: suggestions }) => {
+      context.suggestions = suggestions;
+    });
 }
 </script>
 
@@ -170,7 +205,11 @@ function showAPIs(context, api) {
       color: var(--text-color);
 
       .page-title {
-        font-weight: 600;
+        font-weight: 400;
+        padding: 0 0.5rem 0rem 0;
+      }
+      .page-desc{
+        font-size 12px;  
       }
 
       .header {

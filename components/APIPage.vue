@@ -1,7 +1,7 @@
 <template>
   <div class="rong-container">
     <div class="rong-search-box">
-      <APISearch class="rong-search" @showAPIs="show"/>
+      <APISearch class="rong-search" @showAPIs="show" :platform="platform" />
     </div>
     <div class="rong-api-list">
       <div class="rong-api-content" v-for="(module, index) in modules" :key="index">
@@ -19,135 +19,36 @@
         </table>
       </div>
     </div>
-    <APIContent :api="selectedAPI" :platform="platform"/>
+    <APIContent :api="selectedAPI" :platform="platform" />
   </div>
 </template>
 
 <script>
 import APISearch from "@theme/components/APISearch";
 import APIContent from "@theme/components/APIContent";
+import utils from "@theme/components/utils";
+
 export default {
   components: { APISearch, APIContent },
   data() {
     return {
       selectedAPI: null,
-      platform: 'iOS',
-      modules: [
-        {
-          name: '群组 API',
-          apis: [
-            { name: "connect", desc: "连接方法", isTip: false },
-            { name: "disconnect", desc: "断开连接", isTip: false },
-            { name: "reconnect", desc: "重连方法", isTip: false },
-            {
-              name: 'getGroupList',
-              desc: '获取群组列表',
-              isTip: false
-            },
-            {
-              name: 'getGroupList',
-              desc: '获取群组列表',
-              isTip: false
-            },
-            {
-              name: 'getGroupList',
-              desc: '获取群组列表',
-              isTip: false
-            }
-          ]
-        },
-        {
-          name: '群组 API',
-          apis: [
-            {
-              name: 'getGroupList',
-              desc: '获取群组列表',
-              isTip: false
-            },
-            {
-              name: 'getGroupList',
-              desc: '获取群组列表',
-              isTip: false
-            },
-            {
-              name: 'getGroupList',
-              desc: '获取群组列表',
-              isTip: false
-            }
-          ]
-        },
-        {
-          name: '连接模块',
-          apis: [
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            },
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            },
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            }
-          ]
-        },
-        {
-          name: '连接模块',
-          apis: [
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            },
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            },
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            }
-          ]
-        },
-        {
-          name: '连接模块',
-          apis: [
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            },
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            },
-            {
-              name: 'connect',
-              desc: '开始链接',
-              isTip: false
-            }
-          ]
-        }
-      ]
+      platform: "iOS",
+      modules: []
     };
   },
   computed: {},
+  mounted: function() {
+    getModules(this);
+  },
   methods: {
-    show: function(api){
+    show: function(api) {
       this.showAPI(api);
     },
-    showAPI: function(api){
+    showAPI: function(api) {
       var context = this;
       context.selectedAPI = api;
-      context.$modal.show('api-modal')
+      context.$modal.show("api-modal");
     },
     showTip: function(api) {
       api.isTip = true;
@@ -158,6 +59,15 @@ export default {
   },
   watch: {}
 };
+function getModules(context) {
+  let { APIUrl } = context.$themeConfig;
+  let url = APIUrl || "//localhost:8992";
+  url = `${url}/misc/modules/${context.platform}`;
+  utils.request(url)
+    .then(({ result: modules }) => {
+      context.modules = modules;
+    });
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -228,9 +138,9 @@ export default {
   position: relative;
 }
 
->>> td{
+>>> td {
   width: 50%;
-  line-height: 16px
+  line-height: 16px;
 }
 
 .rong-api-name {
