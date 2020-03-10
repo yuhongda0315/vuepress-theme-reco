@@ -220,7 +220,7 @@ th, td
 $navHeight = 50px
 
 .rong-box
-  max-width: 1300px;
+  max-width: 1800px;
   margin: 0 auto;
 .rong-nav 
   height: $navHeight;
@@ -354,7 +354,8 @@ $navHeight = 50px
       padding-left: 15px;
       list-style: none;
       padding-top: 5px;
-      padding-bottom: 5px;
+      padding-bottom: 0;
+      position relative;
       a
         font-size: 14px;
         color: #333;
@@ -362,7 +363,28 @@ $navHeight = 50px
         color: #09f;
   ul > li
     border: none;
-.table-of-contents > ul:before
+// .table-of-contents > ul:before
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   width: 1px;
+//   background-color: #E8E8E8;
+//   opacity: 0.5;
+
+// @keyframes showAll
+// {
+//     from {background: red;}
+//     to {background: yellow;}
+// }
+ 
+// @-webkit-keyframes showAll /* Safari 与 Chrome */
+// {
+//     from {background: red;}
+//     to {background: yellow;}
+// }
+.table-of-contents > ul > li li:before
   content: '';
   position: absolute;
   top: 0;
@@ -371,18 +393,35 @@ $navHeight = 50px
   width: 1px;
   background-color: #E8E8E8;
   opacity: 0.5;
-.table-of-contents > ul > li > a
+.table-of-contents > ul > li li > a
+  display: inline-block;
   position relative;
-.table-of-contents > ul > li > a:before
-  content: ' ';
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+.table-of-contents > ul > li li:after
+  content: '';
   position: absolute;
-  background-color: #E8E8E8;
-  top: 50%;
-  transform: translateY(-50%);
-  left: -22px;
+  left: 0;
   width: 5px;
   height: 5px;
+  background-color: #E8E8E8;
   border-radius: 50%;
+  top: 15px;
+  left: -2.5px;
+.table-of-contents > ul > li li:first-child:before
+  top: 17px;
+.table-of-contents > ul > li li:last-child:before
+  bottom: 100%;
+  top: 0;
+  height: 18px;
+.table-of-contents > ul > li li li:after
+  display: none;
+.table-of-contents > ul > li li li:before
+  display: none;
+.table-of-contents > ul > li > a
+  position relative;
 
 .table-of-contents > ul > li > a + ul li a
   color: #666666;
@@ -397,6 +436,7 @@ $navHeight = 50px
     background-color: #f7f8fa;
     height: 100%;
     z-index: 99;
+    overflow: visible;
   .rong-sidebar
     position: absolute;
     left: 0;
@@ -422,6 +462,9 @@ $navHeight = 50px
   // margin-top: 15px;
 .rong-content-box .rong-sidebar
   top: 70px;
+.rong-sidebar-all:hover
+  .rong-sidebar-all-title .rong-sidebar-all-content
+    display: block;
 .rong-sidebar-all
   margin-left: 23px;
   // position: absolute;
@@ -432,16 +475,23 @@ $navHeight = 50px
     font-size: 20px;
     color: #333333;
     margin: 0;
-    margin-top: 40px;
     width: 100%;
+    padding-top: 40px;
     padding-bottom: 20px;
     // position relative;
     z-index: 20;
-  .rong-sidebar-all-title:hover
-    padding-bottom: 50px;
-  .rong-sidebar-all-title:hover .rong-sidebar-all-content
-    display: block;
+  .rong-sidebar-all-title:before
+    content: '';
+    background-image: url(../images/show-all.png);
+    width: 10px;
+    height: 8.5px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 8px;
+    float: right;
   .rong-sidebar-all-content
+    // animation: showAll 2s;
+    // -webkit-animation: showAll 2s;
     display: none;
     position: absolute;
     width: 760px;
@@ -463,8 +513,10 @@ $navHeight = 50px
     display: inline-block;
     width: 48%;
     margin: 0 1%;
+    vertical-align: top;
     table
       overflow: hidden;
+      padding: 0 1%;
     tr
       width: 100%;
       display: inline-table;
@@ -484,6 +536,11 @@ $navHeight = 50px
       display: none;
     .rong-page-content
       padding-left: 0;
+    .rong-mobile-sidebar-box
+      display: block;
+      .rong-sidebar
+        top: 10px;
+        padding-top: 0;
 .rong-sidebar-summary
   display: inline-block;
   margin-right: 100px;
@@ -517,18 +574,35 @@ $navHeight = 50px
 @media (max-width: 719px) {
   .rong-nav-box img {
     margin-left: 10%;
+    margin-right: 10% !important;
   }
   .rong-nav-title, .rong-nav-subtitle {
     display: none !important;
   }
+  .rong-page-box, .header-navs, .rong-category-padding {
+    padding-left: 0 !important;
+  }
   .search-box {
     float: right;
-    margin-right: 3% !important;
+    margin-right: 1% !important;
+    width: 40%;
     input {
       width: 100% !important;
       font-size: 12px;
       padding-left: 10% !important;
     }
+  }
+  .rong-api-search {
+    float: none !important;
+  }
+  .rong-api-list .rong-api-content {
+    width: 98%;
+  }
+  .sidebar-button {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 2%;
   }
   .sidebar-mask {
     z-index: 21;
@@ -538,5 +612,53 @@ $navHeight = 50px
   }
 }
 
+$rightBarWidth = 180px;
+
 #nprogress .bar
   background-color: #09f;
+.rong-page-content
+  padding-right: $rightBarWidth;
+.rong-page .rong-page-box
+  position relative;
+  padding-right: 0;
+  .table-of-contents
+    position: absolute;
+    width: $rightBarWidth;
+    height: 100%;
+    margin-left: 0;
+    left: 100%;
+    top: -25px;
+    ul:first-child
+      position: fixed;
+      width: $rightBarWidth;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-left: 0;
+.rong-content-box
+  margin-left: 3%;
+  margin-right: 3%;
+
+.rong-category-box
+  height: 95px;
+  max-width: 100%;
+.rong-category-box + .rong-page-box
+  padding-top: 95px;
+  top: -95px;
+.rong-platforms-box
+  height: 35px;
+  max-width: 100%;
+.rong-platforms-box + .rong-page-box
+  padding-top: 35px;
+  top: -35px;
+@media (max-width: 900px) {
+  .table-of-contents {
+    display: none !important;
+  }
+  .rong-content-box .rong-page-content {
+    padding-right: 0 !important;
+  }
+  .rong-page {
+    padding-right: 0 !important;
+  }
+}

@@ -19,6 +19,7 @@
           <div class="rong-content-box">
             <Sidebar
               :items="sidebarItems"
+              :isSidebarOpen="isSidebarOpen"
               @toggle-sidebar="toggleSidebar">
               <slot
                 name="sidebar-top"

@@ -1,7 +1,7 @@
 <template>
   <div class="rong-container">
     <div class="rong-search-box">
-      <APISearch class="rong-search" @showAPIs="show"/>
+      <APISearch class="rong-search rong-api-search" @showAPIs="show"/>
     </div>
     <div class="rong-api-list">
       <div class="rong-api-content" v-for="(module, index) in modules" :key="index">
@@ -130,6 +130,7 @@ export default {
 .rong-search-box {
   text-align: center;
   margin-bottom: 20px;
+  min-height: 33px;
 }
 
 >>> .rong-search .reco-search {
