@@ -95,6 +95,46 @@ export default {
               isTip: false
             }
           ]
+        },
+        {
+          name: '连接模块',
+          apis: [
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            },
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            },
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            }
+          ]
+        },
+        {
+          name: '连接模块',
+          apis: [
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            },
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            },
+            {
+              name: 'connect',
+              desc: '开始链接',
+              isTip: false
+            }
+          ]
         }
       ]
     };
@@ -124,7 +164,7 @@ export default {
 @require '../styles/mode.styl';
 
 .rong-container {
-  padding: 0 5px;
+  // padding: 0 5px;
 }
 
 .rong-search-box {
