@@ -11,6 +11,7 @@
     width="90%"
     height="90%"
     @before-open="onBeforeOpen"
+    @before-close="onBeforeClose"
   >
     <div class="rong-modal">
       <div class="rong-loading-box" v-if="!navs.length">
@@ -70,6 +71,10 @@ export default {
   methods: {
     onBeforeOpen: function() {
       getAPIs(this);
+    },
+    onBeforeClose: function(){
+      this.navs = [];
+      this.apis = [];
     }
   }
 };
@@ -77,7 +82,8 @@ function getAPIs(context) {
   let { APIUrl } = context.$themeConfig;
   let { api } = context;
   let url = APIUrl || "//localhost:8992";
-  url = `${url}/misc/modules/${context.platform}/${api.module}`;
+  let module = api.module.type || api.module;
+  url = `${url}/misc/modules/${context.platform}/${module}`;
   utils.request(url).then(({ result: { apis, navs } }) => {
     context.navs = navs;
     context.apis = apis;
