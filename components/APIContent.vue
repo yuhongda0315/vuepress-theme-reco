@@ -13,6 +13,7 @@
     @before-open="onBeforeOpen"
     @before-close="onBeforeClose"
   >
+    <button class="rong-button-close" @click="$modal.hide('api-modal')">×</button>
     <div class="rong-modal">
       <div class="rong-loading-box" v-if="!navs.length">
         <div class="rong-loading">
@@ -72,7 +73,7 @@ export default {
     onBeforeOpen: function() {
       getAPIs(this);
     },
-    onBeforeClose: function(){
+    onBeforeClose: function() {
       this.navs = [];
       this.apis = [];
     }
@@ -113,6 +114,28 @@ function getAPIs(context) {
   100% {
     opacity: 1;
   }
+}
+
+.rong-button-close {
+  border-radius: 50%;
+  font-size: 31px;
+  font-family: monospace;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  outline: none;
+  cursor: pointer;
+  color: var(--text-color);
+  border: none;
+  background-color: transparent;
+}
+
+.rong-button-close:hover {
+  color: #fff;
+  background-color: var(--text-color);
 }
 
 .rong-wrapper {
@@ -210,7 +233,7 @@ function getAPIs(context) {
   list-style: none;
   padding: 0;
 }
-.rong-return_vals{
+.rong-return_vals {
   display: block;
 }
 .rong-api {
