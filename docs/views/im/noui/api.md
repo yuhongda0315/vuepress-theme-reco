@@ -1,4 +1,0 @@
----
-APIConf:
-  - {platform: 'web'}
----

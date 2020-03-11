@@ -33,12 +33,14 @@ export default {
   data() {
     return {
       selectedAPI: {},
-      platform: "iOS",
+      platform: "",
       modules: []
     };
   },
   computed: {},
   mounted: function() {
+    let conf = getConfig(this.$frontmatter);
+    this.platform = conf.platform;
     getModules(this);
   },
   methods: {
@@ -57,16 +59,25 @@ export default {
       api.isTip = false;
     }
   },
-  watch: {}
+  watch: {
+    $frontmatter: function(option) {
+      let conf = getConfig(option);
+      this.platform = conf.platform;  
+      getModules(this);
+    }
+  }
 };
+function getConfig(option){
+ let conf = option.APIConf[0];
+  return conf;
+}
 function getModules(context) {
   let { APIUrl } = context.$themeConfig;
   let url = APIUrl || "//localhost:8992";
   url = `${url}/misc/modules/${context.platform}`;
-  utils.request(url)
-    .then(({ result: modules }) => {
-      context.modules = modules;
-    });
+  utils.request(url).then(({ result: modules }) => {
+    context.modules = modules;
+  });
 }
 </script>
 

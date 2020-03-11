@@ -31,8 +31,8 @@ module.exports = [{
 {
   title: 'API 接口文档',
   children: [
-    ['api', 'Android'],
-    ['api', 'iOS'],
-    ['api', 'Web']
+    ['android', 'Android'],
+    ['ios', 'iOS'],
+    ['web', 'Web']
   ]
 }]

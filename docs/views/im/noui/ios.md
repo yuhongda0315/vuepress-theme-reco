@@ -1,0 +1,4 @@
+---
+APIConf:
+  - {platform: 'iOS'}
+---
