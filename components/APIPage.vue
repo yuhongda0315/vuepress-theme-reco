@@ -32,7 +32,7 @@ export default {
   components: { APISearch, APIContent },
   data() {
     return {
-      selectedAPI: null,
+      selectedAPI: {},
       platform: "iOS",
       modules: []
     };
@@ -47,7 +47,7 @@ export default {
     },
     showAPI: function(api) {
       var context = this;
-      context.selectedAPI = api;
+      context.selectedAPI.module = api.module;
       context.$modal.show("api-modal");
     },
     showTip: function(api) {

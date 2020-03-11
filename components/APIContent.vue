@@ -38,10 +38,13 @@
               <span class="rong-part-name" v-if="api.params">Parameters</span>
               <ul class="rong-params">
                 <li class="rong-param" v-for="(param, p) in api.params" :key="p">
-                  <span class="rong-param-column">{{param.name}}</span>
-                  <span class="rong-param-column">{{param.desc}}</span>
+                  <span class="rong-param-column" v-for="(val, j) in param" :key="j">{{val}}</span>
                 </li>
               </ul>
+
+              <span class="rong-part-name" v-if="api.return_vals">Return</span>
+              <span class="rong-return_vals">{{api.return_vals}}</span>
+
               <span class="rong-part-name" v-if="api.warnings">Warning</span>
               <ul class="rong-warings" v-for="(waring, w) in api.warnings" :key="w">
                 <li class="rong-warning">{{waring.desc}}</li>
@@ -54,6 +57,7 @@
   </modal>
 </template>
 <script>
+import utils from "@theme/components/utils";
 export default {
   name: "APIModal",
   props: ["api", "platform"],
@@ -65,69 +69,19 @@ export default {
   },
   methods: {
     onBeforeOpen: function() {
-      setTimeout(() => {
-        getAPIs(this);
-      }, 3000);
+      getAPIs(this);
     }
   }
 };
 function getAPIs(context) {
-  context.navs = [
-    { id: "connect", name: "connect" },
-    { id: "disconnect", name: "disconnect" },
-    { id: "reconnect", name: "reconnect" },
-    {
-      id: "setConnectionStatusListener",
-      name: "setConnectionStatusListener"
-    }
-  ];
-  context.apis = [
-    {
-      name: "连接方法",
-      code:
-        "- (RCMessage *)sendMessage:(RCConversationType)conversationType targetId:(NSString *)targetId content:(RCMessageContent *)content pushContent:(NSString *)pushContent success:(void (^)(long messageId))successBlock error:(void (^)(RCErrorCode nErrorCode, long messageId))errorBlock",
-      params: [
-        { name: "token", desc: "用户 Token" },
-        {
-          name: "userId",
-          desc:
-            "用户 ID，在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成"
-        },
-        { name: "userId", desc: "用户 ID，在开发者应用服务器生成" }
-      ],
-      warnings: [{ desc: "已废弃，请勿使用" }]
-    },
-    {
-      name: "连接方法",
-      code:
-        "- (RCMessage *)sendMessage:(RCConversationType)conversationType targetId:(NSString *)targetId content:(RCMessageContent *)content pushContent:(NSString *)pushContent success:(void (^)(long messageId))successBlock error:(void (^)(RCErrorCode nErrorCode, long messageId))errorBlock",
-      params: [
-        { name: "token", desc: "用户 Token" },
-        {
-          name: "userId",
-          desc:
-            "用户 ID，在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成"
-        },
-        { name: "userId", desc: "用户 ID，在开发者应用服务器生成" }
-      ],
-      warnings: [{ desc: "已废弃，请勿使用" }]
-    },
-    {
-      name: "连接方法",
-      code:
-        "- (RCMessage *)sendMessage:(RCConversationType)conversationType targetId:(NSString *)targetId content:(RCMessageContent *)content pushContent:(NSString *)pushContent success:(void (^)(long messageId))successBlock error:(void (^)(RCErrorCode nErrorCode, long messageId))errorBlock",
-      params: [
-        { name: "token", desc: "用户 Token" },
-        {
-          name: "userId",
-          desc:
-            "用户 ID，在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成在开发者应用服务器生成"
-        },
-        { name: "userId", desc: "用户 ID，在开发者应用服务器生成" }
-      ],
-      warnings: [{ desc: "已废弃，请勿使用" }]
-    }
-  ];
+  let { APIUrl } = context.$themeConfig;
+  let { api } = context;
+  let url = APIUrl || "//localhost:8992";
+  url = `${url}/misc/modules/${context.platform}/${api.module}`;
+  utils.request(url).then(({ result: { apis, navs } }) => {
+    context.navs = navs;
+    context.apis = apis;
+  });
 }
 </script>
 <style scoped>
@@ -236,7 +190,8 @@ function getAPIs(context) {
   font-family: "Source Code Pro", Monaco, Menlo, Consolas, monospace;
   font-size: 0.9em;
 }
-.rong-sidebars::-webkit-scrollbar , .rong-main::-webkit-scrollbar {
+.rong-sidebars::-webkit-scrollbar,
+.rong-main::-webkit-scrollbar {
   height: 0;
   width: 0px;
 }
@@ -248,6 +203,9 @@ function getAPIs(context) {
   margin: 0;
   list-style: none;
   padding: 0;
+}
+.rong-return_vals{
+  display: block;
 }
 .rong-api {
   border-bottom: 2px solid #dbf0dc;
