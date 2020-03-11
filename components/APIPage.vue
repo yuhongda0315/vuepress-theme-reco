@@ -39,9 +39,19 @@ export default {
   },
   computed: {},
   mounted: function() {
+    let context = this;
     let conf = getConfig(this.$frontmatter);
-    this.platform = conf.platform;
+    context.platform = conf.platform;
     getModules(this);
+
+    let name = location.hash.split("#")[1];
+    if (name) {
+      getOneModule(context, name, module => {
+        context.showAPI({
+          module
+        });
+      });
+    }
   },
   methods: {
     show: function(api) {
@@ -62,13 +72,13 @@ export default {
   watch: {
     $frontmatter: function(option) {
       let conf = getConfig(option);
-      this.platform = conf.platform;  
+      this.platform = conf.platform;
       getModules(this);
     }
   }
 };
-function getConfig(option){
- let conf = option.APIConf[0];
+function getConfig(option) {
+  let conf = option.APIConf[0];
   return conf;
 }
 function getModules(context) {
@@ -77,6 +87,14 @@ function getModules(context) {
   url = `${url}/misc/modules/${context.platform}`;
   utils.request(url).then(({ result: modules }) => {
     context.modules = modules;
+  });
+}
+function getOneModule(context, name, callback) {
+  let { APIUrl } = context.$themeConfig;
+  let url = APIUrl || "//localhost:8992";
+  url = `${url}/misc/find_module/${context.platform}/${name}`;
+  utils.request(url).then(({ result: { module } }) => {
+    callback(module);
   });
 }
 </script>
