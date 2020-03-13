@@ -75,6 +75,26 @@
 
       <Content class="rong-page-box" />
 
+      <div class="rong-like" v-if="this.$site.themeConfig.like && this.$site.themeConfig.like.title">
+        <p class="rong-like-title">{{this.$site.themeConfig.like.title}}</p>
+        <div class="rong-like-btn-box">
+          <a @click="selectLike(true)" :disabled="!!isSelectedLike" :selected="isSelectedLike && isLike" class="rong-like-btn"></a><a 
+            @click="selectLike(false)"
+            class="rong-dislike-btn"
+            :selected="isSelectedLike && !isLike"
+            :disabled="!!isSelectedLike"
+            ></a>
+        </div>
+        <div class="rong-like-success-box" v-if="this.isSelectedLike">
+          <i class="rong-like-success-icon"></i>
+          <div class="rong-like-success-content">
+            <p class="rong-like-success-title">{{this.$site.themeConfig.like.success}}</p>
+            <p class="rong-like-success-thank">{{this.$site.themeConfig.like.thank}}</p>
+          </div>
+        </div>
+        <div class="rong-like-other" v-html="this.$site.themeConfig.like.afterHtml"></div>
+      </div>
+
       <ModuleTransition delay="0.24">
         <footer v-show="recoShowModule" class="page-edit">
           <div class="edit-link" v-if="editLink">
@@ -128,7 +148,9 @@ export default {
       navs: [],
       isHasKey: true,
       categorys: [],
-      selectedCategory: {}
+      selectedCategory: {},
+      isSelectedLike: false,
+      isLike: false
     };
   },
 
@@ -205,6 +227,11 @@ export default {
     }
   },
   methods: {
+    selectLike: function (isLike) {
+      console.log('点赞:', isLike)
+      this.isSelectedLike = true
+      this.isLike = isLike
+    },
     isCategorySelected: function (category) {
       return this.selectedCategory === category
     },
@@ -284,6 +311,7 @@ export default {
     $route: function() {
       getNavs(this)
       this.initCategorys()
+      this.isSelectedLike = false
     }
   }
 };

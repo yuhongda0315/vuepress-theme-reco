@@ -410,7 +410,7 @@ $navHeight = 50px
   background-color: #E8E8E8;
   border-radius: 50%;
   top: 15px;
-  left: -2.5px;
+  left: -1.5px;
 .table-of-contents > ul > li li:first-child:before
   top: 17px;
 .table-of-contents > ul > li li:last-child:before
@@ -578,7 +578,7 @@ $navHeight = 50px
   .rong-nav-title, .rong-nav-subtitle {
     display: none !important;
   }
-  .rong-page-box, .header-navs, .rong-category-padding {
+  .rong-page-box, .header-navs, .rong-category-padding, .rong-like {
     padding-left: 0 !important;
   }
   .search-box {
@@ -630,7 +630,7 @@ $rightBarWidth = 180px;
     ul:first-child
       position: fixed;
       width: $rightBarWidth;
-      overflow: hidden;
+      overflow: auto;
       text-overflow: ellipsis;
       white-space: nowrap;
       margin-left: 0;
@@ -661,3 +661,75 @@ $rightBarWidth = 180px;
     padding-right: 0 !important;
   }
 }
+
+@media (max-height: 880px) {
+  .rong-home-horizontal-list {
+    margin-top: 50px;
+  }
+}
+.rong-like
+  padding: 0 2.5rem;
+  .rong-like-title
+    display: inline-block;
+    color: #333;
+    font-size: 16px;
+    margin: 12px 0;
+  .rong-like-btn-box
+    display: inline-block;
+    margin-left: 40px;
+    vertical-align: middle;
+    a + a
+      border-left: none;
+    a
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      box-sizing: border-box;
+      background-color: #F1F1F1;
+      border: 1px solid #DDD;
+      background-position: center;
+      background-repeat: no-repeat;
+    a[disabled]
+      pointer-events: none;
+      cursor: not-allowed;
+    .rong-like-btn
+      background-image: url('../images/like.png');
+    .rong-like-btn:hover, .rong-like-btn[selected]
+      background-image: url('../images/like-selected.png');
+    .rong-dislike-btn
+      background-image: url('../images/dislike.png');
+    .rong-dislike-btn:hover, .rong-dislike-btn[selected]
+      background-image: url('../images/dislike-selected.png');
+  .rong-like-success-box
+    position relative;
+    height: 100px;
+    width: 90%;
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    .rong-like-success-content
+      position: absolute;
+      top: 47%;
+      transform: translateY(-50%);
+      left: 100px;
+    .rong-like-success-title, .rong-like-success-thank
+      margin: 7px 0;
+    .rong-like-success-title
+      color: #333333;
+      font-size: 16px;
+    .rong-like-success-thank
+      font-size: 14px;
+      color: #666666;
+    .rong-like-success-icon
+      display: inline-block;
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 30px;
+      background-image: url('../images/like-success.png');
+  .rong-like-other
+    font-size: 16px;
+    color: #333333;

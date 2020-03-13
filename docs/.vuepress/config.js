@@ -26,6 +26,12 @@ module.exports = {
     },
     summary: summary,
     apiSearchPlaceholder: '输入 API 快速检索',
+    like: {
+      title: '文档是否解决您的问题 ?',
+      success: '提交成功',
+      thank: '非常感谢您的反馈，我们会继续努力做到更好 !',
+      afterHtml: '<p>如果遇到产品相关问题，您可 <a href="https://www.baidu.com">提交工单</a> 寻求帮助</p>'
+    },
     routerConfig: {
       navs: [
         { text: '含 UI 集成', link: '/views/im/ui/intro/', keyword: '/views/im/ui' },
