@@ -749,4 +749,14 @@ function flatten(items, res) {
     // }
   }
 }
+.rong-like-btn
+  background-image: url('../images/like.svg');
+.rong-like-btn:hover, .rong-like-btn[selected]
+  background-image: url('../images/like-selected.svg');
+.rong-dislike-btn
+  background-image: url('../images/dislike.svg');
+.rong-dislike-btn:hover, .rong-dislike-btn[selected]
+  background-image: url('../images/dislike-selected.svg');
+.rong-like-success-icon
+  background-image: url('../images/like-success.svg');
 </style>
