@@ -6,8 +6,7 @@
     @touchend="onTouchEnd">
     <div >
       <transition name="fade">
-        <LoadingPage v-if="firstLoad" />
-        <div v-else>
+        <div>
           <Navbar
           v-if="shouldShowNavbar"
           @toggle-sidebar="toggleSidebar"/>
