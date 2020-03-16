@@ -54,17 +54,27 @@
 
       <div class="rong-category-box rong-category-padding" v-if="categorys.length">
         <div class="rong-category-titles">
-          <a v-for="(category, index) in categorys"  :key="index" class="rong-category-title" @click="selectCategory(category)" :selected="isCategorySelected(category)">
-            {{category.name}}
-          </a>
+          <a
+            v-for="(category, index) in categorys"
+            :key="index"
+            class="rong-category-title"
+            @click="selectCategory(category)"
+            :selected="isCategorySelected(category)"
+          >{{category.name}}</a>
         </div>
         <div class="rong-category-titles">
-          <ul class="category-wrapper rong-category-wrapper" v-for="(category, index) in categorys"  :key="index" v-if="isCategorySelected(category)">
+          <ul
+            class="category-wrapper rong-category-wrapper"
+            v-for="(category, index) in categorys"
+            :key="index"
+            v-if="isCategorySelected(category)"
+          >
             <li
               class="category-item"
               :class="isSelected(item) ? 'active': ''"
               v-for="(item, index) in category.languages"
-              :key="index">
+              :key="index"
+            >
               <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
                 <span class="category-name">{{ item.text }}</span>
               </router-link>
@@ -75,15 +85,24 @@
 
       <Content class="rong-page-box" />
 
-      <div class="rong-like" v-if="this.$site.themeConfig.like && this.$site.themeConfig.like.title">
+      <div
+        class="rong-like"
+        v-if="this.$site.themeConfig.like && this.$site.themeConfig.like.title"
+      >
         <p class="rong-like-title">{{this.$site.themeConfig.like.title}}</p>
         <div class="rong-like-btn-box">
-          <a @click="selectLike(true)" :disabled="!!isSelectedLike" :selected="isSelectedLike && isLike" class="rong-like-btn"></a><a 
+          <a
+            @click="selectLike(true)"
+            :disabled="!!isSelectedLike"
+            :selected="isSelectedLike && isLike"
+            class="rong-like-btn"
+          ></a>
+          <a
             @click="selectLike(false)"
             class="rong-dislike-btn"
             :selected="isSelectedLike && !isLike"
             :disabled="!!isSelectedLike"
-            ></a>
+          ></a>
         </div>
         <div class="rong-like-success-box" v-if="this.isSelectedLike">
           <i class="rong-like-success-icon"></i>
@@ -136,6 +155,7 @@ import APIPage from "@theme/components/APIPage";
 import { resolvePage, outboundRE, endingSlashRE } from "@theme/helpers/utils";
 import ModuleTransition from "@theme/components/ModuleTransition";
 import moduleTransitonMixin from "@theme/mixins/moduleTransiton";
+import utils from "@theme/components/utils";
 
 export default {
   mixins: [moduleTransitonMixin],
@@ -227,16 +247,29 @@ export default {
     }
   },
   methods: {
-    selectLike: function (isLike) {
-      console.log('点赞:', isLike)
-      this.isSelectedLike = true
-      this.isLike = isLike
+    selectLike: function(isLike) {
+      let context = this;
+      context.isSelectedLike = true;
+      context.isLike = isLike;
+      let { APILikeUrl } = context.$themeConfig;
+      let url = APILikeUrl || "//localhost:9095";
+      url = `${url}/like`;
+      utils.request(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          isLike: isLike ? 1 : 0,
+          page: location.href
+        })
+      });
     },
-    isCategorySelected: function (category) {
-      return this.selectedCategory === category
+    isCategorySelected: function(category) {
+      return this.selectedCategory === category;
     },
-    selectCategory: function (category) {
-      this.selectedCategory = category
+    selectCategory: function(category) {
+      this.selectedCategory = category;
     },
     navigateTo: function(url) {
       let context = this;
@@ -279,39 +312,39 @@ export default {
         path
       );
     },
-    initCategorys: function () {
-      var categorys = this.$frontmatter.categorys || []
-      var selectedCategory
+    initCategorys: function() {
+      var categorys = this.$frontmatter.categorys || [];
+      var selectedCategory;
       for (var i = 0, max = categorys.length; i < max; i++) {
-        var category = categorys[i]
-        var languages = category.languages || []
+        var category = categorys[i];
+        var languages = category.languages || [];
         for (var j = 0; j < languages.length; j++) {
-          var language = languages[j]
+          var language = languages[j];
           if (this.isSelected(language)) {
-            selectedCategory = category
+            selectedCategory = category;
           }
         }
       }
 
-      this.categorys = categorys
+      this.categorys = categorys;
       if (selectedCategory) {
-        this.selectedCategory = selectedCategory
+        this.selectedCategory = selectedCategory;
       } else if (categorys.length) {
-        this.selectedCategory = categorys[0]
+        this.selectedCategory = categorys[0];
       }
     }
   },
   created: function() {
-    getNavs(this)
+    getNavs(this);
   },
-  mounted: function () {
-    this.initCategorys()
+  mounted: function() {
+    this.initCategorys();
   },
   watch: {
     $route: function() {
-      getNavs(this)
-      this.initCategorys()
-      this.isSelectedLike = false
+      getNavs(this);
+      this.initCategorys();
+      this.isSelectedLike = false;
     }
   }
 };
@@ -628,9 +661,11 @@ function flatten(items, res) {
     }
   }
 }
+
 .rong-category-titles {
   margin-bottom: 28px;
 }
+
 .rong-page {
   .rong-category-title {
     width: 112px;
@@ -645,20 +680,25 @@ function flatten(items, res) {
     cursor: pointer;
     box-sizing: border-box;
   }
+
   .rong-category-title[selected] {
     border: 1px solid #0099FF;
     color: #0099FF;
   }
+
   .rong-category-title + .rong-category-title {
     // border-left: none;
     border-right: 1px solid #979797;
   }
+
   .rong-category-title + .rong-category-title[selected] {
     border-right: 1px solid #0099FF;
   }
+
   .rong-category-title[selected] + .rong-category-title {
     border-left: none;
   }
+
   .rong-category-wrapper:before {
     content: '';
     position: absolute;
@@ -667,6 +707,7 @@ function flatten(items, res) {
     background-color: #F0F0F0;
     width: 100%;
   }
+
   .rong-category-wrapper {
     position: relative;
     display: inline-block;
@@ -674,10 +715,12 @@ function flatten(items, res) {
     z-index: 19;
     padding-left: 0;
     padding-bottom: 5px;
+
     // border-bottom: 1px solid #F0F0F0;
     .category-item + .category-item {
       margin: 0 38px;
     }
+
     .category-item {
       border: none;
       font-size: 18px;
@@ -685,27 +728,33 @@ function flatten(items, res) {
       margin-left: 0;
       min-width: auto;
       padding: 0 3px;
+
       a {
         color: #333;
       }
     }
+
     // .category-item:last-child {
-    //   margin-right: 0;
+    // margin-right: 0;
     // }
     .category-item.active {
       background-color: transparent;
       position: relative;
       z-index: 20;
+
       .category-name {
         color: #0099FF;
       }
     }
+
     .category-item:hover {
       background-color: transparent;
+
       .category-name {
         color: #0099FF;
       }
     }
+
     .category-item.active:before {
       content: '';
       position: absolute;
@@ -718,45 +767,62 @@ function flatten(items, res) {
       transform: translateX(-50%);
     }
   }
+
   .rong-category-padding {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
 }
+
 .rong-page .rong-page-box {
   color: #333;
+
   h1, h2 {
     font-size: 1.95rem;
     padding: 0;
   }
+
   h4 {
     font-size: 1.5rem;
   }
+
   h5 {
     font-size: 1.15rem;
   }
+
   h6 {
     font-size: 0.8rem;
   }
+
   .table-of-contents {
     // margin-left: 100%;
     margin-left: 998px;
     min-width: 180px;
     // ul li {
-    //   overflow: hidden;
-    //   text-overflow: ellipsis;
-    //   white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
     // }
   }
 }
-.rong-like-btn
+
+.rong-like-btn {
   background-image: url('../images/like.svg');
-.rong-like-btn:hover, .rong-like-btn[selected]
+}
+
+.rong-like-btn:hover, .rong-like-btn[selected] {
   background-image: url('../images/like-selected.svg');
-.rong-dislike-btn
+}
+
+.rong-dislike-btn {
   background-image: url('../images/dislike.svg');
-.rong-dislike-btn:hover, .rong-dislike-btn[selected]
+}
+
+.rong-dislike-btn:hover, .rong-dislike-btn[selected] {
   background-image: url('../images/dislike-selected.svg');
-.rong-like-success-icon
+}
+
+.rong-like-success-icon {
   background-image: url('../images/like-success.svg');
+}
 </style>
