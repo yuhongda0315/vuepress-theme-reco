@@ -13,6 +13,7 @@
     <div class="rong-sidebar-all">
       <div class="rong-sidebar-all-title">
         全部文档
+        <div class="rong-sidebar-all-content-placeholder"></div>
         <div class="rong-sidebar-all-content">
           <div v-for="(summary, index) in mainSummary" :key="index" class="rong-sidebar-summary">
             <p class="rong-sidebar-summary-title">{{summary.name}}</p>

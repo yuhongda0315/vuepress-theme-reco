@@ -486,11 +486,12 @@ $navHeight = 50px
   .rong-sidebar-all-title:before
     content: '';
     background-image: url(../images/show-all.png);
-    width: 10px;
-    height: 8.5px;
+    width: 11px;
+    height: 11px;
+    background-size: 100% 100%;
     display: inline-block;
     margin-right: 15px;
-    margin-top: 8px;
+    margin-top: 7px;
     float: right;
   .rong-sidebar-all-content
     // animation: showAll 2s;
@@ -509,6 +510,14 @@ $navHeight = 50px
     box-sizing: border-box;
     max-height: calc(100% - 100px);
     overflow: auto;
+  .rong-sidebar-all-content-placeholder
+    position: absolute;
+    height: 75px;
+    width: 100px;
+    z-index: 11;
+    top: 0;
+    margin-left: 77px;
+    margin-top: 46px;
 .rong-api-list
   // text-align: center;
   padding: 0 3%;
