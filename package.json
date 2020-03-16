@@ -4,7 +4,7 @@
   "description": "A simple and beautiful vuepress Blog & Doc theme.",
   "main": "index.js",
   "scripts": {
-    "dev": "vuepress dev docs",
+    "dev": "vuepress dev docs --no-cache",
     "build": "vuepress build docs",
     "eslint-ext": "eslint --ext .js,.vue ./",
     "eslint-fix": "eslint --fix --ext .js,.vue ./"

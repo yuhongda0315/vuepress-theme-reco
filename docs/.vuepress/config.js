@@ -1,6 +1,11 @@
 const NoUINavs = require('./navs/noui');
-const summary = require('./summary');
-console.log(summary);
+
+let base = '';
+let Summary = require('./summary');
+Summary = Summary({
+  base
+});
+
 module.exports = {
   title: "融云开发者文档",
   plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs', '@codeciting/vuepress-plugin-plantuml'],
@@ -24,7 +29,7 @@ module.exports = {
         { text: '登录', link: '' }
       ]
     },
-    summary: summary,
+    summary: Summary,
     apiSearchPlaceholder: '输入 API 快速检索',
     like: {
       title: '文档是否解决您的问题 ?',

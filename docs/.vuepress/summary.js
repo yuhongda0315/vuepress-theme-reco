@@ -1,115 +1,88 @@
-module.exports = {
-  main: [
-    {
-      name: '即时通讯',
-      sub: [
-        {
-          name: '服务指南',
-          titles: [
-            { name: '产品简介', link: '/views/im/noui/guide/private/message/web' },
-            { name: '名词列表', link: '/views/im/noui/guide/private/message/web' },
-            { name: '常见问题', link: '/views/im/noui/guide/private/message/web' },
-            { name: '状态码', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'Android',
-          titles: [
-            { name: '快速集成(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '快速集成(不含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '状态码', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'iOS',
-          titles: [
-            { name: '快速集成(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '快速集成(不含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(不含 UI)', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'Web',
-          titles: [
-            { name: '快速集成(不含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(不含 UI)', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'Server',
-          titles: [
-            { name: '集成文档(不含 UI)', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        }
-      ]
-    },
-    {
-      name: '实时音视频',
-      sub: [
-        {
-          name: '服务指南',
-          titles: [
-            { name: '产品简介', link: '/views/im/noui/guide/private/message/web' },
-            { name: '名词列表', link: '/views/im/noui/guide/private/message/web' },
-            { name: '常见问题', link: '/views/im/noui/guide/private/message/web' },
-            { name: '状态码', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'Android',
-          titles: [
-            { name: '快速集成(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '快速集成(不含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '状态码', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'iOS',
-          titles: [
-            { name: '快速集成(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '快速集成(不含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(不含 UI)', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'Web',
-          titles: [
-            { name: '快速集成(不含 UI)', link: '/views/im/noui/guide/private/message/web' },
-            { name: '集成文档(不含 UI)', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        },
-        {
-          name: 'Server',
-          titles: [
-            { name: '集成文档(不含 UI)', link: '/views/im/noui/guide/private/message/web' }
-          ]
-        }
-      ]
-    }
-  ],
-  other: [
-    {
-      name: '运营服务',
-      titles: [
-        { name: '产品简介', link: '/views/im/noui/guide/private/message/web' },
-        { name: '短信', link: '/views/im/noui/guide/private/message/web' },
-        { name: '预防黑产', link: '/views/im/noui/guide/private/message/web' }
-      ]
-    },
-    {
-      name: '初次集成',
-      titles: [
-        { name: '集成必须', link: '/views/im/noui/guide/private/message/web' },
-        { name: '视频教程', link: '/views/im/noui/guide/private/message/web' },
-        { name: '寻求帮助', link: '/views/im/noui/guide/private/message/web' },
-        { name: '三分钟跑通 Demo', link: '/views/im/noui/guide/private/message/web' },
-        { name: '一天接入 SDK', link: '/views/im/noui/guide/private/message/web' },
-        { name: '十分钟上线', link: '/views/im/noui/guide/private/message/web' }
-      ]
-    }
-  ]
+module.exports = function(option){
+  let {base} = option;
+  return {
+    main: [
+      {
+        name: '即时通讯',
+        sub: [
+          {
+            name: '单聊',
+            titles: [
+              { name: '含 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+              { name: '无 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }
+            ]
+          },
+          {
+            name: '群聊',
+            titles: [
+              { name: '含 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+              { name: '无 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }
+            ]
+          },
+          {
+            name: '聊天室',
+            titles: [
+              { name: '集 成 文 档', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+              { name: '最 佳 实 践', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+            ]
+          },
+          {
+            name: '系统通知',
+            titles: [
+              { name: '含 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+              { name: '无 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }
+            ]
+          }
+        ]
+      },
+      {
+        name: '实时音视频',
+        sub: [
+          {
+            name: '音视频通话',
+            titles: [
+              { name: '含 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+              { name: '无 UI SDK 集成', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }
+            ]
+          },
+          {
+            name: '音视频会议',
+            titles: [
+              { name: '集 成 文 档', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+            ]
+          },
+          {
+            name: '互动直播',
+            titles: [
+              { name: '集 成 文 档', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' },
+            ]
+          }
+        ]
+      },{
+        name: '运营服务',
+        sub: [
+          {
+            name: '',
+            titles:[{ name: '短信', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }]
+          },
+          {
+            name: '',
+            titles:[{ name: '客服', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }]
+          },
+          {
+            name: '',
+            titles:[
+            { name: '手机号画像', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }]
+          },
+          {
+            name: '',
+            titles:[
+            { name: '反垃圾', link: '/developer-docs/views/im/noui/guide/quick/premise/ios.html' }]
+          }
+        ]
+      }
+    ],
+    other: [
+    ]
+  };
 };
