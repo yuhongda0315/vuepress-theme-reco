@@ -21,15 +21,12 @@ module.exports = (options, ctx) => ({
     'vuepress-plugin-element-tabs',
     '@vuepress-reco/back-to-top',
     '@vuepress-reco/extract-code',
-    '@vuepress-reco/loading-page',
     '@vuepress-reco/pagation',
-    '@vuepress-reco/comments',
     '@vuepress/active-header-links',
     ['@vuepress/medium-zoom', {
       selector: '.theme-reco-content :not(a) > img'
     }],
     '@vuepress/plugin-nprogress',
-    ['@vuepress/plugin-blog'],
     ['container', {
       type: 'tip',
       defaultTitle: {
