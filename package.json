@@ -42,10 +42,11 @@
     "vue-click-outside": "1.0.7",
     "vue-js-modal": "git+https://github.com/yuhongda0315/vue-js-modal.git",
     "vuepress-plugin-element-tabs": "git+https://github.com/yuhongda0315/vuepress-plugin-element-tabs.git",
-    "vuepress-theme-reco": "https://github.com/yuhongda0315/vuepress-theme-reco.git"
+    "vuepress-theme-reco": "https://github.com/yuhongda0315/vuepress-theme-reco.git",
+    "@codeciting/vuepress-plugin-plantuml": "^0.2.0"
   },
   "devDependencies": {
-    "@codeciting/vuepress-plugin-plantuml": "^0.2.0",
+    
     "babel-eslint": "10.0.3",
     "eslint": "6.4.0",
     "eslint-plugin-vue": "5.2.3",
