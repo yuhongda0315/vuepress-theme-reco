@@ -58,7 +58,7 @@
             v-for="(category, index) in categorys"
             :key="index"
             class="rong-category-title"
-            @click="selectCategory(category)"
+            @click.prevent="selectCategory(category)"
             :selected="isCategorySelected(category)"
           >{{category.name}}</a>
         </div>
