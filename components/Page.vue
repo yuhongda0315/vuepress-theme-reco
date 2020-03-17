@@ -254,6 +254,7 @@ export default {
       let { APILikeUrl } = context.$themeConfig;
       let url = APILikeUrl || "//localhost:9095";
       url = `${url}/like`;
+      let currentPath = getPath()
       utils.request(url, {
         method: 'POST',
         headers: {
@@ -261,7 +262,7 @@ export default {
         },
         body: JSON.stringify({
           isLike: isLike ? 1 : 0,
-          page: location.href
+          page: currentPath
         })
       });
     },
@@ -273,7 +274,7 @@ export default {
     },
     navigateTo: function(url) {
       let context = this;
-      if (url && url != location.pathname) {
+      if (url && url != this.$page.path) {
         context.$router.push(url);
       }
       console.log(url);
@@ -282,7 +283,7 @@ export default {
       return name.toLocaleLowerCase();
     },
     isSelected: function(item) {
-      return location.href.indexOf(item.name.toLocaleLowerCase()) > -1;
+      return this.$page.path.indexOf(item.name.toLocaleLowerCase()) > -1;
     },
     isAPI: function() {
       return this.$frontmatter.APIConf;
@@ -349,6 +350,9 @@ export default {
   }
 };
 
+function getPath(){
+  return window.location.href;
+}
 function getLinks(path) {
   /** 路径项 */
   const routePaths = path.split("#")[0].split("/");

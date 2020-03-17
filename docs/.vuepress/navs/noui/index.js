@@ -1,7 +1,4 @@
 const privateNavs = require('./private');
-const groupNavs = require('./group');
-const chatroomNavs = require('./chatroom');
-const systemNavs = require('./system');
 
 module.exports = [{
   title: '产品概要描述',
@@ -24,10 +21,8 @@ module.exports = [{
     {title: '发送消息', path: 'quick-start/'},
   ]
 },
-  privateNavs,
-  groupNavs,
-  chatroomNavs,
-  systemNavs,
+  privateNavs
+  ,
 {
   title: 'API 接口文档',
   children: [

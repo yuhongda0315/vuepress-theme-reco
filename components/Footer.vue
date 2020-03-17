@@ -19,7 +19,6 @@
     </span>
     <span v-show="$themeConfig.valineConfig !== undefined">
       <i class="iconfont reco-eye"></i>
-      <AccessNumber idVal="/" />
     </span>
     <p class="cyber-security" v-if="$themeConfig.cyberSecurityRecord">
       <img src="https://img.alicdn.com/tfs/TB1..50QpXXXXX7XpXXXXXXXXXX-40-40.png" alt="">

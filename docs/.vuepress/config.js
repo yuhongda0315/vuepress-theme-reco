@@ -11,7 +11,10 @@ module.exports = {
   plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs', '@codeciting/vuepress-plugin-plantuml'],
   head: [
     ['link', { rel: 'icon', href: 'https://docs.rongcloud.cn/assets/images/favicon.png' }],
-    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
+    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
+    ['script', {src: '//cdn.ronghub.com/rongcloud-feedback.1.0.0.js'}],
+    ['script', {src: '//cdn.ronghub.com/docs-feedback-inject.1.0.0.js'}],
+    ['link', {rel: "stylesheet", href: '//cdn.ronghub.com/rongcloud-feedback.css'}]
   ],
   theme: require.resolve('../../'),
   themeConfig: {
@@ -20,8 +23,8 @@ module.exports = {
       titles: [
         { text: '文档首页', link: '/' },
         { text: '即时通讯', link: '/views/im/noui/guide/private/message/web' },
-        { text: '运营服务', link: '' },
-        { text: '音视频', link: '' },
+        { text: '运营服务', link: '/views/im/noui/guide/private/message/web' },
+        { text: '音视频', link: '/views/im/noui/guide/private/message/web' },
       ],
       subTitles: [
         { text: 'SDK 下载', link: '' },
@@ -45,10 +48,7 @@ module.exports = {
     },
     sidebar: {
       '/views/im/ui/': [],
-      '/views/im/noui/': NoUINavs,
-      '/helper/': [
-        ['', '组织逻辑']
-      ]
+      '/views/im/noui/': NoUINavs
     },
     // logo: '/head.png',
     // 搜索设置

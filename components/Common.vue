@@ -31,7 +31,7 @@
             <Password v-if="!isHasPageKey" :isPage="true"></Password>
             <div v-else class="rong-page-content">
               <slot></slot>
-              <Comments :isShowComments="shouldShowComments"/>
+              <!-- <Comments :isShowComments="shouldShowComments"/> -->
             </div>
           </div>
         </div>
