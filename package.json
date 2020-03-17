@@ -40,6 +40,7 @@
     "md5": "2.2.1",
     "valine": "1.3.6",
     "vue-click-outside": "1.0.7",
+    "vue-js-modal": "git+https://github.com/yuhongda0315/vue-js-modal.git",
     "vuepress-plugin-element-tabs": "git+https://github.com/yuhongda0315/vuepress-plugin-element-tabs.git",
     "vuepress-theme-reco": "https://github.com/yuhongda0315/vuepress-theme-reco.git"
   },
