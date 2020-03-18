@@ -271,6 +271,11 @@ export default {
     },
     selectCategory: function(category) {
       this.selectedCategory = category;
+      let languages = category.languages || [];
+      let lang = languages[0]
+      if(lang){
+        this.$router.push(lang.link).catch(() => {});
+      }
     },
     navigateTo: function(url) {
       let context = this;
