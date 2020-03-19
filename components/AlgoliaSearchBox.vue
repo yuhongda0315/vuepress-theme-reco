@@ -28,6 +28,7 @@ export default {
 
   methods: {
     initialize (userOptions, lang) {
+      var context = this;
       Promise.all([
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
@@ -41,10 +42,11 @@ export default {
             inputSelector: '#algolia-search-input',
             // #697 Make docsearch work well at i18n mode.
             algoliaOptions: Object.assign({
-              'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
+              'facetFilters': []
             }, algoliaOptions),
             handleSelected: (input, event, suggestion) => {
               const { pathname, hash } = new URL(suggestion.url)
+              pathname = pathname.replace(context.$site.base, '')
               this.$router.push(`${pathname}${hash}`)
             }
           }
