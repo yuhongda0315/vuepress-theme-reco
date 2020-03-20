@@ -1,7 +1,7 @@
 <template>
   <header class="navbar rong-nav">
     <div class="rong-nav-box">
-      <img class="rong-nav-logo" :src="$themeConfig.nav.logo" alt="">
+      <a :href="$themeConfig.nav.logo.link" target="_blank"><img class="rong-nav-logo" :src="$themeConfig.nav.logo.url" alt=""></a>
       <a
         class="rong-nav-title"
         v-for="title in $themeConfig.nav.titles"
@@ -17,6 +17,7 @@
         class="rong-nav-subtitle"
         v-for="subtitle in $themeConfig.nav.subTitles"
         :key="subtitle.text"
+        :target="subtitle.target"
         :href="subtitle.link">
         {{ subtitle.text }}
       </a>

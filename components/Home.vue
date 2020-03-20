@@ -118,6 +118,15 @@ export default {
     cursor: pointer;
     border: 1px solid #2B2E3D;
     box-sizing: border-box;
+
+    &:nth-child(even) {
+      border-right: 0;
+      border-left: 0;
+    }
+
+    &:last-child {
+      border-right: 1px solid #2B2E3D;
+    }
   }
 
   a[selected] {

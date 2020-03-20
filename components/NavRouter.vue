@@ -1,18 +1,6 @@
 <template>
   <div class="categories-wrapper" v-if="isShow">
-    <div class="iconfont category-current reco-down rong-category-current" @click="change">{{selectedText}}</div>
-    <!-- <ul class="category-wrapper" v-if="showCategoryItem" @mouseleave="hide">
-      <li
-        class="category-item"
-        :class="selectedLink == item.link ? 'active': ''"
-        v-for="(item, index) in navs"
-        :key="index"
-      >
-        <router-link :to="item.link">
-          <span class="category-name">{{ item.text }}</span>
-        </router-link>
-      </li>
-    </ul> -->
+    <div class="iconfont category-current reco-down rong-category-current" @click="change">{{selectedText}}{{appendIM()}}</div>
   </div>
 </template>
 
@@ -39,6 +27,10 @@ export default {
   methods: {
     change: function() {
       this.showCategoryItem = true;
+    },
+    appendIM: function(){
+      var isIM = window.location.href.indexOf('im');
+      return isIM ? '( 即时通信 )' : ''
     },
     hide: function() {
       hide(this);

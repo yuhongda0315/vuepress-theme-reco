@@ -19,7 +19,10 @@ module.exports = {
   theme: require.resolve('../../'),
   themeConfig: {
     nav: {
-      logo: 'http://www.rongcloud.cn/pc/images/logo.png',
+      logo: {
+        url: 'https://www.rongcloud.cn/pc/images/logo.png',
+        link: 'https://www.rongcloud.cn/'
+      },
       titles: [
         { text: '文档首页', link: '/' },
         { text: '即时通讯', link: '/views/im/noui/guide/private/message/web' },
