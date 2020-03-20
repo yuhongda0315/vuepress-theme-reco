@@ -29,7 +29,7 @@ export default {
       this.showCategoryItem = true;
     },
     appendIM: function(){
-      var isIM = window.location.href.indexOf('im');
+      var isIM = window.location.href.indexOf('/im/') > -1;
       return isIM ? '( 即时通信 )' : ''
     },
     hide: function() {
