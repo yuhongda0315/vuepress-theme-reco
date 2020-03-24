@@ -12,6 +12,10 @@
         :depth="depth"
         @toggle="toggleGroup(i)"
       />
+      <SidebarRootLink
+        v-else-if="item.isRoot"
+        :item="item"
+      />
       <SidebarLink
         v-else
         :sidebarDepth="sidebarDepth"
@@ -24,12 +28,13 @@
 <script>
 import SidebarGroup from '@theme/components/SidebarGroup'
 import SidebarLink from '@theme/components/SidebarLink'
+import SidebarRootLink from '@theme/components/SidebarRootLink'
 import { isActive } from '@theme/helpers/utils'
 
 export default {
   name: 'SidebarLinks',
 
-  components: { SidebarGroup, SidebarLink },
+  components: { SidebarGroup, SidebarLink, SidebarRootLink },
 
   props: [
     'items',

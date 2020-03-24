@@ -53,15 +53,18 @@ export function isActive(route, path) {
   return routePath === pagePath
 }
 
-export function resolvePage(pages, rawPath, base) {
+export function resolvePage(pages, rawPath, base, option) {
   if (base) {
     rawPath = resolvePath(rawPath, base)
   }
+  option = option || {};
+  const isRoot = option.isRoot;
   const path = normalize(rawPath)
   for (let i = 0; i < pages.length; i++) {
     if (normalize(pages[i].regularPath) === path) {
       return Object.assign({}, pages[i], {
         type: 'page',
+        isRoot: isRoot,
         path: ensureExt(pages[i].path)
       })
     }
@@ -257,7 +260,7 @@ function resolveItem(item, pages, base, groupDepth = 1) {
     }
     const children = item.children || []
     if (children.length === 0 && item.path) {
-      return Object.assign(resolvePage(pages, item.path, base), {
+      return Object.assign(resolvePage(pages, item.path, base, item), {
         title: item.title
       })
     }
@@ -265,6 +268,7 @@ function resolveItem(item, pages, base, groupDepth = 1) {
       type: 'group',
       path: item.path,
       title: item.title,
+      isRoot: item.isRoot,
       sidebarDepth: item.sidebarDepth,
       children: children.map(child => resolveItem(child, pages, base, groupDepth + 1)),
       collapsable: item.collapsable !== false

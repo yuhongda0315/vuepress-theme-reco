@@ -1,75 +1,33 @@
 <template>
   <section
     class="sidebar-group rong-sidebar-group"
-    :class="[
-      {
-        collapsable,
-        'is-sub-group': depth !== 0
-      },
-      `depth-${depth}`
-    ]"
   >
     <router-link
       v-if="item.path"
-      class="sidebar-heading clickable rong-sidebar-heading"
+      class="sidebar-heading clickable rong-sidebar-heading rong-root-heading"
       :class="{
         open,
         'active': isActive($route, item.path)
       }"
       :to="item.path"
-      @click.native="$emit('toggle')"
     >
-      <span>{{ item.title }}</span>
-      <span
-        class="arrow rong-sidebar-arrow"
-        v-if="collapsable"
-        :class="open ? 'down' : 'right'">
-      </span>
+      {{ item.title }}
+      
     </router-link>
-
-    <p
-      v-else
-      class="sidebar-heading rong-sidebar-heading"
-      :class="{ open }"
-      @click="$emit('toggle')"
-    >
-      <span>{{ item.title }}</span>
-      <span
-        class="arrow rong-sidebar-arrow"
-        v-if="collapsable"
-        :class="open ? 'down' : 'right'">
-      </span>
-    </p>
-
-    <DropdownTransition>
-      <SidebarLinks
-        class="sidebar-group-items"
-        :items="item.children"
-        v-if="open || !collapsable"
-        :sidebarDepth="item.sidebarDepth"
-        :depth="depth + 1"
-      />
-    </DropdownTransition>
   </section>
 </template>
 
 <script>
 import { isActive } from '@theme/helpers/utils'
-import DropdownTransition from '@theme/components/DropdownTransition'
 
 export default {
-  name: 'SidebarGroup',
+  name: 'SidebarRootLink',
   props: ['item', 'open', 'collapsable', 'depth'],
-  components: { DropdownTransition },
-  // ref: https://vuejs.org/v2/guide/components-edge-cases.html#Circular-References-Between-Components
-  beforeCreate () {
-    this.$options.components.SidebarLinks = require('./SidebarLinks.vue').default
-  },
   methods: { isActive }
 }
 </script>
-
-<style lang="stylus">
+ 
+<style lang="stylus" scoped>
 .sidebar-group
   .sidebar-group
     padding-left 0.5em
@@ -108,22 +66,27 @@ export default {
   box-sizing border-box
   margin 0
   border-left 0.25rem solid transparent
+  font-size 14px
   &.open, &:hover
     color var(--text-color)
   .arrow
     position relative
     top -0.12em
     left 0.5em
-  &.clickable
-    &.active
-      font-weight 600
-      color $accentColor
-      // border-left-color $accentColor
-    &:hover
-      color $accentColor
 
 .sidebar-group-items
   transition height .1s ease-out
   font-size 0.95em
   overflow hidden
+
+a.rong-root-heading.active
+  color: #09f;
+  background-color: #ECF3FF;
+
+a.rong-root-heading:hover{
+  color: #09f;
+}
+a.rong-root-heading {
+  color: #666;
+}
 </style>
