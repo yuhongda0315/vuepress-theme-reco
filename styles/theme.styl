@@ -17,6 +17,7 @@ body::-webkit-scrollbar
 html, body
   padding 0
   margin 0
+  background-color #FFF
 body
   font-family Ubuntu, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
   -webkit-font-smoothing antialiased
@@ -288,7 +289,6 @@ $navHeight = 50px
 .rong-page
   margin: 0 0 0 auto;
   padding-top: 20px;
-  padding-right: 30px;
   .page-title h3 + hr
     display: none;
   .header-navs
@@ -635,7 +635,7 @@ $rightBarWidth = 180px;
 #nprogress .bar
   background-color: #09f;
 .rong-page-content
-  padding-right: $rightBarWidth;
+  padding-right: 165px;
 .rong-page .rong-page-box
   position relative;
   padding-right: 0;
@@ -644,7 +644,7 @@ $rightBarWidth = 180px;
     width: $rightBarWidth;
     height: 100%;
     margin-left: 0;
-    right: 2%;
+    right: 10px;
     ul:first-child
       position: fixed;
       width: $rightBarWidth;
@@ -671,7 +671,7 @@ $rightBarWidth = 180px;
 .rong-platforms-box + .rong-page-box
   padding-top: 35px;
   top: -35px;
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .table-of-contents {
     display: none !important;
   }

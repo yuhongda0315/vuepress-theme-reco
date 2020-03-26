@@ -806,7 +806,6 @@ function flatten(items, res) {
   .table-of-contents {
     // margin-left: 100%;
     margin-left: 998px;
-    min-width: 180px;
     // ul li {
     // overflow: hidden;
     // text-overflow: ellipsis;
