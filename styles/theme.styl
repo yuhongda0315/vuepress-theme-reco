@@ -278,6 +278,9 @@ $navHeight = 50px
   height: 100%;
   overflow: auto;
   background-color: #f7f8fa;
+  &::-webkit-scrollbar
+    height: 0;
+    width: 0;
 .rong-page
   margin: 0 0 0 auto;
   padding-top: 20px;
@@ -351,7 +354,6 @@ $navHeight = 50px
   padding-left: 10px;
   ul
     padding: 5px;
-    padding: 0 5px;
     li
       padding-left: 15px;
       list-style: none;
@@ -631,12 +633,11 @@ $rightBarWidth = 180px;
   position relative;
   padding-right: 0;
   .table-of-contents
-    position: absolute;
+    position: fixed;
     width: $rightBarWidth;
     height: 100%;
     margin-left: 0;
-    left: 100%;
-    top: -60px;
+    right: 2%;
     ul:first-child
       position: fixed;
       width: $rightBarWidth;
@@ -644,6 +645,9 @@ $rightBarWidth = 180px;
       text-overflow: ellipsis;
       white-space: nowrap;
       margin-left: 0;
+      &::-webkit-scrollbar
+        height: 0;
+        width: 0px;
 .rong-content-box
   margin-left: 3%;
   margin-right: 3%;

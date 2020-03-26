@@ -2,7 +2,7 @@ const path = require('path')
 
 // Theme API.
 module.exports = (options, ctx) => ({
-  alias () {
+  alias() {
     const { themeConfig, siteConfig } = ctx
     // resolve algolia
     const isAlgoliaSearch = (
@@ -19,7 +19,13 @@ module.exports = (options, ctx) => ({
   },
   plugins: [
     'vuepress-plugin-element-tabs',
-    '@vuepress-reco/back-to-top',
+    ['@vuepress-reco/back-to-top', {
+      bottom: '6rem',
+      width: '2.5rem',
+      height: '2.5rem',
+      'border-radius': '.25rem',
+      'line-height': '2.5rem'
+    }],
     '@vuepress-reco/extract-code',
     '@vuepress-reco/pagation',
     '@vuepress/active-header-links',
