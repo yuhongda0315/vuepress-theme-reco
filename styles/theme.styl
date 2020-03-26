@@ -10,6 +10,10 @@
 $accentColor = #0099FF;
 $sidebarWidth = $sidebarWidth * 0.8;
 
+body::-webkit-scrollbar
+  height: 0
+  width: 0
+
 html, body
   padding 0
   margin 0
@@ -300,7 +304,7 @@ $navHeight = 50px
   position: absolute;
   width: 100%;
   height: 100%;
-  overflow: auto;
+
   .no-sidebar
     .rong-sidebar-box
       display: none;
@@ -741,3 +745,7 @@ $rightBarWidth = 180px;
   .rong-like-other
     font-size: 16px;
     color: #333333;
+
+.back-to-ceiling > svg {
+  fill: #323746 !important;
+}

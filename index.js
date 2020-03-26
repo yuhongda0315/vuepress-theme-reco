@@ -20,11 +20,14 @@ module.exports = (options, ctx) => ({
   plugins: [
     'vuepress-plugin-element-tabs',
     ['@vuepress-reco/back-to-top', {
-      bottom: '6rem',
-      width: '2.5rem',
-      height: '2.5rem',
-      'border-radius': '.25rem',
-      'line-height': '2.5rem'
+      customStyle: {
+        right: '12rem',
+        bottom: '4rem',
+        width: '2.5rem',
+        height: '2.5rem',
+        'border-radius': '.25rem',
+        'line-height': '2.5rem'
+      }
     }],
     '@vuepress-reco/extract-code',
     '@vuepress-reco/pagation',
