@@ -14,7 +14,8 @@ module.exports = {
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
     ['script', {src: '//cdn.ronghub.com/rongcloud-feedback.1.0.0.js'}],
     ['script', {src: '//cdn.ronghub.com/docs-feedback-inject.1.0.0.js'}],
-    ['link', {rel: "stylesheet", href: '//cdn.ronghub.com/rongcloud-feedback.css'}]
+    ['link', {rel: "stylesheet", href: '//cdn.ronghub.com/rongcloud-feedback.css'}],
+    ['script', { src: '/js/scroll.js' }],
   ],
   theme: require.resolve('../../'),
   themeConfig: {
