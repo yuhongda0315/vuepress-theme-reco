@@ -43,15 +43,15 @@ function func() {
       }
     }
   };
-  window.addEventListener('scroll', function (event) {
-    var afterScrollTop = window.pageYOffset;
-    console.log(afterScrollTop, beforeScrollTop, elements[0].offsetTop, elements[elements.length - 1].offsetTop)
-    delta = afterScrollTop - beforeScrollTop;
-    if (delta === 0) {
-      return false;
-    }
-    var type = delta > 0 ? "down" : "up";
-    direction[type](afterScrollTop);
-    beforeScrollTop = afterScrollTop;
-  });
+  // window.addEventListener('scroll', function (event) {
+  //   var afterScrollTop = window.pageYOffset;
+  //   console.log(afterScrollTop, beforeScrollTop, elements[0].offsetTop, elements[elements.length - 1].offsetTop)
+  //   delta = afterScrollTop - beforeScrollTop;
+  //   if (delta === 0) {
+  //     return false;
+  //   }
+  //   var type = delta > 0 ? "down" : "up";
+  //   direction[type](afterScrollTop);
+  //   beforeScrollTop = afterScrollTop;
+  // });
 }
