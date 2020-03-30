@@ -27,7 +27,12 @@
       <div class="rong-wrapper" v-if="navs.length">
         <div class="rong-sidebars">
           <ul class="rong-api-navs">
-            <li class="rong-api-nav" v-for="(nav, index) in navs" :key="index">
+            <li
+              class="rong-api-nav"
+              :class="{'rong-api-nav-active': isActive(nav.name)}"
+              v-for="(nav, index) in navs"
+              :key="index"
+            >
               <a :href="'#' + nav.id">{{nav.name}}</a>
             </li>
           </ul>
@@ -35,7 +40,10 @@
         <div class="rong-main">
           <ul class="rong-apis">
             <li :id="api.id" class="rong-api" v-for="(api, index) in apis" :key="index">
-              <p class="rong-api-name">{{api.name}}</p>
+              <p
+                class="rong-api-name"
+                :class="{'rong-api-nav-active': isActive(api.id)}"
+              >{{api.id}} - {{api.name}}</p>
               <pre class="rong-api-code">{{api.code}}</pre>
               <span class="rong-part-name" v-if="api.params">Parameters</span>
               <ul class="rong-params">
@@ -69,16 +77,25 @@ export default {
   data() {
     return {
       navs: [],
-      apis: []
+      apis: [],
+      hash: window.location.hash
     };
   },
   methods: {
+    isActive: function(name) {
+      return "#" + name == this.hash;
+    },
     onBeforeOpen: function() {
       getAPIs(this);
     },
     onBeforeClose: function() {
       this.navs = [];
       this.apis = [];
+    }
+  },
+  watch: {
+    $route: function(route) {
+      this.hash = route.hash;
     }
   }
 };
@@ -91,6 +108,12 @@ function getAPIs(context) {
   utils.request(url).then(({ result: { apis, navs } }) => {
     context.navs = navs;
     context.apis = apis;
+    var hash = context.hash;
+    if (hash) {
+      setTimeout(() => {
+        document.querySelector('a[href="' + hash + '"]').click();
+      }, 500);
+    }
   });
 }
 </script>
@@ -148,7 +171,7 @@ function getAPIs(context) {
 }
 
 .rong-sidebars {
-  width: 200px;
+  width: 240px;
   height: 100%;
   float: left;
   overflow-y: auto;
@@ -163,8 +186,9 @@ function getAPIs(context) {
 .rong-api-nav a {
   color: var(--text-color);
 }
+.rong-api-nav-active,
 .rong-api-nav:hover {
-  background-color: #0000000d;
+  background-color: #bcc6da;
 }
 .rong-loading-box {
   width: 98%;
