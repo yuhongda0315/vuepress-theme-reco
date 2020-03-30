@@ -47,9 +47,11 @@ export default {
     let name = location.hash.split("#")[1];
     if (name) {
       getOneModule(context, name, module => {
+        var isRefresh = true;
         context.showAPI({
+          id: name,
           module
-        });
+        }, isRefresh);
       });
     }
   },
@@ -57,9 +59,11 @@ export default {
     show: function(api) {
       this.showAPI(api);
     },
-    showAPI: function(api) {
+    showAPI: function(api, isRefresh) {
       var context = this;
+      context.selectedAPI.id = api.id || api.name;
       context.selectedAPI.module = api.module;
+      context.selectedAPI.isRefresh = isRefresh;
       context.$modal.show("api-modal");
     },
     showTip: function(api) {

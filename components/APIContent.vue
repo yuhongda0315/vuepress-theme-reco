@@ -103,16 +103,19 @@ function getAPIs(context) {
   let { APIUrl } = context.$themeConfig;
   let { api } = context;
   let url = APIUrl || "//localhost:8992";
-  let module = api.module.type || api.module;
+  let module = api.module;
   url = `${url}/misc/modules/${context.platform}/${module}`;
   utils.request(url).then(({ result: { apis, navs } }) => {
     context.navs = navs;
     context.apis = apis;
+    if(!api.isRefresh){
+      context.hash = '#' + api.id;
+    }
     var hash = context.hash;
     if (hash) {
       setTimeout(() => {
         document.querySelector('a[href="' + hash + '"]').click();
-      }, 500);
+      }, 300);
     }
   });
 }

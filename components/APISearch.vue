@@ -187,7 +187,8 @@ function search(context) {
     border-radius: 6px;
     padding: 0.4rem;
     list-style-type: none;
-
+    max-height: 300px;
+    overflow-y: auto;
     &.align-right {
       right: 0;
     }
