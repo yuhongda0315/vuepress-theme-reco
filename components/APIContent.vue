@@ -34,13 +34,16 @@
         </div>
         <div class="rong-main">
           <ul class="rong-apis">
-            <li id="connect" class="rong-api" v-for="(api, index) in apis" :key="index">
+            <li :id="api.id" class="rong-api" v-for="(api, index) in apis" :key="index">
               <p class="rong-api-name">{{api.name}}</p>
               <pre class="rong-api-code">{{api.code}}</pre>
               <span class="rong-part-name" v-if="api.params">Parameters</span>
               <ul class="rong-params">
                 <li class="rong-param" v-for="(param, p) in api.params" :key="p">
-                  <span class="rong-param-column" v-for="(val, j) in param" :key="j">{{val}}</span>
+                  <span v-for="(val, j) in param" :key="j">
+                    <span class="rong-param-column">{{j}}</span>
+                    <span class="rong-param-column">{{val}}</span>
+                  </span>
                 </li>
               </ul>
 
@@ -261,13 +264,10 @@ function getAPIs(context) {
 .rong-param {
   border-right: 1px solid #dbd6d6;
   display: table;
+  width: 100%;
 }
 .rong-param:nth-child(odd) {
   border-top: 1px solid #dbd6d6;
-  border-bottom: 1px solid #dbd6d6;
-}
-.rong-param:last-child {
-  border-bottom: 1px solid #dbd6d6;
 }
 
 .rong-param-column {
@@ -284,9 +284,11 @@ function getAPIs(context) {
   font-style: italic;
   font-weight: bold;
   padding-right: 8px;
+  border-bottom: 1px solid #dbd6d6;
 }
 .rong-param-column:last-child {
   width: 100%;
+  border-bottom: 1px solid #dbd6d6;
 }
 .rong-param-column:nth-child(odd) {
   border-right: 1px solid #dbd6d6;
