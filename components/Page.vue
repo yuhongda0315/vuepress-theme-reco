@@ -231,7 +231,7 @@ export default {
 
   data() {
     return {
-      selectedValue: "Web 3.0",
+      selectedValue: "Web 3.x",
       navs: [],
       isHasKey: true,
       categorys: [],
