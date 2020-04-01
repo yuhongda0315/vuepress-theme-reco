@@ -1,7 +1,7 @@
 ---
-languages:
+platforms:
   - {name: 'ios', text: 'iOS', link: './ios'}
-  - {name: 'android', text: 'Android', link: './android'}
+  - {name: 'android', text: 'Android1', link: './android'}
   - {name: 'multi', children: [{name: 'web', text: 'Web 2.0', link: './web'}, {name: 'web3', text: 'Web 3.0', link: './web3'}]}
 ---
 

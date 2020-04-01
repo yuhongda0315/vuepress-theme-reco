@@ -25,15 +25,26 @@
 
       <div v-if="this.$page.frontmatter.platforms && !categorys.length" class="rong-platforms-box">
         <ul class="category-wrapper rong-category-wrapper rong-category-padding">
-          <router-link
-            v-for="(item, index) in this.$page.frontmatter.platforms"
-            :key="index"
-            :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
-          >
-            <li class="category-item" :class="isSelected(item) ? 'active': ''">
+          <li class="category-item"  v-for="(item, index) in this.$page.frontmatter.platforms"
+              :key="index" :class="isSelected(item) ? 'active': ''">
+            <v-select
+              v-if="item.name == 'multi'"
+              v-model="selectedValue"
+              class="rong-category-child"
+              :clearable="false"
+              :options="item.children"
+              @input="setSelected"
+              label="text"
+              :searchable="false"
+            ></v-select>
+            <router-link
+              v-else
+             
+              :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
+            >
               <span class="category-name">{{ item.text }}</span>
-            </li>
-          </router-link>
+            </router-link>
+          </li>
         </ul>
       </div>
 
