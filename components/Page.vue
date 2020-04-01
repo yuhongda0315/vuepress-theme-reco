@@ -40,7 +40,15 @@
               @input="setSelected"
               label="text"
               :searchable="false"
-            ></v-select>
+            >
+              <template v-slot:option="option">
+                <span
+                  class="iconfont"
+                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                ></span>
+                {{ option.text }}
+              </template>
+            </v-select>
             <router-link
               v-else
               :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
@@ -68,7 +76,15 @@
               @input="setSelected"
               label="text"
               :searchable="false"
-            ></v-select>
+            >
+              <template v-slot:option="option">
+                <span
+                  class="iconfont"
+                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                ></span>
+                {{ option.text }}
+              </template>
+            </v-select>
             <router-link
               v-else
               :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
