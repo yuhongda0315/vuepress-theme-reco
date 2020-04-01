@@ -18,7 +18,6 @@ module.exports = (options, ctx) => ({
     }
   },
   plugins: [
-    'vuepress-plugin-element-tabs',
     ['@vuepress-reco/back-to-top', {
       customStyle: {
         right: '12rem',
