@@ -398,6 +398,7 @@ export default {
       getNavs(this);
       this.initCategorys();
       this.isSelectedLike = false;
+      this.selectedValue = this.selectedValue.text || this.selectedValue;
     }
   }
 };
