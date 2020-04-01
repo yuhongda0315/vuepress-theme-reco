@@ -45,7 +45,20 @@
             v-for="(item, index) in this.$page.frontmatter.languages"
             :key="index"
           >
-            <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
+            <v-select
+              v-if="item.name == 'multi'"
+              v-model="selectedValue"
+              class="rong-category-child"
+              :clearable="false"
+              :options="item.children"
+              @input="setSelected"
+              label="text"
+              :searchable="false"
+            ></v-select>
+            <router-link
+              v-else
+              :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
+            >
               <span class="category-name">{{ item.text }}</span>
             </router-link>
           </li>
@@ -75,7 +88,20 @@
               v-for="(item, index) in category.languages"
               :key="index"
             >
-              <router-link :to="{path: item.link, query: {platform: formatNavName(item.name)}}">
+              <v-select
+                v-if="item.name == 'multi'"
+                v-model="selectedValue"
+                class="rong-category-child"
+                :clearable="false"
+                :options="item.children"
+                @input="setSelected"
+                label="text"
+                :searchable="false"
+              ></v-select>
+              <router-link
+                v-else
+                :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
+              >
                 <span class="category-name">{{ item.text }}</span>
               </router-link>
             </li>
@@ -156,15 +182,18 @@ import { resolvePage, outboundRE, endingSlashRE } from "@theme/helpers/utils";
 import ModuleTransition from "@theme/components/ModuleTransition";
 import moduleTransitonMixin from "@theme/mixins/moduleTransiton";
 import utils from "@theme/components/utils";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
   mixins: [moduleTransitonMixin],
-  components: { PageInfo, ModuleTransition, APIPage },
+  components: { PageInfo, ModuleTransition, APIPage, vSelect },
 
   props: ["sidebarItems"],
 
   data() {
     return {
+      selectedValue: "Web 3.0",
       navs: [],
       isHasKey: true,
       categorys: [],
@@ -247,6 +276,9 @@ export default {
     }
   },
   methods: {
+    setSelected: function() {
+      this.$router.push(this.selectedValue.link).catch(() => {});
+    },
     selectLike: function(isLike) {
       let context = this;
       context.isSelectedLike = true;
@@ -254,11 +286,11 @@ export default {
       let { APILikeUrl } = context.$themeConfig;
       let url = APILikeUrl || "//localhost:9095";
       url = `${url}/like`;
-      let currentPath = getPath()
+      let currentPath = getPath();
       utils.request(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           isLike: isLike ? 1 : 0,
@@ -272,8 +304,8 @@ export default {
     selectCategory: function(category) {
       this.selectedCategory = category;
       let languages = category.languages || [];
-      let lang = languages[0]
-      if(lang){
+      let lang = languages[0];
+      if (lang) {
         this.$router.push(lang.link).catch(() => {});
       }
     },
@@ -288,7 +320,11 @@ export default {
       return name.toLocaleLowerCase();
     },
     isSelected: function(item) {
-      return this.$page.path.indexOf(item.name.toLocaleLowerCase()) > -1;
+      let name = item.name.toLocaleLowerCase();
+      if (name == "multi") {
+        name = item.groupName;
+      }
+      return this.$page.path.indexOf(name) > -1;
     },
     isAPI: function() {
       return this.$frontmatter.APIConf;
@@ -355,7 +391,7 @@ export default {
   }
 };
 
-function getPath(){
+function getPath() {
   return window.location.href;
 }
 function getLinks(path) {
@@ -520,12 +556,27 @@ function flatten(items, res) {
     box-sizing: border-box;
 
     &:hover, &.active {
-      background: #2b3e50;
-
+      // background: #2b3e50 !important;
       span.category-name {
         color: #fff;
       }
     }
+  }
+
+  .rong-category-child {
+    min-width: 120px;
+  }
+
+  .rong-category-child .vs__search::placeholder, .rong-category-child .vs__dropdown-toggle, .rong-category-child .vs__dropdown-menu {
+    border: none;
+    color: #394066;
+    font-weight: 500;
+    min-width: 120px;
+    font-size: 18px;
+  }
+
+  .rong-category-child .vs__selected {
+    position: absolute;
   }
 
   .page-title {
@@ -767,7 +818,7 @@ function flatten(items, res) {
     .category-item.active:before {
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: -7px;
       height: 2px;
       background-color: #0099FF;
       width: 100%;
