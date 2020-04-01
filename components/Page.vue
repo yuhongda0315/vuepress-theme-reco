@@ -25,8 +25,12 @@
 
       <div v-if="this.$page.frontmatter.platforms && !categorys.length" class="rong-platforms-box">
         <ul class="category-wrapper rong-category-wrapper rong-category-padding">
-          <li class="category-item"  v-for="(item, index) in this.$page.frontmatter.platforms"
-              :key="index" :class="isSelected(item) ? 'active': ''">
+          <li
+            class="category-item"
+            v-for="(item, index) in this.$page.frontmatter.platforms"
+            :key="index"
+            :class="isSelected(item) ? 'active': ''"
+          >
             <v-select
               v-if="item.name == 'multi'"
               v-model="selectedValue"
@@ -39,7 +43,6 @@
             ></v-select>
             <router-link
               v-else
-             
               :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
             >
               <span class="category-name">{{ item.text }}</span>
@@ -108,7 +111,15 @@
                 @input="setSelected"
                 label="text"
                 :searchable="false"
-              ></v-select>
+              >
+                <template v-slot:option="option">
+                  <span
+                    class="iconfont"
+                    :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                  ></span>
+                  {{ option.text }}
+                </template>
+              </v-select>
               <router-link
                 v-else
                 :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
@@ -576,7 +587,14 @@ function flatten(items, res) {
   }
 
   .rong-category-child {
-    min-width: 120px;
+    min-width: 130px;
+  }
+
+  .rong-option:after {
+    color: red;
+    position: absolute;
+    right: 15px;
+    font-size: 20px;
   }
 
   .rong-category-child .vs__search::placeholder, .rong-category-child .vs__dropdown-toggle, .rong-category-child .vs__dropdown-menu {
