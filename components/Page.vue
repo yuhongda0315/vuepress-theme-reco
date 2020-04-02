@@ -419,6 +419,7 @@ export default {
   },
   mounted: function() {
     this.initCategorys();
+    scrollToAnchor();
   },
   watch: {
     $route: function() {
@@ -429,6 +430,16 @@ export default {
     }
   }
 };
+
+function scrollToAnchor() {
+  let hash = window.location.hash;
+  if (hash) {
+    let node = document.querySelector(`a[href="${hash}"]`);
+    if (node) {
+      node.click();
+    }
+  }
+}
 
 function getPath() {
   return window.location.href;
