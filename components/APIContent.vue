@@ -78,7 +78,7 @@ export default {
     return {
       navs: [],
       apis: [],
-      hash: window.location.hash
+      hash: ''
     };
   },
   methods: {
@@ -92,6 +92,9 @@ export default {
       this.navs = [];
       this.apis = [];
     }
+  },
+  mounted: function(){
+    this.hash = window.location.hash;
   },
   watch: {
     $route: function(route) {
