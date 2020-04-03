@@ -134,7 +134,7 @@ export default {
       let colors = {
         android: "#A4C639",
         ios: "#3D88dE",
-        server: "#F1C40F",
+        server: "#006699",
         web: "#F1C40F",
         common: "#CC66FF"
       };
