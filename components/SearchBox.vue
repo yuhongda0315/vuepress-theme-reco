@@ -142,6 +142,7 @@ export default {
         android: "Android",
         ios: "iOS",
         server: "Server",
+        web: "Web",
         common: "产品介绍"
       };
       return platforms[name] || name;
