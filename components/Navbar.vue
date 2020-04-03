@@ -9,10 +9,7 @@
         :href="title.link">
         {{ title.text }}
       </a>
-      <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"/>
-      <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
+      <SearchBox/>
       <a
         class="rong-nav-subtitle"
         v-for="subtitle in $themeConfig.nav.subTitles"
@@ -23,32 +20,6 @@
       </a>
     </div>
     <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
-
-    <!-- <router-link
-      :to="$localePath"
-      class="home-link">
-      <img
-        class="logo"
-        v-if="$themeConfig.logo"
-        :src="$withBase($themeConfig.logo)"
-        :alt="$siteTitle">
-      <span
-        ref="siteName"
-        class="site-name"
-        v-if="$siteTitle">{{ $siteTitle }}</span>
-    </router-link> -->
-
-    <!-- <div
-      class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}">
-      <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"/>
-      <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
-      <NavLinks class="can-hide"/>
-    </div> -->
   </header>
 </template>
 
