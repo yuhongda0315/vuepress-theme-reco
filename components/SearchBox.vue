@@ -32,6 +32,7 @@
         @mousedown="go(i)"
         @mouseenter="focus(i)"
         @click="go(i)"
+        :id="'suggestion'+i"
       >
         <p class="rong-search-header">
           <span class="rong-search-header-title">{{s.title}}</span>
@@ -66,6 +67,7 @@ export default {
   },
   computed: {
     showSuggestions() {
+      return true;
       return this.focused && this.suggestions && this.suggestions.length;
     },
     // make suggestions align right when there are not enough items
@@ -91,6 +93,7 @@ export default {
         } else {
           this.focusIndex = this.suggestions.length - 1;
         }
+        scrollTop(this.focusIndex);
       }
     },
     onDown() {
@@ -100,6 +103,7 @@ export default {
         } else {
           this.focusIndex = 0;
         }
+        scrollTop(this.focusIndex);
       }
     },
     onKeyDown: function() {
@@ -149,6 +153,11 @@ export default {
     }
   }
 };
+function scrollTop(i) {
+  let content = document.querySelector("#suggestion" + i);
+  let box = document.querySelector(".suggestions");
+  box.scrollTo(0, content.offsetTop);
+}
 function search(context) {
   let { APIUrl } = context.$themeConfig;
   let url = APIUrl || "//localhost:8992";
