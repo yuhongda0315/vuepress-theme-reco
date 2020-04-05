@@ -21,22 +21,25 @@ export default {
     let getLinks = (page) => {
       let links = [];
       let { frontmatter: { languages, categorys, platforms } } = page;
+      let add = (languages) => {
+        languages.forEach((lan) => {
+          if (lan.name == 'multi') {
+            links = links.concat(lan.children);
+          } else {
+            links.push(lan);
+          }
+        });
+      };
       if (languages) {
-        links = links.concat(languages);
+        add(languages);
       }
       if (platforms) {
-        links = links.concat(platforms);
+        add(platforms);
       }
       if (categorys) {
         categorys.forEach((category) => {
           let { languages } = category;
-          languages.forEach((lan) => {
-            if (lan.name == 'multi') {
-              links = links.concat(lan.children);
-            } else {
-              links.push(lan);
-            }
-          })
+          add(languages);
         })
       }
       return links;
