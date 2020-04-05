@@ -49,12 +49,9 @@
                 {{ option.text }}
               </template>
             </v-select>
-            <router-link
-              v-else
-              :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
-            >
+            <a @click="rediectTo(item)" v-else>
               <span class="category-name">{{ item.text }}</span>
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>
@@ -85,12 +82,9 @@
                 {{ option.text }}
               </template>
             </v-select>
-            <router-link
-              v-else
-              :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
-            >
+            <a @click="rediectTo(item)" v-else>
               <span class="category-name">{{ item.text }}</span>
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>
@@ -136,12 +130,9 @@
                   {{ option.text }}
                 </template>
               </v-select>
-              <router-link
-                v-else
-                :to="{path: item.link, query: {platform: formatNavName(item.name)}}"
-              >
+              <a @click="rediectTo(item)" v-else>
                 <span class="category-name">{{ item.text }}</span>
-              </router-link>
+              </a>
             </li>
           </ul>
         </div>
@@ -314,8 +305,11 @@ export default {
     }
   },
   methods: {
+    rediectTo: function(item) {
+      rediectTo(this, item);
+    },
     setSelected: function() {
-      this.$router.push(this.selectedValue.link).catch(() => {});
+      rediectTo(this, this.selectedValue);
     },
     selectLike: function(isLike) {
       let context = this;
@@ -431,6 +425,14 @@ export default {
   }
 };
 
+function rediectTo(context, item) {
+  window.localStorage.setItem("rong-current-page", item.link);
+  context.$router
+    .push({
+      path: item.link
+    })
+    .catch(error => {});
+}
 function scrollToAnchor() {
   let hash = window.location.hash;
   if (hash) {

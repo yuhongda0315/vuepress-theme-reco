@@ -4,4 +4,4 @@ languages:
   - {name: 'node', text: 'Node.js', link: './nodejs'}
 ---
 
-我是 Node.js Register
+我是 Java Register

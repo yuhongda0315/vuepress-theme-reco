@@ -51,7 +51,6 @@ module.exports = {
       ]
     },
     sidebar: {
-      '/views/im/ui/': [],
       '/views/im/noui/': NoUINavs
     },
     // logo: '/head.png',
