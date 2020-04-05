@@ -617,6 +617,7 @@ function flatten(items, res) {
 
   .rong-category-child {
     min-width: 130px;
+    margin-top: -4px;
   }
 
   .rong-option:after {
@@ -636,6 +637,9 @@ function flatten(items, res) {
 
   .rong-category-child .vs__selected {
     position: absolute;
+  }
+  .rong-category-child .vs__selected-options {
+    display: block;
   }
 
   .page-title {
