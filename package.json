@@ -32,7 +32,6 @@
     "@vuepress-reco/vuepress-plugin-extract-code": "1.0.3",
     "@vuepress-reco/vuepress-plugin-pagation": "1.0.6",
     "@vuepress/plugin-medium-zoom": "1.2.0",
-    "docsearch.js": "2.5.2",
     "leancloud-storage": "3.13.2",
     "markdown-it-anchor": "^5.2.5",
     "markdown-it-head-attr": "^1.0.5",
@@ -43,7 +42,6 @@
     "vue-click-outside": "1.0.7",
     "vue-js-modal": "git+https://github.com/yuhongda0315/vue-js-modal.git",
     "vue-select": "^3.9.5",
-    "vuepress-plugin-element-tabs": "git+https://github.com/yuhongda0315/vuepress-plugin-element-tabs.git",
     "vuepress-plugin-glossary": "^1.0.2",
     "vuepress-theme-reco": "https://github.com/yuhongda0315/vuepress-theme-reco.git"
   },
