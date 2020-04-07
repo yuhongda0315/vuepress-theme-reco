@@ -39,7 +39,7 @@
 import utils from "@theme/components/utils";
 let timer = 0;
 export default {
-  props: ["platform"],
+  props: ["platform", "apiType"],
   data() {
     return {
       suggestions: [
@@ -133,7 +133,7 @@ function search(context) {
       body: JSON.stringify({
         keyword: context.query,
         platform: context.platform,
-        apiType: context.apiType
+        type: context.apiType
       })
     })
     .then(({ result: suggestions }) => {
