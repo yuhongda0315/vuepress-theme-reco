@@ -215,7 +215,7 @@ function search(context) {
   }
 
   .suggestions {
-    width: 44rem;
+    width: 43rem;
     position: absolute;
     top: 2.2rem;
     border-radius: 0;
