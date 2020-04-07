@@ -67,7 +67,6 @@ export default {
   },
   computed: {
     showSuggestions() {
-      return true;
       return this.focused && this.suggestions && this.suggestions.length;
     },
     // make suggestions align right when there are not enough items
@@ -253,9 +252,12 @@ function search(context) {
 
       .rong-search-header-title {
         font-weight: bold;
-        min-width: 100px;
+        width: 100px;
         text-align: right;
         font-size: 16px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       .rong-search-header-nav {
