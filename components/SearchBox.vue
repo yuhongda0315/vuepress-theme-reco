@@ -182,6 +182,7 @@ function search(context) {
   display: inline-block;
   position: relative;
   margin-right: 1rem;
+  font-size: 14px;
   .iconfont {
     position: absolute;
     top: 0;
@@ -244,6 +245,7 @@ function search(context) {
 
     .rong-search-header {
       position: relative;
+      width: 100%;
       span{
         display: inline-block;
         margin-right: 10px;
@@ -287,7 +289,7 @@ function search(context) {
       text-overflow: ellipsis;
       width: 100%;
       font-size: 14px;
-      padding-left: 115px;
+      padding-left: 110px;
       box-sizing: border-box;
     }
 
@@ -310,7 +312,7 @@ function search(context) {
 }
 
 .search-box * {
-  float: none !important;
+  // float: none !important;
 }
 
 @media (max-width: $MQNarrow) {

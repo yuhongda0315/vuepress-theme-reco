@@ -26,9 +26,9 @@ module.exports = {
       },
       titles: [
         { text: '文档首页', link: '/' },
-        { text: '即时通讯', link: '/views/im/noui/guide/private/message/web' },
-        { text: '运营服务', link: '/views/im/noui/guide/private/message/web' },
-        { text: '音视频', link: '/views/im/noui/guide/private/message/web' },
+        { text: '即时通讯', link: '/views/im/noui/guide/private/message/web.html' },
+        { text: '运营服务', link: '/views/im/noui/guide/private/message/web.html' },
+        { text: '音视频', link: '/views/im/noui/guide/private/message/web.html' },
       ],
       subTitles: [
         { text: 'SDK 下载', link: '' },
