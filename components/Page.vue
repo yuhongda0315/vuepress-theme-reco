@@ -315,8 +315,8 @@ export default {
       let context = this;
       context.isSelectedLike = true;
       context.isLike = isLike;
-      let { APILikeUrl } = context.$themeConfig;
-      let url = APILikeUrl || "//localhost:9095";
+      let { APIUrl } = context.$themeConfig;
+      let url = APIUrl || "//localhost:9095";
       url = `${url}/like`;
       let currentPath = getPath();
       utils.request(url, {
