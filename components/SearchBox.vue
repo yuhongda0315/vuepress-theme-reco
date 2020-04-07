@@ -19,7 +19,7 @@
     />
 
     <ul
-      class="suggestions"
+      class="suggestions rong-searchbox-suggestions"
       v-if="showSuggestions"
       :class="{ 'align-right': alignRight }"
       @mouseleave="unfocus"
@@ -36,11 +36,11 @@
       >
         <p class="rong-search-header">
           <span class="rong-search-header-title">{{s.title}}</span>
-          <i class="rong-search-header-nav">{{s.levels}}</i>
-          <span
+          <span class="rong-search-header-nav">{{s.levels}}</span>
+          <strong
             class="rong-search-header-platform"
-            :style="{backgroundColor: getBGColor(s.platform)}"
-          >{{ getPlatform(s.platform)}}</span>
+            :style="{boderColor: getBGColor(s.platform), color: getBGColor(s.platform)}"
+          >{{ getPlatform(s.platform)}}</strong>
         </p>
         <p class="rong-search-content" v-html="s.content"></p>
       </li>
@@ -92,7 +92,7 @@ export default {
         } else {
           this.focusIndex = this.suggestions.length - 1;
         }
-        scrollTop(this.focusIndex);
+        // scrollTop(this.focusIndex);
       }
     },
     onDown() {
@@ -102,7 +102,7 @@ export default {
         } else {
           this.focusIndex = 0;
         }
-        scrollTop(this.focusIndex);
+        // scrollTop(this.focusIndex);
       }
     },
     onKeyDown: function() {
@@ -132,10 +132,10 @@ export default {
     },
     getBGColor: function(name) {
       let colors = {
-        android: "#A4C639",
-        ios: "#3D88dE",
-        server: "#006699",
-        web: "#F1C40F",
+        android: "#4DA626",
+        ios: "#009BFF",
+        server: "#4E4DC0",
+        web: "#F36618",
         common: "#CC66FF"
       };
       return colors[name] || name;
@@ -215,17 +215,22 @@ function search(context) {
   }
 
   .suggestions {
-    width: 40rem;
+    width: 44rem;
     position: absolute;
     top: 2.2rem;
     border-radius: 0;
     padding: 0.4rem;
     list-style-type: none;
+    max-height: 435px;
 
     &.align-right {
       right: 0;
     }
   }
+
+.rong-searchbox-suggestions::-webkit-scrollbar{
+  width: 2px;
+}
 
   .suggestion {
     border-radius: 0;
@@ -237,7 +242,8 @@ function search(context) {
     }
 
     .rong-search-header {
-      span, i {
+      position: relative;
+      span{
         display: inline-block;
         margin-right: 10px;
         color: #000 !important;
@@ -245,22 +251,28 @@ function search(context) {
 
       .rong-search-header-title {
         font-weight: bold;
+        min-width: 100px;
+        text-align: right;
+        font-size: 16px;
       }
 
       .rong-search-header-nav {
-        font-size: 12px;
+        font-size: 14px;
         line-height: 26px;
-        color: #787878 !important;
+        color: #989A9C !important;
       }
 
       .rong-search-header-platform {
         margin-left: 2px;
-        background: #d1d1d1;
-        padding: 0 5px;
-        color: #FFF !important;
+        background: transparent;
+        padding: 0 8px;
+        display: inline;
         font-size: 12px;
-        font-weight: bold;
-        border-radius: 3px;
+        border: 1px solid !important;
+        letter-spacing: 0.2px;
+        font-weight: 500;
+        position: absolute;
+        right 0;
       }
     }
 
@@ -270,7 +282,9 @@ function search(context) {
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
-      font-size: 13px;
+      font-size: 14px;
+      padding-left: 115px;
+      box-sizing: border-box;
     }
 
     .rong-search-keyword {
