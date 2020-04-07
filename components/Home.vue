@@ -173,16 +173,10 @@ export default {
   display: flex;
 
   .rong-home-vertical-content {
-    // min-width: 135px;
-    // margin-right: 15px;
-    text-align: center;
     display: inline-block;
     margin-bottom: 30px;
     text-align: left;
-    vertical-align: top;
-    margin-right: 110px;
     flex: 1;
-    margin-left: 6%;
 
     h4 {
       font-size: 18px;
