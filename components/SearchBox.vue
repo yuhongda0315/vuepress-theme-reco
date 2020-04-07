@@ -67,6 +67,7 @@ export default {
   },
   computed: {
     showSuggestions() {
+      return true;
       return this.focused && this.suggestions && this.suggestions.length;
     },
     // make suggestions align right when there are not enough items
@@ -182,7 +183,6 @@ function search(context) {
   display: inline-block;
   position: relative;
   margin-right: 1rem;
-
   .iconfont {
     position: absolute;
     top: 0;
@@ -222,6 +222,8 @@ function search(context) {
     padding: 0.4rem;
     list-style-type: none;
     max-height: 435px;
+    box-shadow: 0 2px 40px 0 rgba(168,168,168,0.68);
+    border: 0;
 
     &.align-right {
       right: 0;
@@ -229,7 +231,7 @@ function search(context) {
   }
 
 .rong-searchbox-suggestions::-webkit-scrollbar{
-  width: 2px;
+  width: 0px;
 }
 
   .suggestion {
