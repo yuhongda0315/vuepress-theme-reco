@@ -1,4 +1,4 @@
 ---
 APIConf:
-  - {platform: 'iOS'}
+  - {platform: 'iOS', type: 4}
 ---

@@ -94,7 +94,7 @@ export default {
       let conext = this;
       clearTimeout(timer);
       timer = setTimeout(() => {
-        if(!conext.query){
+        if (!conext.query) {
           conext.suggestions = [];
           return;
         }
@@ -126,13 +126,14 @@ function search(context) {
   url = `${url}/misc/search`;
   utils
     .request(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         keyword: context.query,
-        platform: context.platform
+        platform: context.platform,
+        apiType: context.apiType
       })
     })
     .then(({ result: suggestions }) => {
@@ -189,6 +190,7 @@ function search(context) {
     list-style-type: none;
     max-height: 300px;
     overflow-y: auto;
+
     &.align-right {
       right: 0;
     }
@@ -209,8 +211,9 @@ function search(context) {
         font-weight: 400;
         padding: 0 0.5rem 0rem 0;
       }
-      .page-desc{
-        font-size 12px;  
+
+      .page-desc {
+        font-size: 12px;
       }
 
       .header {

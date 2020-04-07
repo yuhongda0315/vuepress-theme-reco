@@ -1,7 +1,7 @@
 <template>
   <div class="rong-container">
     <div class="rong-search-box">
-      <APISearch class="rong-search rong-api-search" @showAPIs="show" :platform="platform" />
+      <APISearch class="rong-search rong-api-search" @showAPIs="show" :platform="platform" :apiType="apiType" />
     </div>
     <div class="rong-api-list">
       <div class="rong-api-content" v-for="(module, index) in modules" :key="index">
@@ -19,7 +19,7 @@
         </table>
       </div>
     </div>
-    <APIContent :api="selectedAPI" :platform="platform" />
+    <APIContent :api="selectedAPI" :platform="platform" :apiType="apiType"/>
   </div>
 </template>
 
@@ -34,6 +34,7 @@ export default {
     return {
       selectedAPI: {},
       platform: "",
+      apiType: 0,
       modules: []
     };
   },
@@ -42,6 +43,7 @@ export default {
     let context = this;
     let conf = getConfig(this.$frontmatter);
     context.platform = conf.platform;
+    context.apiType = conf.type;
     getModules(this);
 
     let name = location.hash.split("#")[1];
@@ -77,6 +79,7 @@ export default {
     $frontmatter: function(option) {
       let conf = getConfig(option);
       this.platform = conf.platform;
+      this.apiType = conf.type;
       getModules(this);
     }
   }
@@ -88,7 +91,7 @@ function getConfig(option) {
 function getModules(context) {
   let { APIUrl } = context.$themeConfig;
   let url = APIUrl || "//localhost:8992";
-  url = `${url}/misc/modules/${context.platform}`;
+  url = `${url}/misc/modules/${context.platform}/${context.apiType}`;
   utils.request(url).then(({ result: modules }) => {
     context.modules = modules;
   });
@@ -96,7 +99,7 @@ function getModules(context) {
 function getOneModule(context, name, callback) {
   let { APIUrl } = context.$themeConfig;
   let url = APIUrl || "//localhost:8992";
-  url = `${url}/misc/find_module/${context.platform}/${name}`;
+  url = `${url}/misc/find_module/${context.platform}/${name}/${context.apiType}`;
   utils.request(url).then(({ result: { module } }) => {
     callback(module);
   });

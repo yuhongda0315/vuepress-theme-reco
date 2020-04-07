@@ -1,4 +1,4 @@
 ---
 APIConf:
-  - {platform: 'Android'}
+  - {platform: 'Android', type: 1}
 ---

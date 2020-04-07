@@ -73,7 +73,7 @@
 import utils from "@theme/components/utils";
 export default {
   name: "APIModal",
-  props: ["api", "platform"],
+  props: ["api", "platform", "apiType"],
   data() {
     return {
       navs: [],
@@ -107,7 +107,7 @@ function getAPIs(context) {
   let { api } = context;
   let url = APIUrl || "//localhost:8992";
   let module = api.module;
-  url = `${url}/misc/modules/${context.platform}/${module}`;
+  url = `${url}/misc/modules/${context.platform}/${module}/${context.apiType}`;
   utils.request(url).then(({ result: { apis, navs } }) => {
     context.navs = navs;
     context.apis = apis;
