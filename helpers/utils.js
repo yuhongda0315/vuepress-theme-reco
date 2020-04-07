@@ -42,6 +42,15 @@ export function ensureExt(path) {
   return normalized + '.html' + hash
 }
 
+const isPage = (name) => {
+  name = name.replace('.html', '');
+  let platforms = [
+      'android', 'ios', 'web', 'web3', 
+      'nodejs', 'serverapi', 'python', 'golang',
+      'rong', 'mi', 'hw', 'meizu', 'oppo', 'vivo','fcm'
+    ]
+  return platforms.some((platform) => { return platform == name });
+};
 export function isActive(route, path) {
   const routeHash = route.hash
   const linkHash = getHash(path)
@@ -49,14 +58,17 @@ export function isActive(route, path) {
     return false
   }
   const routePath = route.path
-  const routePathes = routePath.split('/');
-  routePathes.pop();
-
   const pagePath = path;
-  const pagePathes = pagePath.split('/');
-  pagePathes.pop();
 
-  return pagePathes.join('/') === routePathes.join('/')
+  const routePathes = routePath.split('/');
+  const name = routePathes.pop();
+  if (isPage(name)) {
+    const pagePathes = pagePath.split('/');
+    pagePathes.pop();
+    return pagePathes.join('/') === routePathes.join('/')
+  }
+
+  return routePath === pagePath;
 }
 
 export function resolvePage(pages, rawPath, base, option) {
