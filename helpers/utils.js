@@ -48,9 +48,15 @@ export function isActive(route, path) {
   if (linkHash && routeHash !== linkHash) {
     return false
   }
-  const routePath = normalize(route.path)
-  const pagePath = normalize(path)
-  return routePath === pagePath
+  const routePath = route.path
+  const routePathes = routePath.split('/');
+  routePathes.pop();
+
+  const pagePath = path;
+  const pagePathes = pagePath.split('/');
+  pagePathes.pop();
+
+  return pagePathes.join('/') === routePathes.join('/')
 }
 
 export function resolvePage(pages, rawPath, base, option) {
