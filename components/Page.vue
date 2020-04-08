@@ -414,6 +414,7 @@ export default {
   mounted: function() {
     this.initCategorys();
     scrollToAnchor();
+    initDefaultSelected(this);
   },
   watch: {
     $route: function() {
@@ -432,6 +433,36 @@ function rediectTo(context, item) {
       path: item.link
     })
     .catch(error => {});
+}
+function initDefaultSelected(context) {
+  let link = window.localStorage.getItem("rong-current-page");
+  let pages = [];
+  let {
+    $page: { frontmatter }
+  } = context;
+  let languages = frontmatter.languages || [];
+  let platforms = frontmatter.platforms || [];
+  let categorys = frontmatter.categorys || [];
+
+  pages = pages.concat(languages);
+  pages = pages.concat(platforms);
+  for (let i = 0; i < categorys.length; i++) {
+    let category = categorys[i];
+    pages = pages.concat(category.languages);
+  }
+  let page = pages.filter(page => {
+    return page.name == "multi";
+  })[0];
+  if (page) {
+    console.log(page);
+    let { children } = page;
+    let child = children.filter((_child) => {
+      return _child.link == link;
+    })[0];
+    if(child){
+      context.selectedValue = child.text;
+    }
+  }
 }
 function scrollToAnchor() {
   let hash = window.location.hash;
@@ -638,6 +669,7 @@ function flatten(items, res) {
   .rong-category-child .vs__selected {
     position: absolute;
   }
+
   .rong-category-child .vs__selected-options {
     display: block;
   }
