@@ -44,6 +44,12 @@ export default {
       }
       return links;
     };
+    let isSameCategory = (page1, page2) => {
+      let servers = ['java', 'nodejs', 'php', 'golang', 'go', 'serverapi'];
+      let isPage1 = servers.some((server) => { return page1.indexOf(server) > -1 });
+      let isPage2 = servers.some((server) => { return page2.indexOf(server) > -1 });
+      return isPage1 == isPage2;
+    };
     context.$router.beforeEach((to, from, next) => {
       let page = getPage(to.path);
       let links = getLinks(page);
@@ -56,7 +62,7 @@ export default {
         let { path } = to;
         let items = path.split('/');
         let _default = items.pop();
-        if (_default != current) {
+        if (_default != current && isSameCategory(_default, current)) {
           items.push(current);
           return next({
             path: items.join('/')

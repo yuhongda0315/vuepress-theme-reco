@@ -87,6 +87,6 @@ a.rong-root-heading:hover{
   color: #09f;
 }
 a.rong-root-heading {
-  color: #666;
+  color: #333;
 }
 </style>
