@@ -86,12 +86,16 @@ export default {
       font-weight normal
       padding-left 2rem
       &:not(.clickable)
-        opacity 0.5
+        opacity 1
     & > .sidebar-group-items
       padding-left 1rem
       & > li > .sidebar-link
-        font-size: 0.95em;
-        border-left none
+        font-size: 13px;
+        border-left: none;
+        margin-left: 26px;
+        &:before
+          content: '-'
+          margin-right 4px
   &.depth-2
     & > .sidebar-heading
       border-left none
