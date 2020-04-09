@@ -92,7 +92,7 @@ export default {
       & > li > .sidebar-link
         font-size: 13px;
         border-left: none;
-        margin-left: 26px;
+        margin-left: 14px;
         &:before
           content: '-'
           margin-right 4px
