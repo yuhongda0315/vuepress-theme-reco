@@ -70,14 +70,15 @@ function selected(context) {
   max-width: 200px;
   height: 30px;
   margin: 12px auto 0px;
-  max-width: 90%;
-  border-radius: $borderRadius;
+  border-radius: 0.25rem;
   font-size: 13px;
   text-align: center;
   cursor: pointer;
   position: absolute;
   z-index: 99;
   left: 8px;
+  width: 178px;
+  box-sizing: border-box;
 
   .category-current {
     background-color: #f7f8fa;
@@ -88,7 +89,7 @@ function selected(context) {
     font-weight: bold;
     border-bottom: 1px solid #d8d8d8;
     padding: 14px 14px 14px 0px;
-    margin-top: -5px;
+    margin-top: -12px;
     cursor: default;
     box-sizing: border-box;
   }
