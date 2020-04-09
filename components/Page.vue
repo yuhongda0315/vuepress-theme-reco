@@ -211,6 +211,7 @@ import { resolvePage, outboundRE, endingSlashRE } from "@theme/helpers/utils";
 import ModuleTransition from "@theme/components/ModuleTransition";
 import moduleTransitonMixin from "@theme/mixins/moduleTransiton";
 import utils from "@theme/components/utils";
+import common from "@theme/components/sequenced";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 
@@ -415,6 +416,7 @@ export default {
     this.initCategorys();
     scrollToAnchor();
     initDefaultSelected(this);
+    initSequence();
   },
   watch: {
     $route: function() {
@@ -433,6 +435,9 @@ function rediectTo(context, item) {
       path: item.link
     })
     .catch(error => {});
+}
+function initSequence(){
+  common.Sequenced.renderAll()
 }
 function initDefaultSelected(context) {
   let link = window.localStorage.getItem("rong-current-page");
@@ -456,10 +461,10 @@ function initDefaultSelected(context) {
   if (page) {
     console.log(page);
     let { children } = page;
-    let child = children.filter((_child) => {
+    let child = children.filter(_child => {
       return _child.link == link;
     })[0];
-    if(child){
+    if (child) {
       context.selectedValue = child.text;
     }
   }

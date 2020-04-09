@@ -2,7 +2,6 @@
   <div v-if="isSidebarOpen" class="rong-sidebar-box rong-mobile-sidebar-box">
     <aside class="sidebar rong-sidebar">
           <!-- <PersonalInfo/> -->
-          <NavRouter/>
           <NavLinks/>
           <slot name="top"/>
           <SidebarLinks :depth="0" :items="items"/>
@@ -37,11 +36,11 @@
             </div>
           </div>
         </div>
+        <NavRouter/>
       </div>
     </div>
     <aside class="sidebar rong-sidebar">
       <!-- <PersonalInfo/> -->
-      <NavRouter/>
       <NavLinks/>
       <slot name="top"/>
       <SidebarLinks :depth="0" :items="items"/>
@@ -101,7 +100,7 @@ export default {
       font-size 0.9em
       padding 0.5rem 0 0.5rem 1.5rem
   & > .sidebar-links
-    padding 1.5rem 0
+    padding 3rem 0 1.5rem 0
     & > li > a.sidebar-link
       font-size 0.9rem
       line-height 1.7

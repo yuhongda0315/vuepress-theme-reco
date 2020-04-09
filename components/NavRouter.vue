@@ -1,6 +1,6 @@
 <template>
   <div class="categories-wrapper" v-if="isShow">
-    <div class="iconfont category-current reco-down rong-category-current" @click="change">{{selectedText}}{{appendIM()}}</div>
+    <div class="category-current rong-category-current" @click="change">{{selectedText}}{{appendIM()}}</div>
   </div>
 </template>
 
@@ -75,23 +75,22 @@ function selected(context) {
   font-size: 13px;
   text-align: center;
   cursor: pointer;
-  position: relative;
+  position: absolute;
   z-index: 99;
+  left: 8px;
 
   .category-current {
-    height: 30px;
-    line-height: 30px;
-    background-color: #2B3E50;
-    border-radius: 2px;
-    color: #FFF;
-    position: relative;
-
-    &:before {
-      position: absolute;
-      right: 8px;
-      font-size: 20px;
-      top: 1px;
-    }
+    background-color: #f7f8fa;
+    color: #333;
+    font-size: 14px;
+    margin-left: 15px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid #d8d8d8;
+    padding: 14px 14px 14px 0px;
+    margin-top: -5px;
+    cursor: default;
+    box-sizing: border-box;
   }
 
   .category-wrapper {
