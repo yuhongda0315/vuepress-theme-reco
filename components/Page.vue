@@ -438,7 +438,9 @@ function rediectTo(context, item) {
     .catch(error => {});
 }
 function initSequence(){
-  common.Sequenced.renderAll()
+  setTimeout(() => {
+    common.Sequenced.renderAll()
+  }, 1000)
 }
 function initDefaultSelected(context) {
   let link = window.localStorage.getItem("rong-current-page");
