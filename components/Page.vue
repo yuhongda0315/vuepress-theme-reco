@@ -421,6 +421,7 @@ export default {
   watch: {
     $route: function() {
       getNavs(this);
+      initSequence();
       this.initCategorys();
       this.isSelectedLike = false;
       this.selectedValue = this.selectedValue.text || this.selectedValue;
