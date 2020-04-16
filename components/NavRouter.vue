@@ -30,7 +30,7 @@ export default {
     },
     appendIM: function(){
       var isIM = window.location.href.indexOf('/im/') > -1;
-      return isIM ? '( 即时通信 )' : ''
+      return isIM ? '( 即时通讯 )' : ''
     },
     hide: function() {
       hide(this);
