@@ -419,9 +419,9 @@ export default {
     initSequence();
   },
   watch: {
-    $route: function() {
+    $route: function(newRoute, oldRoute) {
       getNavs(this);
-      initSequence();
+      initSequence(newRoute, oldRoute);
       this.initCategorys();
       this.isSelectedLike = false;
       this.selectedValue = this.selectedValue.text || this.selectedValue;
@@ -437,9 +437,13 @@ function rediectTo(context, item) {
     })
     .catch(error => {});
 }
-function initSequence(){
+function initSequence(newRoute, oldRoute){
+  newRoute = newRoute || {path: 'new'};
+  oldRoute = oldRoute || {path: 'old'};
   setTimeout(() => {
-    common.Sequenced.renderAll()
+    if(newRoute.path != oldRoute.path){
+      common.Sequenced.renderAll()
+    }
   }, 1000)
 }
 function initDefaultSelected(context) {
