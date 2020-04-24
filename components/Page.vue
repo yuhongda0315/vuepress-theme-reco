@@ -633,7 +633,6 @@ function flatten(items, res) {
     width: 70%;
     z-index: 99;
   }
-
   .header-navs {
   }
 
@@ -644,7 +643,6 @@ function flatten(items, res) {
 
     a {
       font-weight: 400;
-
       &:hover {
         color: #0099FF;
       }
@@ -662,7 +660,6 @@ function flatten(items, res) {
       a {
         color: #333;
       }
-
       &:after {
         content: '';
       }
