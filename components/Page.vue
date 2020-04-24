@@ -2,114 +2,73 @@
   <main class="page rong-page" :class="{'page-api': isAPI()}">
     <APIPage v-if="isAPI()" />
     <div v-else>
-      <ModuleTransition>
-        <ul class="header-navs">
-          <li
-            class="header-nav"
-            v-for="(item,index) in navs"
-            :key="item.url"
-            :class="{'is-active': navs.length -1 == index}"
-          >
-            <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
-          </li>
-        </ul>
-      </ModuleTransition>
-
-      <ModuleTransition delay="0.08">
-        <div v-show="recoShowModule" class="page-title">
-          <h3>{{$page.title}}</h3>
-          <hr />
-          <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
-        </div>
-      </ModuleTransition>
-
-      <div v-if="this.$page.frontmatter.platforms && !categorys.length" class="rong-platforms-box">
-        <ul class="category-wrapper rong-category-wrapper rong-category-padding">
-          <li
-            class="category-item"
-            v-for="(item, index) in this.$page.frontmatter.platforms"
-            :key="index"
-            :class="isSelected(item) ? 'active': ''"
-          >
-            <v-select
-              v-if="item.name == 'multi'"
-              v-model="selectedValue"
-              class="rong-category-child"
-              :clearable="false"
-              :options="item.children"
-              @input="setSelected"
-              label="text"
-              :searchable="false"
+      <div class="rong-header">
+        <ModuleTransition>
+          <ul class="header-navs">
+            <li
+              class="header-nav"
+              v-for="(item,index) in navs"
+              :key="item.url"
+              :class="{'is-active': navs.length -1 == index}"
             >
-              <template v-slot:option="option">
-                <span
-                  class="iconfont"
-                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
-                ></span>
-                {{ option.text }}
-              </template>
-            </v-select>
-            <a @click="rediectTo(item)" v-else>
-              <span class="category-name">{{ item.text }}</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+              <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
+            </li>
+          </ul>
+        </ModuleTransition>
 
-      <div v-if="this.$page.frontmatter.languages && !categorys.length" class="rong-platforms-box">
-        <ul class="category-wrapper rong-category-wrapper rong-category-padding">
-          <li
-            class="category-item"
-            :class="isSelected(item) ? 'active': ''"
-            v-for="(item, index) in this.$page.frontmatter.languages"
-            :key="index"
-          >
-            <v-select
-              v-if="item.name == 'multi'"
-              v-model="selectedValue"
-              class="rong-category-child"
-              :clearable="false"
-              :options="item.children"
-              @input="setSelected"
-              label="text"
-              :searchable="false"
+        <ModuleTransition delay="0.08">
+          <div v-show="recoShowModule" class="page-title">
+            <!-- <h3>{{$page.title}}</h3> -->
+            <!-- <hr /> -->
+            <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
+          </div>
+        </ModuleTransition>
+
+        <div
+          v-if="this.$page.frontmatter.platforms && !categorys.length"
+          class="rong-platforms-box"
+        >
+          <ul class="category-wrapper rong-category-wrapper rong-category-padding">
+            <li
+              class="category-item"
+              v-for="(item, index) in this.$page.frontmatter.platforms"
+              :key="index"
+              :class="isSelected(item) ? 'active': ''"
             >
-              <template v-slot:option="option">
-                <span
-                  class="iconfont"
-                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
-                ></span>
-                {{ option.text }}
-              </template>
-            </v-select>
-            <a @click="rediectTo(item)" v-else>
-              <span class="category-name">{{ item.text }}</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="rong-category-box rong-category-padding" v-if="categorys.length">
-        <div class="rong-category-titles">
-          <a
-            v-for="(category, index) in categorys"
-            :key="index"
-            class="rong-category-title"
-            @click.prevent="selectCategory(category)"
-            :selected="isCategorySelected(category)"
-          >{{category.name}}</a>
+              <v-select
+                v-if="item.name == 'multi'"
+                v-model="selectedValue"
+                class="rong-category-child"
+                :clearable="false"
+                :options="item.children"
+                @input="setSelected"
+                label="text"
+                :searchable="false"
+              >
+                <template v-slot:option="option">
+                  <span
+                    class="iconfont"
+                    :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                  ></span>
+                  {{ option.text }}
+                </template>
+              </v-select>
+              <a @click="rediectTo(item)" v-else>
+                <span class="category-name">{{ item.text }}</span>
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class="rong-category-titles">
-          <ul
-            class="category-wrapper rong-category-wrapper"
-            v-for="(category, index) in categorys"
-            :key="index"
-            v-if="isCategorySelected(category)"
-          >
+
+        <div
+          v-if="this.$page.frontmatter.languages && !categorys.length"
+          class="rong-platforms-box"
+        >
+          <ul class="category-wrapper rong-category-wrapper rong-category-padding">
             <li
               class="category-item"
               :class="isSelected(item) ? 'active': ''"
-              v-for="(item, index) in category.languages"
+              v-for="(item, index) in this.$page.frontmatter.languages"
               :key="index"
             >
               <v-select
@@ -136,8 +95,56 @@
             </li>
           </ul>
         </div>
-      </div>
 
+        <div class="rong-category-box rong-category-padding" v-if="categorys.length">
+          <div class="rong-category-titles">
+            <a
+              v-for="(category, index) in categorys"
+              :key="index"
+              class="rong-category-title"
+              @click.prevent="selectCategory(category)"
+              :selected="isCategorySelected(category)"
+            >{{category.name}}</a>
+          </div>
+          <div class="rong-category-titles">
+            <ul
+              class="category-wrapper rong-category-wrapper"
+              v-for="(category, index) in categorys"
+              :key="index"
+              v-if="isCategorySelected(category)"
+            >
+              <li
+                class="category-item"
+                :class="isSelected(item) ? 'active': ''"
+                v-for="(item, index) in category.languages"
+                :key="index"
+              >
+                <v-select
+                  v-if="item.name == 'multi'"
+                  v-model="selectedValue"
+                  class="rong-category-child"
+                  :clearable="false"
+                  :options="item.children"
+                  @input="setSelected"
+                  label="text"
+                  :searchable="false"
+                >
+                  <template v-slot:option="option">
+                    <span
+                      class="iconfont"
+                      :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                    ></span>
+                    {{ option.text }}
+                  </template>
+                </v-select>
+                <a @click="rediectTo(item)" v-else>
+                  <span class="category-name">{{ item.text }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <Content class="rong-page-box" />
 
       <div
@@ -437,14 +444,14 @@ function rediectTo(context, item) {
     })
     .catch(error => {});
 }
-function initSequence(newRoute, oldRoute){
-  newRoute = newRoute || {path: 'new'};
-  oldRoute = oldRoute || {path: 'old'};
+function initSequence(newRoute, oldRoute) {
+  newRoute = newRoute || { path: "new" };
+  oldRoute = oldRoute || { path: "old" };
   setTimeout(() => {
-    if(newRoute.path != oldRoute.path){
-      common.Sequenced.renderAll()
+    if (newRoute.path != oldRoute.path) {
+      common.Sequenced.renderAll();
     }
-  }, 1000)
+  }, 1000);
 }
 function initDefaultSelected(context) {
   let link = window.localStorage.getItem("rong-current-page");
@@ -602,11 +609,18 @@ function flatten(items, res) {
 @require '../styles/wrapper.styl';
 
 .page {
-  padding-top: 5rem;
+  padding-top: 200px;
   padding-bottom: 2rem;
   display: block;
   margin-right: 190px;
 
+  .rong-header {
+    background-color: #FFF;
+    position: fixed;
+    top: 50px;
+    width: 70%;
+    z-index: 99;
+  }
   .header-navs {
   }
 
@@ -616,6 +630,7 @@ function flatten(items, res) {
     cursor: pointer;
 
     a {
+      font-weight: 400;
       &:hover {
         color: #0099FF;
       }
@@ -625,10 +640,14 @@ function flatten(items, res) {
       &:after, &:before {
         content: '>';
         margin: 0 4px;
+        color: #888;
       }
     }
 
     &:last-child {
+      a {
+        color: #333;
+      }
       &:after {
         content: '';
       }
@@ -643,8 +662,8 @@ function flatten(items, res) {
     border: 1px solid #2b3e50;
     min-width: 70px;
     text-align: center;
-    height: 26px;
-    line-height: 26px;
+    height: 28px;
+    line-height: 28px;
     margin: 0 5px;
     cursor: pointer;
     padding: 0 2px;
@@ -830,7 +849,10 @@ function flatten(items, res) {
 }
 
 .rong-category-titles {
-  margin-bottom: 28px;
+  margin-bottom: 0.8rem;
+  &:last-child{
+      margin-bottom: 0;
+    }
 }
 
 .rong-page {
@@ -925,8 +947,8 @@ function flatten(items, res) {
     .category-item.active:before {
       content: '';
       position: absolute;
-      bottom: -7px;
-      height: 2px;
+      bottom: -4px;
+      height: 3px;
       background-color: #0099FF;
       width: 100%;
       z-index: 21;
