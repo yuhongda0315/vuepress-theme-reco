@@ -15,6 +15,7 @@ module.exports = {
     ['script', {src: '//cdn.ronghub.com/rongcloud-feedback.1.0.0.js'}],
     ['script', {src: '//cdn.ronghub.com/docs-feedback-inject.1.0.0.js'}],
     ['link', {rel: "stylesheet", href: '//cdn.ronghub.com/rongcloud-feedback.css'}],
+    ['link', {rel: "stylesheet", href: '/css/scroll.css'}],
     ['script', { src: '/js/scroll.js' }],
   ],
   theme: require.resolve('../../'),

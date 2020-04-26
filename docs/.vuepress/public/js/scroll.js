@@ -1,27 +1,53 @@
 setTimeout(() => {
   func();
-  scroll(function (direction) { console.log(direction) });
-}, 1000)
-
+}, 2000)
+var filter = function (arrs, callback) {
+  var _arrs = [];
+  for (var i = 0; i < arrs.length; i++) {
+    var item = arrs[i];
+    if (callback(item)) {
+      _arrs.push(item);
+    }
+  }
+  return _arrs;
+};
 function func() {
-  var elements = document.querySelectorAll('.table-of-contents > ul > li > ul > li');
+  var elements = document.querySelectorAll('h5');
   var beforeScrollTop = window.pageYOffset;
-  var style = "border-left:1px solid #09f;background:#e8e8e8";
+  var lastUpNode = null, lastDownNode = null;
+  var CLASS_NAME = 'rong-scroll-active';
+  var addClass = function (id) {
+    var reg = /[\u4E00-\u9FFF]+/;
+    var isChina = reg.test(id);
+    if (isChina) {
+      id = ' ' + id;
+    }
+    var nextNavs = document.querySelectorAll('a[href="#' + id + '"]')
+    var nextNav = filter(nextNavs, (nav) => {
+      return nav.className.indexOf('header-anchor') == -1;
+    })[0];
+    if (nextNav) {
+      nextNav.parentNode.classList.add(CLASS_NAME)
+      lastUpNode = nextNav;
+    }
+  };
+  var removeClass = function(){
+    if (lastUpNode) {
+      lastUpNode.parentNode.classList.remove(CLASS_NAME);
+    }
+  };
   var direction = {
     up: function (scrollTop) {
-      var fisrt = elements[0];
-      var isTop = scrollTop < fisrt.offsetTop;
+      var first = elements[0];
+      var isTop = scrollTop < first.offsetTop;
       if (isTop) {
-        return fisrt.style = style;
+        return addClass(first.id);
       }
       for (var i = elements.length - 1; i >= 0; i--) {
         var el = elements[i];
-        if (el.offsetTop >= window.pageYOffset) {
-          el.style = '';
-          var next = elements[i - 1];
-          if (next) {
-            next.style = style;
-          }
+        removeClass();
+        if (el.offsetTop <= window.pageYOffset) {
+          return addClass(el.id)
         }
       }
     },
@@ -29,29 +55,26 @@ function func() {
       var last = elements[elements.length - 1];
       var isBottom = scrollTop > last.offsetTop;
       if (isBottom) {
-        return last.style = style;
+        return addClass(last.id);
       }
       for (var i = 0; i < elements.length; i++) {
         var el = elements[i];
-        if (el.offsetTop <= window.pageYOffset) {
-          el.style = '';
-          var next = elements[i + 1];
-          if (next) {
-            next.style = style;
-          }
+        removeClass();
+        let id = el.id
+        if (el.offsetTop >= window.pageYOffset) {
+          return addClass(el.id);
         }
       }
     }
   };
-  // window.addEventListener('scroll', function (event) {
-  //   var afterScrollTop = window.pageYOffset;
-  //   console.log(afterScrollTop, beforeScrollTop, elements[0].offsetTop, elements[elements.length - 1].offsetTop)
-  //   delta = afterScrollTop - beforeScrollTop;
-  //   if (delta === 0) {
-  //     return false;
-  //   }
-  //   var type = delta > 0 ? "down" : "up";
-  //   direction[type](afterScrollTop);
-  //   beforeScrollTop = afterScrollTop;
-  // });
+  window.addEventListener('scroll', function (event) {
+    var afterScrollTop = window.pageYOffset;
+    delta = afterScrollTop - beforeScrollTop;
+    if (delta === 0) {
+      return false;
+    }
+    var type = delta > 0 ? "down" : "up";
+    direction[type](afterScrollTop);
+    beforeScrollTop = afterScrollTop;
+  });
 }
