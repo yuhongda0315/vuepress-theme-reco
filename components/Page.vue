@@ -630,8 +630,11 @@ function flatten(items, res) {
     background-color: #FFF;
     position: fixed;
     top: 50px;
-    width: 70%;
+    width: 77%;
     z-index: 99;
+    @media (max-width: 1440px) {
+      width: 71%;
+    }
   }
   .header-navs {
   }
