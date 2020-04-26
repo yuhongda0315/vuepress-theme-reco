@@ -811,6 +811,7 @@ function flatten(items, res) {
   -ms-overflow-style: none;
   overflow-y: auto;
   max-width: 240px;
+  user-select: none;
 
   @media (max-width: 768px) {
     display: none;
@@ -841,16 +842,22 @@ function flatten(items, res) {
       border-left: 3px solid #CCC;
       padding-left: 4px;
 
+      & > ul {
+        & > li {
+          & > a {
+            color: #333;
+            font-size: 0.95em;
+          }
+        }  
+      }
       & > a {
         text-decoration: none !important;
         font-weight: 500;
         font-size: 0.9rem;
-        color: var(--text-color);
 
         &:before {
           content: ' ';
           position: absolute;
-          background-color: #FF6700;
           top: 10px;
           left: -16px;
         }

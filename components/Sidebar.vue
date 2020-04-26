@@ -80,6 +80,7 @@ export default {
 
 <style lang="stylus">
 .sidebar
+  user-select: none;
   .personal-info-wrapper
     display none
   ul

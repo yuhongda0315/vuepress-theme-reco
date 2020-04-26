@@ -13,7 +13,7 @@ var filter = function (arrs, callback) {
 };
 function func() {
   var elements = document.querySelectorAll('h5');
-  var beforeScrollTop = window.pageYOffset;
+  var beforeScrollTop = 0;
   var lastUpNode = null, lastDownNode = null;
   var CLASS_NAME = 'rong-scroll-active';
   var addClass = function (id) {
@@ -31,22 +31,45 @@ function func() {
       lastUpNode = nextNav;
     }
   };
-  var removeClass = function(){
+  var removeClass = function () {
     if (lastUpNode) {
       lastUpNode.parentNode.classList.remove(CLASS_NAME);
     }
+  };
+  var getDownIndex = function (i, len) {
+    var _i = 0;
+    if (i != 0) {
+      _i = i - 1;
+    }
+    if (i == len - 1) {
+      _i = i;
+    }
+    return _i;
+  };
+  var getUpIndex = function(i, len){
+    var _i = 0;
+    var maxIndex = len - 1;
+    if (i != maxIndex) {
+      _i = i + 1;
+    }
+    if (i == maxIndex) {
+      _i = maxIndex;
+    }
+    return _i;
   };
   var direction = {
     up: function (scrollTop) {
       var first = elements[0];
       var isTop = scrollTop < first.offsetTop;
+      removeClass();
       if (isTop) {
         return addClass(first.id);
       }
       for (var i = elements.length - 1; i >= 0; i--) {
         var el = elements[i];
-        removeClass();
         if (el.offsetTop <= window.pageYOffset) {
+          var index = getUpIndex(i, elements.length);
+          el = elements[index];
           return addClass(el.id)
         }
       }
@@ -54,27 +77,27 @@ function func() {
     down: function (scrollTop) {
       var last = elements[elements.length - 1];
       var isBottom = scrollTop > last.offsetTop;
+      removeClass();
       if (isBottom) {
         return addClass(last.id);
       }
       for (var i = 0; i < elements.length; i++) {
         var el = elements[i];
-        removeClass();
-        let id = el.id
         if (el.offsetTop >= window.pageYOffset) {
+          var index = getDownIndex(i, elements.length);
+          el = elements[index];
           return addClass(el.id);
         }
       }
     }
   };
-  window.addEventListener('scroll', function (event) {
+  var onScroll = function () {
     var afterScrollTop = window.pageYOffset;
     delta = afterScrollTop - beforeScrollTop;
-    if (delta === 0) {
-      return false;
-    }
     var type = delta > 0 ? "down" : "up";
     direction[type](afterScrollTop);
     beforeScrollTop = afterScrollTop;
-  });
+  };
+  window.addEventListener('scroll', onScroll);
+  onScroll();
 }
