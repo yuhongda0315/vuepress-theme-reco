@@ -18,6 +18,7 @@
       <ModuleTransition delay="0.08">
         <div class="page-title">
           <p class="page-title-content">{{getTitle()}}</p>
+          <p class="page-title-time">{{this.$page.frontmatter.time}}</p>
           <!-- <hr /> -->
           <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
         </div>
@@ -871,7 +872,10 @@ function flatten(items, res) {
 
     .page-title-content {
       font-size: 30px;
-      margin: 20px 0 8px 0;
+      margin: 20px 0 0 0;
+    }
+    .page-title-time{
+      margin: 2px 0 16px 0;
     }
   }
 
