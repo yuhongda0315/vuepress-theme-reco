@@ -474,7 +474,8 @@ function initTOCScroll() {
     var nextNav = filter(nextNavs, nav => {
       return nav.className.indexOf("header-anchor") == -1;
     })[0];
-    if (nextNav) {
+    if (nextNav && nextNav !== lastUpNode) {
+      removeClass();
       nextNav.parentNode.classList.add(CLASS_NAME);
       lastUpNode = nextNav;
     }
@@ -509,7 +510,6 @@ function initTOCScroll() {
     up: function(scrollTop) {
       var first = elements[0];
       var isTop = scrollTop < first.offsetTop;
-      removeClass();
       if (isTop) {
         return addClass(first.id);
       }
@@ -525,7 +525,6 @@ function initTOCScroll() {
     down: function(scrollTop) {
       var last = elements[elements.length - 1];
       var isBottom = scrollTop > last.offsetTop;
-      removeClass();
       if (isBottom) {
         return addClass(last.id);
       }
@@ -730,6 +729,28 @@ function flatten(items, res) {
 .rong-scroll-active {
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0.3;
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  80% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .rong-scroll-active > a:after {
   content: '';
   position: absolute;
@@ -741,6 +762,8 @@ function flatten(items, res) {
   border-radius: 50%;
   left: 0;
   margin-top: 6px;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
 }
 
 .rong-scroll-active > a {
