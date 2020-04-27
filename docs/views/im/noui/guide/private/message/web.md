@@ -15,13 +15,13 @@ categorys:
 
 [[toc]]
 
-# RTC-Media-Gateway
+#### RTC-Media-Gateway
 
 各种协商网关
 
 * 微信小程序
 
-## 业务流程
+##### 业务流程
 
 <canvas  width="800" sequenced>
   Wechat-Client -> Media-Gateway: /wechat/exchange
@@ -36,9 +36,9 @@ categorys:
   Media-Gateway -> Wechat-Client: exchange repsonse
 </canvas>
 
-## API
+##### API
 
-### 通用
+###### 通用
 
 #### 服务状态接口
 
@@ -64,9 +64,9 @@ categorys:
 }
 ```
 
-### 微信小程序
+#### 微信小程序
 
-#### 客户端资源协商
+##### 客户端资源协商
 
 订阅、发布、变更资源，均可以使用此接口。
 
@@ -157,7 +157,7 @@ categorys:
 }
 ```
 
-#### 客户端退出
+##### 客户端退出
 
 * Method: `HTTP POST`
 

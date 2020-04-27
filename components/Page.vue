@@ -1,39 +1,116 @@
 <template>
-  <main class="page rong-page" :class="{'page-api': isAPI(), 'rong-page-intro': isShowIntroHeight}">
+  <main class="page rong-page" :class="{'page-api': isAPI() }">
     <APIPage v-if="isAPI()" />
     <div v-else>
-      <div class="rong-header">
-        <ModuleTransition>
-          <ul class="header-navs">
-            <li
-              class="header-nav"
-              v-for="(item,index) in navs"
-              :key="item.url"
-              :class="{'is-active': navs.length -1 == index}"
+      <ModuleTransition>
+        <ul class="header-navs">
+          <li
+            class="header-nav"
+            v-for="(item,index) in navs"
+            :key="item.url"
+            :class="{'is-active': navs.length -1 == index}"
+          >
+            <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
+          </li>
+        </ul>
+      </ModuleTransition>
+
+      <ModuleTransition delay="0.08">
+        <div class="page-title">
+          <p class="page-title-content">{{getTitle()}}</p>
+          <!-- <hr /> -->
+          <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
+        </div>
+      </ModuleTransition>
+
+      <div v-if="this.$page.frontmatter.platforms && !categorys.length" class="rong-platforms-box">
+        <ul class="category-wrapper rong-category-wrapper rong-category-padding">
+          <li
+            class="category-item"
+            v-for="(item, index) in this.$page.frontmatter.platforms"
+            :key="index"
+            :class="isSelected(item) ? 'active': ''"
+          >
+            <v-select
+              v-if="item.name == 'multi'"
+              v-model="selectedValue"
+              class="rong-category-child"
+              :clearable="false"
+              :options="item.children"
+              @input="setSelected"
+              label="text"
+              :searchable="false"
             >
-              <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
-            </li>
-          </ul>
-        </ModuleTransition>
+              <template v-slot:option="option">
+                <span
+                  class="iconfont"
+                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                ></span>
+                {{ option.text }}
+              </template>
+            </v-select>
+            <a @click="rediectTo(item)" v-else>
+              <span class="category-name">{{ item.text }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-        <ModuleTransition delay="0.08">
-          <div v-show="recoShowModule" class="page-title">
-            <!-- <h3>{{$page.title}}</h3> -->
-            <!-- <hr /> -->
-            <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
-          </div>
-        </ModuleTransition>
+      <div v-if="this.$page.frontmatter.languages && !categorys.length" class="rong-platforms-box">
+        <ul class="category-wrapper rong-category-wrapper rong-category-padding">
+          <li
+            class="category-item"
+            :class="isSelected(item) ? 'active': ''"
+            v-for="(item, index) in this.$page.frontmatter.languages"
+            :key="index"
+          >
+            <v-select
+              v-if="item.name == 'multi'"
+              v-model="selectedValue"
+              class="rong-category-child"
+              :clearable="false"
+              :options="item.children"
+              @input="setSelected"
+              label="text"
+              :searchable="false"
+            >
+              <template v-slot:option="option">
+                <span
+                  class="iconfont"
+                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                ></span>
+                {{ option.text }}
+              </template>
+            </v-select>
+            <a @click="rediectTo(item)" v-else>
+              <span class="category-name">{{ item.text }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-        <div
-          v-if="this.$page.frontmatter.platforms && !categorys.length"
-          class="rong-platforms-box"
-        >
-          <ul class="category-wrapper rong-category-wrapper rong-category-padding">
+      <div class="rong-category-box rong-category-padding" v-if="categorys.length">
+        <div class="rong-category-titles">
+          <a
+            v-for="(category, index) in categorys"
+            :key="index"
+            class="rong-category-title"
+            @click.prevent="selectCategory(category)"
+            :selected="isCategorySelected(category)"
+          >{{category.name}}</a>
+        </div>
+        <div class="rong-category-titles">
+          <ul
+            class="category-wrapper rong-category-wrapper"
+            v-for="(category, index) in categorys"
+            :key="index"
+            v-if="isCategorySelected(category)"
+          >
             <li
               class="category-item"
-              v-for="(item, index) in this.$page.frontmatter.platforms"
-              :key="index"
               :class="isSelected(item) ? 'active': ''"
+              v-for="(item, index) in category.languages"
+              :key="index"
             >
               <v-select
                 v-if="item.name == 'multi'"
@@ -58,91 +135,6 @@
               </a>
             </li>
           </ul>
-        </div>
-
-        <div
-          v-if="this.$page.frontmatter.languages && !categorys.length"
-          class="rong-platforms-box"
-        >
-          <ul class="category-wrapper rong-category-wrapper rong-category-padding">
-            <li
-              class="category-item"
-              :class="isSelected(item) ? 'active': ''"
-              v-for="(item, index) in this.$page.frontmatter.languages"
-              :key="index"
-            >
-              <v-select
-                v-if="item.name == 'multi'"
-                v-model="selectedValue"
-                class="rong-category-child"
-                :clearable="false"
-                :options="item.children"
-                @input="setSelected"
-                label="text"
-                :searchable="false"
-              >
-                <template v-slot:option="option">
-                  <span
-                    class="iconfont"
-                    :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
-                  ></span>
-                  {{ option.text }}
-                </template>
-              </v-select>
-              <a @click="rediectTo(item)" v-else>
-                <span class="category-name">{{ item.text }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="rong-category-box rong-category-padding" v-if="categorys.length">
-          <div class="rong-category-titles">
-            <a
-              v-for="(category, index) in categorys"
-              :key="index"
-              class="rong-category-title"
-              @click.prevent="selectCategory(category)"
-              :selected="isCategorySelected(category)"
-            >{{category.name}}</a>
-          </div>
-          <div class="rong-category-titles">
-            <ul
-              class="category-wrapper rong-category-wrapper"
-              v-for="(category, index) in categorys"
-              :key="index"
-              v-if="isCategorySelected(category)"
-            >
-              <li
-                class="category-item"
-                :class="isSelected(item) ? 'active': ''"
-                v-for="(item, index) in category.languages"
-                :key="index"
-              >
-                <v-select
-                  v-if="item.name == 'multi'"
-                  v-model="selectedValue"
-                  class="rong-category-child"
-                  :clearable="false"
-                  :options="item.children"
-                  @input="setSelected"
-                  label="text"
-                  :searchable="false"
-                >
-                  <template v-slot:option="option">
-                    <span
-                      class="iconfont"
-                      :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
-                    ></span>
-                    {{ option.text }}
-                  </template>
-                </v-select>
-                <a @click="rediectTo(item)" v-else>
-                  <span class="category-name">{{ item.text }}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
       <Content class="rong-page-box" />
@@ -236,8 +228,7 @@ export default {
       categorys: [],
       selectedCategory: {},
       isSelectedLike: false,
-      isLike: false,
-      isShowIntroHeight: true
+      isLike: false
     };
   },
 
@@ -370,6 +361,11 @@ export default {
     isAPI: function() {
       return this.$frontmatter.APIConf;
     },
+    getTitle: function() {
+      let { navs } = this;
+      let nav = navs[navs.length - 1] || { title: "" };
+      return nav.title;
+    },
     createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
       const bitbucket = /bitbucket.org/;
       if (bitbucket.test(repo)) {
@@ -425,7 +421,6 @@ export default {
     scrollToAnchor();
     initDefaultSelected(this);
     initSequence();
-    initHeaderHeight(this);
     initTOCScroll();
   },
   watch: {
@@ -436,8 +431,6 @@ export default {
       this.isSelectedLike = false;
       this.selectedValue = this.selectedValue.text || this.selectedValue;
       this.$nextTick(() => {
-        //页面加载完成后执行
-        initHeaderHeight(this);
         initTOCScroll();
       });
     }
@@ -454,7 +447,19 @@ function initTOCScroll() {
     }
     return _arrs;
   };
-  var elements = document.querySelectorAll("h5");
+  var getElements = () => {
+    var root = document.querySelector(".rong-page-box.content__default");
+    var children = root.children;
+    var elements = [];
+    for (var i = 0; i < children.length; i++) {
+      var element = children[i];
+      if (element.tagName.indexOf("H") > -1) {
+        elements.push(element);
+      }
+    }
+    return elements;
+  };
+  var elements = getElements();
   var beforeScrollTop = 0;
   var lastUpNode = null,
     lastDownNode = null;
@@ -549,13 +554,6 @@ function initTOCScroll() {
     window.addEventListener("scroll", onScroll);
     onScroll();
   }
-}
-function initHeaderHeight(context) {
-  let { categorys } = context;
-  let { platforms = [], languages = [] } = context.$frontmatter;
-  let isShowIntroHeight =
-    categorys.length == 0 && languages.length == 0 && platforms.length == 0;
-  context.isShowIntroHeight = isShowIntroHeight;
 }
 function rediectTo(context, item) {
   window.localStorage.setItem("rong-current-page", item.link);
@@ -732,16 +730,21 @@ function flatten(items, res) {
 .rong-scroll-active {
 }
 
-.rong-scroll-active:after {
-  background-color: #09f !important;
-  width: 10px !important;
-  height: 10px !important;
-  left: -4.5px !important;
-  top: 11.5px !important;
+.rong-scroll-active > a:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  z-index: 99;
+  background-color: #09F;
+  border-radius: 50%;
+  left: 0;
+  margin-top: 6px;
 }
 
 .rong-scroll-active > a {
-  color: #09f !important;
+  color: #09F !important;
 }
 
 .page {
@@ -749,18 +752,6 @@ function flatten(items, res) {
   padding-bottom: 2rem;
   display: block;
   margin-right: 190px;
-
-  .rong-header {
-    background-color: #FFF;
-    position: fixed;
-    top: 50px;
-    width: 77%;
-    z-index: 99;
-
-    @media (max-width: 1440px) {
-      width: 71%;
-    }
-  }
 
   .header-navs {
   }
@@ -854,6 +845,11 @@ function flatten(items, res) {
     line-height: 50%;
     padding: 0 2.5rem 0rem 2.5rem;
     color: var(--text-color);
+
+    .page-title-content {
+      font-size: 30px;
+      margin: 20px 0 8px 0;
+    }
   }
 
   .page-edit {
@@ -1028,7 +1024,8 @@ function flatten(items, res) {
 
   .rong-category-title[selected] {
     border: 1px solid #0099FF;
-    color: #0099FF;
+    background-color: #0099FF;
+    color: #FFF;
   }
 
   .rong-category-title + .rong-category-title {
@@ -1068,20 +1065,17 @@ function flatten(items, res) {
 
     .category-item {
       border: none;
-      font-size: 18px;
+      font-size: 16px;
       margin-right: 38px;
       margin-left: 0;
       min-width: auto;
       padding: 0 3px;
 
       a {
-        color: #333;
+        color: #000;
       }
     }
 
-    // .category-item:last-child {
-    // margin-right: 0;
-    // }
     .category-item.active {
       background-color: transparent;
       position: relative;
@@ -1089,6 +1083,14 @@ function flatten(items, res) {
 
       .category-name {
         color: #0099FF;
+      }
+
+      .vs__selected {
+        color: #0099FF;
+      }
+
+      svg {
+        fill: #09F;
       }
     }
 
@@ -1116,6 +1118,7 @@ function flatten(items, res) {
   .rong-category-padding {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+    margin-bottom: 12px;
   }
 }
 

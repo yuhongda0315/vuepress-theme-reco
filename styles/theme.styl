@@ -290,12 +290,12 @@ $navHeight = 50px
     width: 0;
 .rong-page
   margin: 0 0 0 auto;
-  padding-top: 120px;
+  padding-top: 20px;
   .page-title h3 + hr
     display: none;
   .header-navs
     padding: 0 2.5rem;
-    margin: 0.8rem 0;
+    margin: 0.8rem 0 0 0;
 .rong-sidebar-box::before
   position: absolute;
   content: '';
@@ -366,7 +366,6 @@ $navHeight = 50px
       list-style: none;
       padding-top: 5px;
       padding-bottom: 0;
-      position relative;
       a
         font-size: 14px;
         color: #333;
@@ -374,27 +373,6 @@ $navHeight = 50px
         color: #09f;
   ul > li
     border: none;
-// .table-of-contents > ul:before
-//   content: '';
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   width: 1px;
-//   background-color: #E8E8E8;
-//   opacity: 0.5;
-
-// @keyframes showAll
-// {
-//     from {background: red;}
-//     to {background: yellow;}
-// }
- 
-// @-webkit-keyframes showAll /* Safari 与 Chrome */
-// {
-//     from {background: red;}
-//     to {background: yellow;}
-// }
 .table-of-contents > ul > li:last-child > ul > li:last-child{
   margin-bottom: 80px;
 }
@@ -402,44 +380,37 @@ $navHeight = 50px
 .table-of-contents ul > li:first-child > ul > li:first-child{
   margin-bottom: 0;
 }
-.table-of-contents > ul > li li:before
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: #E8E8E8;
-  opacity: 0.5;
 .table-of-contents > ul > li li > a
   display: inline-block;
-  position relative;
+  // position relative;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-.table-of-contents > ul > li li:after
+
+.table-of-contents > ul li:before
   content: '';
   position: absolute;
-  left: 0;
-  width: 5px;
-  height: 5px;
+  top: 0;
+  left: 4px;
+  bottom: 0;
+  width: 1px;
   background-color: #E8E8E8;
-  border-radius: 50%;
-  top: 12px;
-  left: -2.5px;
+  opacity: 0.5;
+
+
 .table-of-contents > ul > li li:first-child:before
   top: 17px;
 .table-of-contents > ul > li li:last-child:before
   bottom: 100%;
   top: 0;
   height: 18px;
-.table-of-contents > ul > li li li:after
-  display: none;
-.table-of-contents > ul > li li li:before
-  display: none;
+// .table-of-contents > ul > li li li:after
+//   display: none;
+// .table-of-contents > ul > li li li:before
+//   display: none;
 .table-of-contents > ul > li > a
-  position relative;
+  // position relative;
 
 .table-of-contents > ul > li > a + ul li a
   color: #666666;
@@ -461,6 +432,7 @@ $navHeight = 50px
     top: 0;
   .rong-page-content
     padding-left: 200px;
+    max-width: 1000px;
 // .table-of-contents
 .rong-sidebar .categories-wrapper
   margin-top: 8px;
@@ -642,16 +614,16 @@ $rightBarWidth = 180px;
 #nprogress .bar
   background-color: #09f;
 .rong-page-content
-  padding-right: 165px;
+  padding-right: 8px;
 .rong-page .rong-page-box
   position relative;
-  padding-right: 0;
+  padding-right: 10px;
   .table-of-contents
     position: fixed;
     width: $rightBarWidth;
     height: 100%;
     margin-left: 0;
-    right: 10px;
+    right: 240px;
     ul:first-child
       position: fixed;
       width: $rightBarWidth;
@@ -663,15 +635,12 @@ $rightBarWidth = 180px;
         height: 0;
         width: 0px;
 .rong-content-box
-  margin-left: 3%;
-  margin-right: 3%;
+  margin-left: 16%;
+  margin-right: 22%;
 
 .rong-category-box
   height: 76px;
   max-width: 100%;
-.rong-category-box + .rong-page-box
-  padding-top: 95px;
-  top: -60px;
 .rong-platforms-box
   height: 35px;
   max-width: 100%;
@@ -687,6 +656,22 @@ $rightBarWidth = 180px;
   }
   .rong-page {
     padding-right: 0 !important;
+  }
+}
+
+@media (max-width: 1440px) {
+  .rong-content-box{
+    margin-left: 5%;
+    margin-right: 15%;
+  }
+  .rong-page .rong-page-box{
+    padding-right: 30px;  
+  }
+  .content__default:not(.custom){
+    padding: 0 2.5rem 1rem 1.5rem;  
+  }
+  .rong-page .rong-page-box .table-of-contents{
+    right: 60px;
   }
 }
 
