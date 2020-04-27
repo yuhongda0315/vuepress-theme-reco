@@ -426,6 +426,7 @@ export default {
     initDefaultSelected(this);
     initSequence();
     initHeaderHeight(this);
+    initTOCScroll();
   },
   watch: {
     $route: function(newRoute, oldRoute) {
@@ -437,10 +438,118 @@ export default {
       this.$nextTick(() => {
         //页面加载完成后执行
         initHeaderHeight(this);
+        initTOCScroll();
       });
     }
   }
 };
+function initTOCScroll() {
+  var filter = function(arrs, callback) {
+    var _arrs = [];
+    for (var i = 0; i < arrs.length; i++) {
+      var item = arrs[i];
+      if (callback(item)) {
+        _arrs.push(item);
+      }
+    }
+    return _arrs;
+  };
+  var elements = document.querySelectorAll("h5");
+  var beforeScrollTop = 0;
+  var lastUpNode = null,
+    lastDownNode = null;
+  var CLASS_NAME = "rong-scroll-active";
+  var addClass = function(id) {
+    var reg = /[\u4E00-\u9FFF]+/;
+    var isChina = reg.test(id);
+    if (isChina) {
+      id = " " + id;
+    }
+    var nextNavs = document.querySelectorAll('a[href="#' + id + '"]');
+    var nextNav = filter(nextNavs, nav => {
+      return nav.className.indexOf("header-anchor") == -1;
+    })[0];
+    if (nextNav) {
+      nextNav.parentNode.classList.add(CLASS_NAME);
+      lastUpNode = nextNav;
+    }
+  };
+  var removeClass = function() {
+    if (lastUpNode) {
+      lastUpNode.parentNode.classList.remove(CLASS_NAME);
+    }
+  };
+  var getDownIndex = function(i, len) {
+    var _i = 0;
+    if (i != 0) {
+      _i = i - 1;
+    }
+    if (i == len - 1) {
+      _i = i;
+    }
+    return _i;
+  };
+  var getUpIndex = function(i, len) {
+    var _i = 0;
+    var maxIndex = len - 1;
+    if (i != maxIndex) {
+      _i = i + 1;
+    }
+    if (i == maxIndex) {
+      _i = maxIndex;
+    }
+    return _i;
+  };
+  var direction = {
+    up: function(scrollTop) {
+      var first = elements[0];
+      var isTop = scrollTop < first.offsetTop;
+      removeClass();
+      if (isTop) {
+        return addClass(first.id);
+      }
+      for (var i = elements.length - 1; i >= 0; i--) {
+        var el = elements[i];
+        if (el.offsetTop <= window.pageYOffset) {
+          var index = getUpIndex(i, elements.length);
+          el = elements[index];
+          return addClass(el.id);
+        }
+      }
+    },
+    down: function(scrollTop) {
+      var last = elements[elements.length - 1];
+      var isBottom = scrollTop > last.offsetTop;
+      removeClass();
+      if (isBottom) {
+        return addClass(last.id);
+      }
+      for (var i = 0; i < elements.length; i++) {
+        var el = elements[i];
+        if (el.offsetTop >= window.pageYOffset) {
+          var index = getDownIndex(i, elements.length);
+          el = elements[index];
+          return addClass(el.id);
+        }
+      }
+    }
+  };
+  var interval = 0;
+  var onScroll = function() {
+    clearTimeout(interval);
+    interval = setTimeout(function() {
+      var afterScrollTop = window.pageYOffset;
+      var delta = afterScrollTop - beforeScrollTop;
+      var type = delta > 0 ? "down" : "up";
+      direction[type](afterScrollTop);
+      beforeScrollTop = afterScrollTop;
+    }, 50);
+  };
+  if (elements.length > 0) {
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+  }
+}
 function initHeaderHeight(context) {
   let { categorys } = context;
   let { platforms = [], languages = [] } = context.$frontmatter;
@@ -620,6 +729,21 @@ function flatten(items, res) {
 <style lang="stylus">
 @require '../styles/wrapper.styl';
 
+.rong-scroll-active {
+}
+
+.rong-scroll-active:after {
+  background-color: #09f !important;
+  width: 10px !important;
+  height: 10px !important;
+  left: -4.5px !important;
+  top: 11.5px !important;
+}
+
+.rong-scroll-active > a {
+  color: #09f !important;
+}
+
 .page {
   padding-top: 200px;
   padding-bottom: 2rem;
@@ -632,10 +756,12 @@ function flatten(items, res) {
     top: 50px;
     width: 77%;
     z-index: 99;
+
     @media (max-width: 1440px) {
       width: 71%;
     }
   }
+
   .header-navs {
   }
 
@@ -646,6 +772,7 @@ function flatten(items, res) {
 
     a {
       font-weight: 400;
+
       &:hover {
         color: #0099FF;
       }
@@ -663,6 +790,7 @@ function flatten(items, res) {
       a {
         color: #333;
       }
+
       &:after {
         content: '';
       }
@@ -848,8 +976,9 @@ function flatten(items, res) {
             color: #333;
             font-size: 0.95em;
           }
-        }  
+        }
       }
+
       & > a {
         text-decoration: none !important;
         font-weight: 500;
