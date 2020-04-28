@@ -454,9 +454,12 @@ function initTOCScroll(newRoute, oldRoute) {
     return _arrs;
   };
   var getElements = () => {
-    var root = document.querySelector(".rong-page-box.content__default");
-    var children = root.children;
     var elements = [];
+    var root = document.querySelector(".rong-page-box.content__default");
+    if(!root){
+      return elements;
+    }
+    var children = root.children;
     for (var i = 0; i < children.length; i++) {
       var element = children[i];
       if (element.tagName.indexOf("H") > -1) {
