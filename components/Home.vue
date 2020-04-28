@@ -201,13 +201,7 @@ export default {
 }
 
 .home {
-  padding: $navbarHeight 2rem 0;
-  max-width: 1200px;
-  margin: 0px auto;
   padding-top: 120px;
-  padding-left: 100px;
-  padding-right: 0;
-  box-sizing: border-box;
 
   .hero {
     text-align: center;

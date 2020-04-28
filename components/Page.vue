@@ -1152,6 +1152,7 @@ function flatten(items, res) {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     margin-bottom: 12px;
+    margin-top: 10px;
   }
 }
 
