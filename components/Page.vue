@@ -17,8 +17,8 @@
 
       <ModuleTransition delay="0.08">
         <div class="page-title">
-          <p class="page-title-content">{{getTitle()}}</p>
-          <p class="page-title-time">{{this.$page.frontmatter.time}}</p>
+          <p class="page-title-content">{{getTitle()}} <span v-if="this.$page.frontmatter.time" class="page-title-time">( {{this.$page.frontmatter.time}} )</span></p>
+          
           <!-- <hr /> -->
           <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
         </div>
@@ -479,7 +479,6 @@ function initTOCScroll(newRoute, oldRoute) {
     var nextNav = filter(nextNavs, nav => {
       return nav.className.indexOf("header-anchor") == -1;
     })[0];
-    console.log(id, nextNav, lastNode)
     if (nextNav && nextNav !== lastNode) {
       removeClass();
       nextNav.parentNode.classList.add(CLASS_NAME);
@@ -881,6 +880,8 @@ function flatten(items, res) {
     }
     .page-title-time{
       margin: 2px 0 16px 0;
+      font-size: 14px;
+      color: #333;
     }
   }
 
