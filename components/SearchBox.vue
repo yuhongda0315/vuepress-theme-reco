@@ -67,6 +67,7 @@ export default {
   },
   computed: {
     showSuggestions() {
+      return true;
       return this.focused && this.suggestions && this.suggestions.length;
     },
     // make suggestions align right when there are not enough items
@@ -136,6 +137,7 @@ export default {
         ios: "#009BFF",
         server: "#4E4DC0",
         web: "#F36618",
+        web3: "#F36618",
         common: "#CC66FF"
       };
       return colors[name] || name;
@@ -145,7 +147,8 @@ export default {
         android: "Android",
         ios: "iOS",
         server: "Server",
-        web: "Web",
+        web: "Web 2.x",
+        web3: "Web 3.x",
         common: "产品介绍"
       };
       return platforms[name] || name;
@@ -279,6 +282,8 @@ function search(context) {
         font-weight: 500;
         position: absolute;
         right 0;
+        width: 50px;
+        text-align: center;
       }
     }
 
