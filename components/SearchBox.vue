@@ -67,7 +67,6 @@ export default {
   },
   computed: {
     showSuggestions() {
-      return true;
       return this.focused && this.suggestions && this.suggestions.length;
     },
     // make suggestions align right when there are not enough items
