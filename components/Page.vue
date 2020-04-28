@@ -553,7 +553,7 @@ function initTOCScroll(newRoute, oldRoute) {
       var type = delta > 0 ? "down" : "up";
       direction[type](afterScrollTop);
       beforeScrollTop = afterScrollTop;
-    }, 50);
+    }, 10);
   };
   if (elements.length > 0) {
     window.addEventListener("scroll", onScroll);
