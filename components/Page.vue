@@ -432,12 +432,17 @@ export default {
       this.isSelectedLike = false;
       this.selectedValue = this.selectedValue.text || this.selectedValue;
       this.$nextTick(() => {
-        initTOCScroll();
+        initTOCScroll(newRoute, oldRoute);
       });
     }
   }
 };
-function initTOCScroll() {
+function initTOCScroll(newRoute, oldRoute) {
+  newRoute = newRoute || { path: "new" };
+  oldRoute = oldRoute || { path: "old" };
+  if (newRoute.path == oldRoute.path) {
+    return;
+  };
   var filter = function(arrs, callback) {
     var _arrs = [];
     for (var i = 0; i < arrs.length; i++) {
@@ -462,8 +467,7 @@ function initTOCScroll() {
   };
   var elements = getElements();
   var beforeScrollTop = 0;
-  var lastUpNode = null,
-    lastDownNode = null;
+  var lastNode = null;
   var CLASS_NAME = "rong-scroll-active";
   var addClass = function(id) {
     var reg = /[\u4E00-\u9FFF]+/;
@@ -475,15 +479,16 @@ function initTOCScroll() {
     var nextNav = filter(nextNavs, nav => {
       return nav.className.indexOf("header-anchor") == -1;
     })[0];
-    if (nextNav && nextNav !== lastUpNode) {
+    console.log(id, nextNav, lastNode)
+    if (nextNav && nextNav !== lastNode) {
       removeClass();
       nextNav.parentNode.classList.add(CLASS_NAME);
-      lastUpNode = nextNav;
+      lastNode = nextNav;
     }
   };
   var removeClass = function() {
-    if (lastUpNode) {
-      lastUpNode.parentNode.classList.remove(CLASS_NAME);
+    if (lastNode) {
+      lastNode.parentNode.classList.remove(CLASS_NAME);
     }
   };
   var getDownIndex = function(i, len) {
