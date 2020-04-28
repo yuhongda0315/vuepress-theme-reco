@@ -760,12 +760,12 @@ function flatten(items, res) {
   content: '';
   position: absolute;
   left: 0;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   z-index: 99;
   background-color: #09F;
   border-radius: 50%;
-  left: 0;
+  left: 1px;
   margin-top: 6px;
   animation-name: fadeIn;
   animation-duration: 0.5s;
