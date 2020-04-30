@@ -568,11 +568,16 @@ function initTOCScroll(newRoute, oldRoute) {
   }
 }
 function rediectTo(context, item) {
-  window.localStorage.setItem("rong-current-page", item.link)
-  context.plat = getUrlParam('plat', item.link)
+  var link = item.link || ''
+  window.localStorage.setItem("rong-current-page", link)
+  context.plat = getUrlParam('plat', link)
+  var index = link.indexOf('?')
+  if (index !== -1) {
+    link = link.substring(0, index)
+  }
   context.$router
     .push({
-      path: item.link
+      path: link
     })
     .catch(error => {});
 }
