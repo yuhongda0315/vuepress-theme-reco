@@ -569,12 +569,12 @@ function initTOCScroll(newRoute, oldRoute) {
 }
 function rediectTo(context, item) {
   var link = item.link || ''
-  window.localStorage.setItem("rong-current-page", link)
-  context.plat = getUrlParam('plat', link)
   var index = link.indexOf('?')
   if (index !== -1) {
     link = link.substring(0, index)
   }
+  window.localStorage.setItem("rong-current-page", link)
+  context.plat = getUrlParam('plat', link)
   context.$router
     .push({
       path: link
