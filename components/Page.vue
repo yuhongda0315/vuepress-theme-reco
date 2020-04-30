@@ -229,7 +229,8 @@ export default {
       categorys: [],
       selectedCategory: {},
       isSelectedLike: false,
-      isLike: false
+      isLike: false,
+      plat: null
     };
   },
 
@@ -353,7 +354,10 @@ export default {
       return name.toLocaleLowerCase();
     },
     isSelected: function(item) {
-      let name = item.name.toLocaleLowerCase();
+      let name = item.name.toLocaleLowerCase()
+      if (this.plat) {
+        return this.plat === name
+      }
       if (name == "multi") {
         name = item.groupName;
       }
@@ -423,6 +427,7 @@ export default {
     initDefaultSelected(this);
     initSequence();
     initTOCScroll();
+    this.plat = getUrlParam('plat')
   },
   watch: {
     $route: function(newRoute, oldRoute) {
@@ -563,7 +568,8 @@ function initTOCScroll(newRoute, oldRoute) {
   }
 }
 function rediectTo(context, item) {
-  window.localStorage.setItem("rong-current-page", item.link);
+  window.localStorage.setItem("rong-current-page", item.link)
+  context.plat = getUrlParam('plat', item.link)
   context.$router
     .push({
       path: item.link
@@ -728,6 +734,21 @@ function flatten(items, res) {
       res.push(items[i]);
     }
   }
+}
+
+function getUrlParam(name, url) {
+  if (!url)
+    url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"), results = regex
+    .exec(url);
+
+  if (!results)
+    return null;
+  if (!results[2])
+    return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 </script>
 
