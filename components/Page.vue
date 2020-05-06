@@ -428,6 +428,10 @@ export default {
     initSequence();
     initTOCScroll();
     this.plat = getUrlParam('plat')
+    window.onresize = function () {
+      setRightBarPosition() 
+    }
+    setRightBarPosition()
   },
   watch: {
     $route: function(newRoute, oldRoute) {
@@ -755,6 +759,15 @@ function getUrlParam(name, url) {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+function setRightBarPosition() {
+  var innerPageEl = document.querySelector('.rong-page')
+  var rightBarEl = document.querySelector('.table-of-contents')
+  var width = innerPageEl.clientWidth - 50
+  rightBarEl.style.marginLeft = width + 'px'
+  console.log('==========')
+}
+
 </script>
 
 <style lang="stylus">

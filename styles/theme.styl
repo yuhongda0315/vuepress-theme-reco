@@ -227,7 +227,7 @@ th, td
 $navHeight = 50px
 
 .rong-box
-  // max-width: 1800px;
+  max-width: 1500px;
   margin: 0 auto;
 .rong-nav 
   height: $navHeight;
@@ -614,7 +614,7 @@ $rightBarWidth = 180px;
 #nprogress .bar
   background-color: #09f;
 .rong-page-content
-  padding-right: 8px;
+  padding-right: 165px;
 .rong-page .rong-page-box
   position relative;
   padding-right: 10px;
@@ -622,8 +622,9 @@ $rightBarWidth = 180px;
     position: fixed;
     width: $rightBarWidth;
     height: 100%;
-    margin-left: 0;
-    right: 240px;
+    // margin-left: 0;
+    // right: 25px;
+    z-index: 999;
     ul:first-child
       position: fixed;
       width: $rightBarWidth;
@@ -635,8 +636,8 @@ $rightBarWidth = 180px;
         height: 0;
         width: 0px;
 .rong-content-box
-  margin-left: 16%;
-  margin-right: 22%;
+  margin-left: 3%;
+  margin-right: 3%;
 
 .rong-category-box
   height: 76px;
@@ -670,9 +671,9 @@ $rightBarWidth = 180px;
   .content__default:not(.custom){
     padding: 3rem 2.5rem 1rem 2.5rem  
   }
-  .rong-page .rong-page-box .table-of-contents{
-    right: 60px;
-  }
+  // .rong-page .rong-page-box .table-of-contents{
+  //   right: 60px;
+  // }
 }
 
 @media (max-height: 880px) {
@@ -740,4 +741,8 @@ $rightBarWidth = 180px;
 
 .back-to-ceiling > svg {
   fill: #09f !important;
+}
+
+.back-to-ceiling {
+  z-index: 9999999;
 }
