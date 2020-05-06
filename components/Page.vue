@@ -765,7 +765,6 @@ function setRightBarPosition() {
   var rightBarEl = document.querySelector('.table-of-contents')
   var width = innerPageEl.clientWidth - 50
   rightBarEl.style.marginLeft = width + 'px'
-  console.log('==========')
 }
 
 </script>
