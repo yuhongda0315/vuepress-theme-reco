@@ -579,6 +579,7 @@ function rediectTo(context, item) {
     link = link.substring(0, index)
   }
   window.localStorage.setItem("rong-current-page", link)
+  context.selectedValue = context.selectedValue.text || context.selectedValue
   context.$router
     .push({
       path: link
