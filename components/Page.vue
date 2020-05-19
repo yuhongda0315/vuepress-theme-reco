@@ -432,6 +432,11 @@ export default {
       setRightBarPosition() 
     }
     setRightBarPosition()
+    let link = window.localStorage.getItem("rong-current-page");
+    if (link && link.indexOf('?') !== -1) { // 兼容错误导致死循环
+      link = link.split('?')[0];
+      window.localStorage.setItem('rong-current-page', link);
+    }
   },
   watch: {
     $route: function(newRoute, oldRoute) {
@@ -764,8 +769,10 @@ function getUrlParam(name, url) {
 function setRightBarPosition() {
   var innerPageEl = document.querySelector('.rong-page')
   var rightBarEl = document.querySelector('.table-of-contents')
-  var width = innerPageEl.clientWidth - 50
-  rightBarEl.style.marginLeft = width + 'px'
+  if (innerPageEl && rightBarEl) {
+    var width = innerPageEl.clientWidth - 50
+    rightBarEl.style.marginLeft = width + 'px'
+  }
 }
 
 </script>
