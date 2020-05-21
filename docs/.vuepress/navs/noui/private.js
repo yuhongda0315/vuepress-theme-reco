@@ -22,6 +22,13 @@ module.exports = {
     children: [
       { title: '消息发送', path: 'guide/private/message/ios', depth: '' }
     ]
-  }
+  },
+    {
+      title: '消息管理',
+      depth: 1,
+      children: [
+        { title: '消息发送2', path: 'guide/private/user/ios', depth: '' }
+      ]
+    }
   ]
 }

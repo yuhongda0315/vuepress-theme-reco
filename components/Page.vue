@@ -447,6 +447,7 @@ export default {
       this.selectedValue = this.selectedValue.text || this.selectedValue;
       this.$nextTick(() => {
         initTOCScroll(newRoute, oldRoute);
+        setRightBarPosition() 
       });
     }
   }
