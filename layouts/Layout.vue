@@ -2,6 +2,7 @@
   <div class="rong-outer">
     <Common>
       <component v-if="$frontmatter.home" :is="homeCom"></component>
+      <component v-else-if="$frontmatter.summary" :is="SummaryCon"></component>
       <Page v-else :sidebar-items="sidebarItems">
         <slot name="page-top" slot="top" />
         <slot name="page-bottom" slot="bottom" />
@@ -13,13 +14,14 @@
 
 <script>
 import Home from "@theme/components/Home";
+import Summary from "@theme/components/Summary";
 import Page from "@theme/components/Page";
 import Footer from "@theme/components/Footer";
 import Common from "@theme/components/Common";
 import { resolveSidebarItems } from "@theme/helpers/utils";
 
 export default {
-  components: { Home, Page, Common, Footer },
+  components: { Home, Page, Common, Footer, Summary },
 
   computed: {
     sidebarItems() {
@@ -32,6 +34,9 @@ export default {
     },
     homeCom() {
       return "Home";
+    },
+    SummaryCon(){
+      return "Summary";
     }
   }
 };
