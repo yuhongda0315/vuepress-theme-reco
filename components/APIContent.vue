@@ -50,7 +50,7 @@
                 <li class="rong-param" v-for="(param, p) in api.params" :key="p">
                   <span v-for="(val, j) in param" :key="j">
                     <span class="rong-param-column">{{j}}</span>
-                    <span class="rong-param-column">{{val}}</span>
+                    <span class="rong-param-column" v-html="val"></span>
                   </span>
                 </li>
               </ul>
@@ -174,6 +174,10 @@ function getAPIs(context) {
   animation: fade-in;
   animation-duration: 0.5s;
   height: 100%;
+}
+
+.rong-wrapper .prettyprint {
+  white-space: normal;
 }
 
 .rong-sidebars {
