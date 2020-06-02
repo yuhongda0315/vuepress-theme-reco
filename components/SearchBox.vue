@@ -44,9 +44,9 @@
         </p>
         <p class="rong-search-content" v-html="s.content"></p>
       </li>
-      <li class="rong-search-more-box" v-if="hasMore">
+      <!-- <li class="rong-search-more-box" v-if="hasMore">
         <button @mousedown="showMore" @click="showMore">查看更多搜索结果</button>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
