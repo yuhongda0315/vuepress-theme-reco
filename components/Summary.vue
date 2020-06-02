@@ -1,5 +1,5 @@
 <template>
-  <div class="serp-summary">搜索页面</div>
+  <div class="rong-serp-summary">搜索页面</div>
 </template>
 
 <script>
@@ -51,12 +51,14 @@ export default {
 <style lang="stylus">
 @require '../styles/mode.styl';
 
-.rong-content-box .rong-page-content {
-  padding-left: 0 !important;
-}
+// .rong-content-box .rong-page-content {
+//   padding-left: 0 !important;
+// }
 
-.serp-summary {
-  max-width: 90%;
+.rong-serp-summary {
+  position: absolute;
+  left: 0;
+  width: 100%;
   background-color: #FF6700;
   margin: 0 auto;
 }
