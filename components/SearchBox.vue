@@ -44,6 +44,9 @@
         </p>
         <p class="rong-search-content" v-html="s.content"></p>
       </li>
+      <li class="rong-search-more-box" v-if="hasMore">
+        <button @mousedown="showMore" @click="showMore">查看更多搜索结果</button>
+      </li>
     </ul>
   </div>
 </template>
@@ -59,7 +62,8 @@ export default {
       query: "",
       focused: false,
       focusIndex: 0,
-      placeholder: undefined
+      placeholder: undefined,
+      hasMore: false
     };
   },
   mounted() {
@@ -67,6 +71,7 @@ export default {
   },
   computed: {
     showSuggestions() {
+      // return true
       return this.focused && this.suggestions && this.suggestions.length;
     },
     // make suggestions align right when there are not enough items
@@ -77,6 +82,12 @@ export default {
     }
   },
   methods: {
+    showMore() {
+      window.location.href = '/summary.html?k=' + this.query
+      // this.$router.push({
+      //   path: '/summary?keywork=' + this.query
+      // }).catch((e) => {})
+    },
     getPageLocalePath(page) {
       for (const localePath in this.$site.locales || {}) {
         if (localePath !== "/" && page.path.indexOf(localePath) === 0) {
@@ -162,6 +173,7 @@ function scrollTop(i) {
 function search(context) {
   let { APIUrl } = context.$themeConfig;
   let url = APIUrl || "//localhost:8992";
+  context.hasMore = false
   url = `${url}/misc/search_docs`;
   utils
     .request(url, {
@@ -175,6 +187,7 @@ function search(context) {
     })
     .then(({ result: suggestions }) => {
       context.suggestions = suggestions;
+      context.hasMore = suggestions.length >= 10
     });
 }
 </script>
@@ -317,6 +330,24 @@ function search(context) {
 
 .search-box * {
   // float: none !important;
+}
+
+.rong-search-more-box {
+  text-align: center;
+  position: relative;
+  height: 30px;
+  width: 100%;
+  button {
+    border: none;
+    color: black;
+    width: 150px;
+    background-color: transparent;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 @media (max-width: $MQNarrow) {
