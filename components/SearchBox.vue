@@ -44,9 +44,9 @@
         </p>
         <p class="rong-search-content" v-html="s.content"></p>
       </li>
-      <!-- <li class="rong-search-more-box" v-if="hasMore">
+      <li class="rong-search-more-box" v-if="hasMore">
         <button @mousedown="showMore" @click="showMore">查看更多搜索结果</button>
-      </li> -->
+      </li>
     </ul>
   </div>
 </template>
@@ -153,15 +153,8 @@ export default {
       return colors[name] || name;
     },
     getPlatform: function(name) {
-      let platforms = {
-        android: "Android",
-        ios: "iOS",
-        server: "Server",
-        web: "Web 2.x",
-        web3: "Web 3.x",
-        common: "产品介绍"
-      };
-      return platforms[name] || name;
+      const searchPlatform = this.$themeConfig.searchPlatform || {}
+      return searchPlatform[name] || name
     }
   }
 };
@@ -171,6 +164,9 @@ function scrollTop(i) {
   box.scrollTo(0, content.offsetTop);
 }
 function search(context) {
+  context.$root.$emit('searchBoxChange', context.query)
+
+  const limit = 6
   let { APIUrl } = context.$themeConfig;
   let url = APIUrl || "//localhost:8992";
   context.hasMore = false
@@ -182,12 +178,13 @@ function search(context) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        limit,
         keyword: context.query
       })
     })
     .then(({ result: suggestions }) => {
       context.suggestions = suggestions;
-      context.hasMore = suggestions.length >= 10
+      context.hasMore = suggestions.length >= limit
     });
 }
 </script>
@@ -347,6 +344,7 @@ function search(context) {
     left: 50%;
     top: 55%;
     transform: translate(-50%, -50%);
+    color: #0099FF;
   }
 }
 

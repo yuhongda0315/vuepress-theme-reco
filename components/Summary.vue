@@ -1,13 +1,24 @@
 <template>
-<div class="rong-serp-summary">
+<div class="rong-serp-summary" id="searchSummary">
   <div class="rong-summay-search-head">
+    <div class="rong-summay-search-head-back"></div>
     <div class="rong-summary-search-box">
-      <input v-model="keyword" type="text" placeholder="请输入搜索内容"><button @click="search" >搜索</button>
+      <input v-model="keyword" type="text" @keyup.enter="search" placeholder="请输入搜索内容"><button @click="search" >搜索</button>
     </div>
   </div>
   <div class="rong-summary-content-box">
+    <div class="rong-summary-platform-navi">
+      <a
+      v-for="(item, index) in PlatformList"
+      v-bind:key="index"
+      :selected="isPlatformSelected(item)"
+      @click="selectPlatform(item)"
+      >
+        {{item.text}}
+      </a>
+    </div>
     <!-- Start 内容 -->
-    <div class="rong-summary-search-content-box">
+    <div v-if="searchResults && searchResults.length" class="rong-summary-search-content-box">
       <!-- Start 搜索结果 -->
       <ul class="rong-summary-search-list">
         <li v-for="(item, key, index) in searchResults" v-bind:key="index" @click="toUrl(item.url)">
@@ -20,24 +31,23 @@
         </li>
       </ul>
       <!-- End 搜索结果 -->
+      <!--  -->
       <!-- Start 分页 -->
-      <!-- <div>
-        <button v-if="selectedPage > 1" @click="select(selectedPage - 1)" class="rc-page-helper-btn rc-page-helper-pre"></button
-          ><button v-for="index in pageTotal" 
-            @click="select(index)"
-            class="rc-page-helper-btn" :class="isSelected(index) ? 'rc-page-helper-selected' : ''">
-          {{index}}
-        </button
-        ><button v-if="selectedPage < pageTotal" @click="select(selectedPage + 1)" class="rc-page-helper-btn rc-page-helper-next"></button>
-
-        <div class="rc-page-hepler-input-box">
-          <span>跳至</span>
-          <input v-model="inputVal" type="number">
-          <span>页</span>
-        </div>
-        <button @click="select(inputVal)" class="rc-page-helper-btn rc-page-helper-btn-confirm">确定</button>
-      </div> -->
+      <PageHelper
+        v-if="searchResultsTotal"
+        @select="selectPage"
+        :pageSize="pageTotal"
+        :selectedPage="searchOffset + 1"
+        ></PageHelper>
       <!-- End 分页  -->
+    </div>
+    <div class="rong-summary-recommend">
+      <div class="rong-summary-recommend-box" v-for="(item, index) in recommends" v-bind:key="index">
+        <h5>{{item.title}}</h5>
+        <li v-for="(sub, index) in item.childs" v-bind:key="index">
+          <a :href="sub.url" target="_blank">{{sub.title}}</a>
+        </li>
+      </div>
     </div>
     <!-- End 内容 -->
   </div>
@@ -46,40 +56,139 @@
 
 <script>
 import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
+import PageHelper from './PageHelper'
 import utils from '@theme/components/utils'
+
+const SearchLimit = 10
+
+const setBodyHidden = (isHidden) => {
+  const body = document.body
+  body.style['overflow-x'] = isHidden ? 'hidden' : ''
+}
+
+const getStyle = (parm1, parm2) => {
+  return parm1.currentStyle ? parm1.currentStyle[parm2] : getComputedStyle(parm1)[parm2]
+}
+
+const setSearchWidth = () => {
+  const el = document.getElementById('searchSummary')
+  const navEl = document.querySelector('.rong-nav-box')
+  if (el && navEl) {
+    el.style.width = parseInt(getStyle(navEl, 'width')) - 50 + 'px'
+  }
+}
 
 export default {
   data: function () {
     return {
       keyword: '',
-      searchResults: []
+      searchResults: [],
+      searchResultsTotal: 0,
+      searchOffset: 0,
+      searchPlatform: '',
+
+      recommends: []
     }
   },
   mixins: [moduleTransitonMixin],
-  // components: { ModuleTransition },
+  components: { PageHelper },
+  watch: {
+    keyword (newVal, oldVal) {
+      if (oldVal && newVal) {
+        this.searchOffset = 0
+      }
+    },
+    searchPlatform (newVal, oldVal) {
+      if (oldVal && newVal) {
+        this.searchOffset = 0
+      }
+    }
+  },
   computed: {
+    isShowPageHelper () {
+      return this.searchResultsTotal > SearchLimit // 总个数大于 10 再显示分页
+    },
+    pageTotal () {
+      return this.searchResultsTotal / SearchLimit
+    },
+    PlatformList () {
+      const platformList = [{ text: '全部', platform: '' }]
+      const searchPlatform = this.$themeConfig.searchPlatform || {}
+      for (const key in searchPlatform) {
+        const val = searchPlatform[key]
+        platformList.push({ text: val, platform: key })
+      }
+      return platformList
+    }
+  },
+  created () {
+    const keyFromUrl = utils.getUrlParam('k')
+    // const offsetFromUrl = utils.getUrlParam('offset') // 路由不存储 offset
+    keyFromUrl && (this.keyword = keyFromUrl)
+    // offsetFromUrl && (this.searchOffset = Number(offsetFromUrl))
+    this.search()
+  },
+  mounted () {
+    const self = this
+    setBodyHidden(true)
+    setSearchWidth()
+    self.recommends = self.$themeConfig.recommends
+    self.$root.$on('searchBoxChange', self.onSearchBoxChanged)
+  },
+  destroyed () {
+    setBodyHidden(false)
+    this.$root.$off('searchBoxChange', this.onSearchBoxChanged)
   },
   methods: {
+    onSearchBoxChanged (keyword) {
+      this.keyword = keyword
+      this.search()
+    },
     search () {
       const self = this
       const { keyword } = self
       if (!keyword) return
       const { APIUrl } = self.$themeConfig
-      const url = `${APIUrl}/misc/search_docs`
+      const url = `${APIUrl || 'http://localhost:8992'}/misc/search_docs`
+      const searchParams = {
+        offset: self.searchOffset,
+        limit: SearchLimit,
+        keyword
+      }
+      if (self.searchPlatform) {
+        searchParams.platform = self.searchPlatform
+      }
       utils.request(url, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          keyword
-        })
-      }).then(({ result }) => {
+        body: JSON.stringify(searchParams)
+      }).then(({ result, total }) => {
         self.searchResults = result
+        self.searchResultsTotal = total
+        self.$router.replace({
+          query: {
+            k: self.keyword
+            // offset: this.searchOffset
+          }
+        }).catch((e) => {})
       })
     },
     toUrl (url) {
       window.open(url)
+    },
+    selectPage (page) {
+      this.searchOffset = page - 1
+      this.search()
+      document.body.scrollIntoView()
+    },
+    selectPlatform ({ platform }) {
+      this.searchPlatform = platform
+      this.search()
+    },
+    isPlatformSelected ({ platform }) {
+      return this.searchPlatform === platform
     }
   }
 }
@@ -94,9 +203,11 @@ export default {
 
 .rong-serp-summary {
   position: absolute;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
   margin: 0 auto;
+  margin-bottom: 40px;
   * {
     border: none;
     outline: none;
@@ -104,42 +215,83 @@ export default {
 }
 
 .rong-summay-search-head {
-  width: 100%;
-  height: 250px;
+  .rong-summay-search-head-back {
+    position: absolute;
+    width: 1000%;
+    background-color: #f2f3f6;
+    height: 100%;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+  height: 120px;
   position: relative;
-  background-color: rgb(229, 229, 229);
+  transform: translateX(-50%);
+  left: 50%;
   .rong-summary-search-box {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 100%;
-    text-align: center;
+    // text-align: center;
     transform: translate(-50%, -50%);
+    height: 48px;
     input {
       display: inline-block;
       width: 640px;
-      height: 42px;
+      height: 100%;
       padding-left: 10px;
+      box-sizing: border-box;
+      vertical-align: middle;
     }
     button {
-      height: 44px;
-      width: 160px;
+      height: 100%;
+      width: 80px;
       font-size: 16px;
-      background-color: #1E3A6A;
+      background-color: #0099FF;
       text-align: center;
       vertical-align: middle;
       color: white;
       cursor pointer;
+      box-sizing: border-box;
     }
   }
 }
 
 .rong-summary-search-content-box {
-  width: 100%;
+  margin-right: 250px;
+}
+
+.rong-summary-content-box {
+  position: relative;
+}
+
+.rong-summary-recommend {
+  width: 150px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  h5 {
+    font-size: 16px;
+    color: #333333;
+    margin: 20px 0;
+  }
+  li {
+    margin: 20px 0;
+    list-style: none;
+  }
+  li a {
+    font-size: 14px;
+    color: #666666;
+  }
+}
+
+.rong-summary-recommend-box {
+  margin-top: 30px;
 }
 
 .rong-summary-search-list {
   width: 100%;
+  padding: 0;
   li {
     width: 100%;
     list-style: none;
@@ -148,24 +300,51 @@ export default {
   h4 {
     color: #373D41;
     line-height: 24px;
-    font-size: 16px;
+    font-size: 18px;
+    margin: 37px 0 10px 0;
   }
   h4:hover {
-    color: #00C1DE;
+    color: #0099FF;
   }
 
   .rong-summary-search-text {
-    color: #73777A;
     font-size: 14px;
     margin-top: 8px;
-    color: #73777A;
+    color: #666666;
     line-height: 24px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    white-space: normal;
   }
 
   .rong-summary-search-source {
     margin-top: 8px;
-    color: #C3C5C6;
-    font-size: 12px;
+    color: #999999;
+    font-size: 14px;
+  }
+}
+
+.rong-summary-platform-navi {
+  border-bottom: 1px solid rgb(241, 241, 241);
+  margin-right: 250px;
+  a {
+    color: #0099FF;
+    font-size: 16px;
+    display: inline-block;
+    color: #333333;
+    padding: 20px 10px;
+    // border-bottom: 2px solid rgb(67, 156, 247);
+    // padding-left: 0;
+  }
+  a[selected] {
+    color: #0099FF;
+    border-bottom: 2px solid rgb(67, 156, 247);
+  }
+  a + a {
+    margin: 0 25px;
+    // padding: 20px 10px;
   }
 }
 

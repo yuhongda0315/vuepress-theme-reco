@@ -60,7 +60,37 @@ module.exports = {
     // 备案号
     record: '京公网安备 11010502033445 号',
     startYear: '2019',
-    noFoundPageByTencent: false
+    noFoundPageByTencent: false,
+    recommends: [
+      {
+        title: '推荐产品',
+        childs: [
+          { title: 'IM 即时通讯', url: '' },
+          { title: '聊天室', url: '' },
+          { title: '实时音视频', url: '' },
+          { title: '低延时直播', url: '' },
+          { title: '音视频会议', url: '' }
+        ]
+      },
+      {
+        title: '推荐解决方案',
+        childs: [
+          { title: '语音聊天室解决方案', url: '' },
+          { title: '在线教育解决方案', url: '' },
+          { title: '小程序解决方案', url: '' },
+          { title: '金融解决方案', url: '' },
+          { title: '企业通讯解决方案', url: '' }
+        ]
+      }
+    ],
+    searchPlatform: {
+      common: "产品介绍",
+      android: "Android",
+      ios: "iOS",
+      web: "Web 2.x",
+      web3: "Web 3.x",
+      server: "Server"
+    }
   },
   markdown: {
     lineNumbers: true,
