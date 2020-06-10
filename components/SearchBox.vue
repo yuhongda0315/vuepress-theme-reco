@@ -18,9 +18,15 @@
       ref="input"
     />
 
+    <div class="rong-searchbox-search-empty-box" v-if="!hasSearchSuggestionResult && focused">
+      <div class="rong-summary-search-empty-inner">
+        <img src="../images/search-empty.png">
+        <p>未找到要查询的内容</p>
+      </div>
+    </div>
     <ul
       class="suggestions rong-searchbox-suggestions"
-      v-if="showSuggestions"
+      v-else-if="showSuggestions"
       :class="{ 'align-right': alignRight }"
       @mouseleave="unfocus"
     >
@@ -63,8 +69,19 @@ export default {
       focused: false,
       focusIndex: 0,
       placeholder: undefined,
-      hasMore: false
+      hasMore: false,
+      hasSearchSuggestionResult: true,
+      isHideSearchBoxResult: false
     };
+  },
+  created () {
+    const self = this
+    self.$root.$on('hideSearchBoxResult', () => {
+      self.isHideSearchBoxResult = true
+    })
+    self.$root.$on('showSearchBoxResult', () => {
+      self.isHideSearchBoxResult = false
+    })
   },
   mounted() {
     this.placeholder = this.$site.themeConfig.searchPlaceholder || "搜索";
@@ -72,7 +89,7 @@ export default {
   computed: {
     showSuggestions() {
       // return true
-      return this.focused && this.suggestions && this.suggestions.length;
+      return this.focused && this.suggestions && this.suggestions.length && !this.isHideSearchBoxResult
     },
     // make suggestions align right when there are not enough items
     alignRight() {
@@ -122,6 +139,7 @@ export default {
       timer = setTimeout(() => {
         if (!conext.query) {
           conext.suggestions = [];
+          conext.hasSearchSuggestionResult = true
           return;
         }
         search(conext);
@@ -170,7 +188,7 @@ function search(context) {
   let { APIUrl } = context.$themeConfig;
   let url = APIUrl || "//localhost:8992";
   context.hasMore = false
-  url = `${url}/misc/search_docs`;
+  url = `${url}/misc/search_docs`
   utils
     .request(url, {
       method: "POST",
@@ -185,6 +203,7 @@ function search(context) {
     .then(({ result: suggestions }) => {
       context.suggestions = suggestions;
       context.hasMore = suggestions.length >= limit
+      context.hasSearchSuggestionResult = !!suggestions.length
     });
 }
 </script>
@@ -345,6 +364,39 @@ function search(context) {
     top: 55%;
     transform: translate(-50%, -50%);
     color: #0099FF;
+  }
+}
+
+.rong-searchbox-search-empty-box {
+  width: 43rem;
+  position: absolute;
+  top: 2.2rem;
+  border-radius: 0;
+  padding: 0.4rem;
+  list-style-type: none;
+  max-height: 435px;
+  box-shadow: 0 2px 40px 0 rgba(168,168,168,0.68);
+  border: 0;
+  background-color: white;
+  height: 175px;
+}
+
+.rong-summary-search-empty-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  img {
+    width: 55px;
+    height: 48px;
+    float: none;
+  }
+  p {
+    color: #666666;
+    font-size: 16px;
+    margin-top: -7px;
+    float: none;
   }
 }
 

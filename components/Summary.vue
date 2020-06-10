@@ -3,7 +3,7 @@
   <div class="rong-summay-search-head">
     <div class="rong-summay-search-head-back"></div>
     <div class="rong-summary-search-box">
-      <input v-model="keyword" type="text" @keyup.enter="search" placeholder="请输入搜索内容"><button @click="search" >搜索</button>
+      <input v-model="keyword" type="text" @keydown="onKeyDown" @keyup.enter="search" placeholder="请输入搜索内容"><button @click="search" >搜索</button>
     </div>
   </div>
   <div class="rong-summary-content-box">
@@ -41,6 +41,12 @@
         ></PageHelper>
       <!-- End 分页  -->
     </div>
+    <div v-else class="rong-summary-search-empty">
+      <div class="rong-summary-search-empty-inner">
+        <img src="../images/search-empty.png">
+        <p>未找到要查询的内容</p>
+      </div>
+    </div>
     <div class="rong-summary-recommend">
       <div class="rong-summary-recommend-box" v-for="(item, index) in recommends" v-bind:key="index">
         <h5>{{item.title}}</h5>
@@ -60,6 +66,8 @@ import PageHelper from './PageHelper'
 import utils from '@theme/components/utils'
 
 const SearchLimit = 10
+
+let timer = 0
 
 const setBodyHidden = (isHidden) => {
   const body = document.body
@@ -134,15 +142,24 @@ export default {
     setSearchWidth()
     self.recommends = self.$themeConfig.recommends
     self.$root.$on('searchBoxChange', self.onSearchBoxChanged)
+    self.$root.$emit('hideSearchBoxResult')
   },
   destroyed () {
     setBodyHidden(false)
     this.$root.$off('searchBoxChange', this.onSearchBoxChanged)
+    this.$root.$emit('showSearchBoxResult')
   },
   methods: {
     onSearchBoxChanged (keyword) {
       this.keyword = keyword
       this.search()
+    },
+    onKeyDown () {
+      const self = this
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        self.search()
+      }, 500)
     },
     search () {
       const self = this
@@ -345,6 +362,29 @@ export default {
   a + a {
     margin: 0 25px;
     // padding: 20px 10px;
+  }
+}
+
+.rong-summary-search-empty {
+  min-height: 500px;
+  margin-right: 550px;
+  position: relative;
+}
+
+.rong-summary-search-empty-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  img {
+    width: 79px;
+    height: 67px;
+  }
+  p {
+    color: #666666;
+    font-size: 18px;
+    margin-top: 24px;
   }
 }
 
