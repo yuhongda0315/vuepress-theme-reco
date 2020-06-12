@@ -28,6 +28,10 @@
             <span>来自: </span>
             <span>{{item.levels}}</span>
           </p>
+          <strong
+            class="rong-search-summary-header-platform"
+            :style="{boderColor: getBGColor(item.platform), color: getBGColor(item.platform)}"
+            >{{ getPlatform(item.platform)}}</strong>
         </li>
       </ul>
       <!-- End 搜索结果 -->
@@ -150,6 +154,21 @@ export default {
     this.$root.$emit('showSearchBoxResult')
   },
   methods: {
+    getPlatform (name) {
+      const searchPlatform = this.$themeConfig.searchPlatform || {}
+      return searchPlatform[name] || name
+    },
+    getBGColor (name) {
+      const colors = {
+        android: '#4DA626',
+        ios: '#009BFF',
+        server: '#4E4DC0',
+        web: '#F36618',
+        web3: '#F36618',
+        common: '#CC66FF'
+      }
+      return colors[name] || name
+    },
     onSearchBoxChanged (keyword) {
       this.keyword = keyword
       this.search()
@@ -313,6 +332,7 @@ export default {
     width: 100%;
     list-style: none;
     cursor: pointer;
+    position: relative;
   }
   h4 {
     color: #373D41;
@@ -386,6 +406,22 @@ export default {
     font-size: 18px;
     margin-top: 24px;
   }
+}
+
+.rong-search-summary-header-platform {
+  margin-left: 2px;
+  background: transparent;
+  padding: 3px 10px;
+  display: inline;
+  font-size: 12px;
+  border: 1px solid !important;
+  letter-spacing: 0.2px;
+  font-weight: 500;
+  position: absolute;
+  right 0;
+  width: 50px;
+  text-align: center;
+  top: -5px;
 }
 
 @media (max-width: $MQMobile) {
