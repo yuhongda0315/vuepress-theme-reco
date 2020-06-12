@@ -234,8 +234,9 @@ const getBrowser = () => {
 };
 
 function getUrlParam(name, url) {
-  if (!url)
-    url = window.location.href;
+  if (!url && typeof location !== 'undefined') {
+    url = location.href
+  }
   name = name.replace(/[\[\]]/g, "\\$&");
 
   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"), results = regex
