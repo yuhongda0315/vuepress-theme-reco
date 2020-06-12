@@ -22,7 +22,7 @@
       <!-- Start 搜索结果 -->
       <ul class="rong-summary-search-list">
         <li v-for="(item, key, index) in searchResults" v-bind:key="index" @click="toUrl(item.url)">
-          <h4>{{item.title}}</h4>
+          <h4 :title="item.title">{{item.title}}</h4>
           <p class="rong-summary-search-text" v-html="item.content"></p>
           <p class="rong-summary-search-source">
             <span>来自: </span>
@@ -339,6 +339,10 @@ export default {
     line-height: 24px;
     font-size: 18px;
     margin: 37px 0 10px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 80px;
   }
   h4:hover {
     color: #0099FF;

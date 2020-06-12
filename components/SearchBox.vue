@@ -18,7 +18,7 @@
       ref="input"
     />
 
-    <div class="rong-searchbox-search-empty-box" v-if="!hasSearchSuggestionResult && focused">
+    <div class="rong-searchbox-search-empty-box" v-if="!hasSearchSuggestionResult && focused && !isHideSearchBoxResult">
       <div class="rong-summary-search-empty-inner">
         <img src="../images/search-empty.png">
         <p>未找到要查询的内容</p>
