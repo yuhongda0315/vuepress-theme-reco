@@ -212,6 +212,7 @@ export default {
       })
     },
     toUrl (url) {
+      url = '/v3' + url
       window.open(url)
     },
     selectPage (page) {
