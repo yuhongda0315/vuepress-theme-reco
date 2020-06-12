@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     showMore() {
-      window.location.href = '/summary.html?k=' + this.query
+      window.location.href = '/v3/summary.html?k=' + this.query
       // this.$router.push({
       //   path: '/summary?keywork=' + this.query
       // }).catch((e) => {})
