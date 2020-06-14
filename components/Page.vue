@@ -31,12 +31,13 @@
             <ul class="category-wrapper rong-category-wrapper" :key="index" v-if="isCategorySelected(category)">
               <li class="category-item" v-for="(item, index) in category.platforms" :key="index" :class="isPlatformSelected(item) ? 'active': ''">
                 <v-select
+                  :ref="'select' + index"
                   v-if="item.name === 'multi'"
                   class="rong-category-child"
-                  v-model="item.selected"
+                  :value="item.selected.text"
                   :clearable="false"
                   :options="item.children"
-                  @input="setSelected"
+                  @input="setSelected($event, index)"
                   label="text"
                   :searchable="false"
                   >
@@ -114,8 +115,11 @@ import { resolvePage } from '@theme/helpers/utils'
 import ModuleTransition from '@theme/components/ModuleTransition'
 import utils from '@theme/components/utils'
 import common from '@theme/components/sequenced'
-import vSelect from './vue-select'
-import '../styles/vue-select.css'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
+
+const PLATFORM_KEY = 'plat'
+const VERSION_KEY = 'ver'
 
 const LIKE_STATUS = {
   UN_SELECT: 0,
@@ -147,6 +151,17 @@ const scrollToAnchor = () => {
     }
   }
 }
+
+// const getPlatformLink = (platform) => {
+//   const link = platform.link || platform.groupName
+//   let index = link.indexOf('?')
+//   let path = index !== -1 ? link.substring(0, index) : link
+//   index = path.indexOf('./')
+//   if (index === 0) {
+//     path = path.substring(2)
+//   }
+//   return path
+// }
 
 function initSequence (newRoute, oldRoute) {
   newRoute = newRoute || { path: 'new' }
@@ -303,6 +318,24 @@ const initData = (context, newRoute, oldRoute) => {
   })
 }
 
+const getUrlParam = (name, url) => {
+  if (!url) {
+    url = window.location.href
+  }
+  name = name.replace(/[\[\]]/g, '\\$&')
+
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)', 'i')
+  var results = regex.exec(url)
+
+  if (!results) {
+    return null
+  }
+  if (!results[2]) {
+    return ''
+  }
+  return decodeURIComponent(results[2].replace(/\+/g, ' '))
+}
+
 export default {
   mixins: [moduleTransitonMixin],
   props: ['sidebarItems'],
@@ -405,7 +438,14 @@ export default {
             return platform
           }
           if (!platform.selected) {
-            platform.selected = platform.children[0]
+            utils.forEach(platform.children, (child) => {
+              if (self.isPlatformSelected(child)) {
+                platform.selected = child
+              }
+            })
+            if (!platform.selected) {
+              platform.selected = platform.children[0]
+            }
           }
           return platform
         })
@@ -422,7 +462,7 @@ export default {
     window.onresize = function () {
       setRightBarPosition()
     }
-
+    window.test = this
     // 兼容 localstorage 存储中带 ? 导致死循环
     let link = window.localStorage.getItem('rong-current-page')
     if (link && link.indexOf('?') !== -1) {
@@ -434,15 +474,44 @@ export default {
     isMultiPlatform (platform) {
       return platform.name === 'multi' && platform.children
     },
-    setSelected (platform) {
-      console.log('selected', platform)
-      const link = platform.link || ''
+    rediectTo (platform) {
+      let { link = '' } = platform
+      const plat = getUrlParam(PLATFORM_KEY, link)
+      const ver = getUrlParam(VERSION_KEY, link)
+      const index = link.indexOf('?')
+      if (index !== -1) {
+        link = link.substring(0, index)
+      }
       window.localStorage.setItem('rong-current-page', link)
+
+      const replaceRoute = () => {
+        const query = {}
+        plat && (query.plat = plat)
+        ver && (query.ver = ver)
+        const hasChanged = plat || ver
+        hasChanged && this.$router.replace({
+          query
+        })
+      }
+
       this.$router
         .push({
           path: link
-        })
-        .catch(() => {})
+        }).then(replaceRoute).catch(replaceRoute)
+    },
+    setSelected (platform, index) {
+      const self = this
+      self.rediectTo(platform)
+      self.$nextTick(() => {
+        const instanceList = self.$refs['select' + index]
+        if (instanceList) {
+          const instance = instanceList[0]
+          instance.$watch('selectedValue', (val) => {
+            instance.$el.querySelector('.vs__selected').textContent = platform.text
+          })
+          instance.$el.querySelector('.vs__selected').textContent = platform.text
+        }
+      })
     },
     navigateTo (url) {
       if (url && url !== this.$page.path) {
@@ -451,9 +520,21 @@ export default {
     },
     isPlatformSelected (item) {
       let name = item.name.toLocaleLowerCase()
+      const { link = '' } = item
+      const locationVer = getUrlParam(VERSION_KEY, location.href)
+      const ver = getUrlParam(VERSION_KEY, link)
+      if (link && locationVer && ver) {
+        return locationVer === ver
+      }
+
       if (name === 'multi') {
         name = item.groupName
       }
+      const pathPlat = getUrlParam(PLATFORM_KEY, location.href)
+      if (pathPlat) {
+        return pathPlat === item.name
+      }
+      // const link = getPlatformLink(item)
       return this.$page.path.indexOf(name) > -1
     },
     isCategorySelected (category) {

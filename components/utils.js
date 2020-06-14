@@ -170,8 +170,11 @@ const request = (url, option) => {
     xhr.send(body);
   });
 };
-const map = (arrs, callback) => {
-  return arrs.map(callback);
+const map = (source, event) => {
+  forEach(source, (item, index) => {
+    source[index] = event(item, index)
+  })
+  return source;
 };
 const filter = (arrs, callback) => {
   return arrs.filter(callback);
