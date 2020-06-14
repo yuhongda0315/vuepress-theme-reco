@@ -18,6 +18,7 @@ module.exports = {
   ],
   theme: require.resolve('../../'),
   themeConfig: {
+    base,
     nav: {
       logo: {
         url: 'https://www.rongcloud.cn/pc/images/logo.png',

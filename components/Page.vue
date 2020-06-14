@@ -1,15 +1,10 @@
 <template>
-  <main class="page rong-page" :class="{'page-api': isAPI() }">
-    <APIPage v-if="isAPI()" />
+  <main class="page rong-page" :class="{ 'page-api': isAPI }">
+    <APIPage v-if="isAPI" />
     <div v-else>
       <ModuleTransition>
         <ul class="header-navs">
-          <li
-            class="header-nav"
-            v-for="(item,index) in navs"
-            :key="item.url"
-            :class="{'is-active': navs.length -1 == index}"
-          >
+          <li class="header-nav" v-for="(item, index) in navs" :key="index" :class="{'is-active': navs.length -1 == index}">
             <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
           </li>
         </ul>
@@ -17,149 +12,70 @@
 
       <ModuleTransition delay="0.08">
         <div class="page-title">
-          <p class="page-title-content">{{getTitle()}} <span v-if="this.$page.frontmatter.time" class="page-title-time">( {{this.$page.frontmatter.time}} )</span></p>
-          
-          <!-- <hr /> -->
-          <!-- <PageInfo :pageInfo="$page" :hideAccessNumber="hideAccessNumber"></PageInfo> -->
+          <p class="page-title-content">{{pageTitle}}
+            <span v-if="this.$page.frontmatter.time" class="page-title-time">( {{this.$page.frontmatter.time}} )</span>
+          </p>
         </div>
       </ModuleTransition>
 
-      <div v-if="this.$page.frontmatter.platforms && !categorys.length" class="rong-platforms-box">
-        <ul class="category-wrapper rong-category-wrapper rong-category-padding">
-          <li
-            class="category-item"
-            v-for="(item, index) in this.$page.frontmatter.platforms"
-            :key="index"
-            :class="isSelected(item) ? 'active': ''"
-          >
-            <v-select
-              v-if="item.name == 'multi'"
-              v-model="selectedValue"
-              class="rong-category-child"
-              :clearable="false"
-              :options="item.children"
-              @input="setSelected"
-              label="text"
-              :searchable="false"
-            >
-              <template v-slot:option="option">
-                <span
-                  class="iconfont"
-                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
-                ></span>
-                {{ option.text }}
-              </template>
-            </v-select>
-            <a @click="rediectTo(item)" v-else>
-              <span class="category-name">{{ item.text }}</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div v-if="this.$page.frontmatter.languages && !categorys.length" class="rong-platforms-box">
-        <ul class="category-wrapper rong-category-wrapper rong-category-padding">
-          <li
-            class="category-item"
-            :class="isSelected(item) ? 'active': ''"
-            v-for="(item, index) in this.$page.frontmatter.languages"
-            :key="index"
-          >
-            <v-select
-              v-if="item.name == 'multi'"
-              v-model="selectedValue"
-              class="rong-category-child"
-              :clearable="false"
-              :options="item.children"
-              @input="setSelected"
-              label="text"
-              :searchable="false"
-            >
-              <template v-slot:option="option">
-                <span
-                  class="iconfont"
-                  :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
-                ></span>
-                {{ option.text }}
-              </template>
-            </v-select>
-            <a @click="rediectTo(item)" v-else>
-              <span class="category-name">{{ item.text }}</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="rong-category-box rong-category-padding" v-if="categorys.length">
+      <div class="rong-category-box rong-category-padding">
         <div class="rong-category-titles">
-          <a
-            v-for="(category, index) in categorys"
-            :key="index"
-            class="rong-category-title"
-            @click.prevent="selectCategory(category)"
-            :selected="isCategorySelected(category)"
-          >{{category.name}}</a>
+          <template v-for="(category, index) in categorys">
+            <a class="rong-category-title" :key="index" v-if="!category.isHide" :selected="isCategorySelected(category)" @click.prevent="selectCategory(category)">
+              {{category.name}}
+            </a>
+          </template>
         </div>
         <div class="rong-category-titles">
-          <ul
-            class="category-wrapper rong-category-wrapper"
-            v-for="(category, index) in categorys"
-            :key="index"
-            v-if="isCategorySelected(category)"
-          >
-            <li
-              class="category-item"
-              :class="isSelected(item) ? 'active': ''"
-              v-for="(item, index) in category.languages"
-              :key="index"
-            >
-              <v-select
-                v-if="item.name == 'multi'"
-                v-model="selectedValue"
-                class="rong-category-child"
-                :clearable="false"
-                :options="item.children"
-                @input="setSelected"
-                label="text"
-                :searchable="false"
-              >
-                <template v-slot:option="option">
-                  <span
-                    class="iconfont"
-                    :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
-                  ></span>
-                  {{ option.text }}
-                </template>
-              </v-select>
-              <a @click="rediectTo(item)" v-else>
-                <span class="category-name">{{ item.text }}</span>
-              </a>
-            </li>
-          </ul>
+          <template v-for="(category, index) in categorys">
+            <ul class="category-wrapper rong-category-wrapper" :key="index" v-if="isCategorySelected(category)">
+              <li class="category-item" v-for="(item, index) in category.platforms" :key="index" :class="isPlatformSelected(item) ? 'active': ''">
+                <v-select
+                  v-if="item.name === 'multi'"
+                  class="rong-category-child"
+                  v-model="item.selected"
+                  :clearable="false"
+                  :options="item.children"
+                  @input="setSelected"
+                  label="text"
+                  :searchable="false"
+                  >
+                  <template v-slot:option="option">
+                    <span
+                      class="iconfont"
+                      :class="{'reco-fire':option.isFire,  'rong-option': option.isFire}"
+                    ></span>
+                    {{ option.text }}
+                  </template>
+                </v-select>
+                <a v-else @click="setSelected(item)">
+                  <span class="category-name">{{item.text}}</span>
+                </a>
+              </li>
+            </ul>
+          </template>
         </div>
       </div>
+
       <Content class="rong-page-box" />
 
-      <div
-        class="rong-like"
-        v-if="this.$site.themeConfig.like && this.$site.themeConfig.like.title"
-      >
+      <div class="rong-like" v-if="this.$site.themeConfig.like && this.$site.themeConfig.like.title">
         <p class="rong-like-title">{{this.$site.themeConfig.like.title}}</p>
         <div class="rong-like-btn-box">
           <a
             @click="selectLike(true)"
-            :disabled="!!isSelectedLike"
-            :selected="isSelectedLike && isLike"
+            :disabled="isLikePanelSelected"
+            :selected="likeStatus === LIKE_STATUS.LIKED"
             class="rong-like-btn"
           ></a>
           <a
             @click="selectLike(false)"
             class="rong-dislike-btn"
-            :selected="isSelectedLike && !isLike"
-            :disabled="!!isSelectedLike"
+            :selected="likeStatus === LIKE_STATUS.UN_LIKED"
+            :disabled="isLikePanelSelected"
           ></a>
         </div>
-        <div class="rong-like-success-box" v-if="this.isSelectedLike">
+        <div class="rong-like-success-box" v-if="isLikePanelSelected">
           <i class="rong-like-success-icon"></i>
           <div class="rong-like-success-content">
             <p class="rong-like-success-title">{{this.$site.themeConfig.like.success}}</p>
@@ -168,20 +84,6 @@
         </div>
         <div class="rong-like-other" v-html="this.$site.themeConfig.like.afterHtml"></div>
       </div>
-
-      <ModuleTransition delay="0.24">
-        <footer v-show="recoShowModule" class="page-edit">
-          <div class="edit-link" v-if="editLink">
-            <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
-            <OutboundLink />
-          </div>
-
-          <div class="last-updated" v-if="lastUpdated">
-            <span class="prefix">{{ lastUpdatedText }}:</span>
-            <span class="time">{{ lastUpdated }}</span>
-          </div>
-        </footer>
-      </ModuleTransition>
 
       <ModuleTransition delay="0.32">
         <div class="page-nav" v-if="recoShowModule && (prev || next)">
@@ -200,579 +102,476 @@
       <ModuleTransition delay="0.40">
         <slot v-show="recoShowModule" name="bottom" />
       </ModuleTransition>
+
     </div>
   </main>
 </template>
 
 <script>
-import PageInfo from "@theme/components/PageInfo";
-import APIPage from "@theme/components/APIPage";
-import { resolvePage, outboundRE, endingSlashRE } from "@theme/helpers/utils";
-import ModuleTransition from "@theme/components/ModuleTransition";
-import moduleTransitonMixin from "@theme/mixins/moduleTransiton";
-import utils from "@theme/components/utils";
-import common from "@theme/components/sequenced";
-import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
+import moduleTransitonMixin from '@theme/mixins/moduleTransiton'
+import APIPage from '@theme/components/APIPage'
+import { resolvePage } from '@theme/helpers/utils'
+import ModuleTransition from '@theme/components/ModuleTransition'
+import utils from '@theme/components/utils'
+import common from '@theme/components/sequenced'
+import vSelect from './vue-select'
+import '../styles/vue-select.css'
 
-export default {
-  mixins: [moduleTransitonMixin],
-  components: { PageInfo, ModuleTransition, APIPage, vSelect },
+const LIKE_STATUS = {
+  UN_SELECT: 0,
+  LIKED: 1,
+  UN_LIKED: 2
+}
 
-  props: ["sidebarItems"],
+const initSelectedCategory = (context) => {
+  const { $frontmatter: { categorys = [] }} = context
+  let selectedCategory
+  utils.forEach(categorys, (cate, index) => {
+    const platformList = cate.platforms || cate.languages
+    utils.forEach(platformList, (platform) => {
+      if (context.isPlatformSelected(platform)) {
+        selectedCategory = cate
+      }
+    })
+  })
 
-  data() {
-    return {
-      selectedValue: "Web 3.x",
-      navs: [],
-      isHasKey: true,
-      categorys: [],
-      selectedCategory: {},
-      isSelectedLike: false,
-      isLike: false,
-      plat: null
-    };
-  },
+  context.selectedCategory = selectedCategory || categorys[0]
+}
 
-  computed: {
-    hideAccessNumber() {
-      const valineConfig = this.$themeConfig.valineConfig;
-      if (valineConfig) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    lastUpdated() {
-      return this.$page.lastUpdated;
-    },
-    lastUpdatedText() {
-      if (typeof this.$themeLocaleConfig.lastUpdated === "string") {
-        return this.$themeLocaleConfig.lastUpdated;
-      }
-      if (typeof this.$themeConfig.lastUpdated === "string") {
-        return this.$themeConfig.lastUpdated;
-      }
-      return "Last Updated";
-    },
-    prev() {
-      const prev = this.$frontmatter.prev;
-      if (prev === false) {
-        return;
-      } else if (prev) {
-        return resolvePage(this.$site.pages, prev, this.$route.path);
-      } else {
-        return resolvePrev(this.$page, this.sidebarItems);
-      }
-    },
-    next() {
-      const next = this.$frontmatter.next;
-      if (next === false) {
-        return;
-      } else if (next) {
-        return resolvePage(this.$site.pages, next, this.$route.path);
-      } else {
-        return resolveNext(this.$page, this.sidebarItems);
-      }
-    },
-    editLink() {
-      if (this.$frontmatter.editLink === false) {
-        return false;
-      }
-      const {
-        repo,
-        editLinks,
-        docsDir = "",
-        docsBranch = "master",
-        docsRepo = repo
-      } = this.$themeConfig;
-
-      if (docsRepo && editLinks && this.$page.relativePath) {
-        return this.createEditLink(
-          repo,
-          docsRepo,
-          docsDir,
-          docsBranch,
-          this.$page.relativePath
-        );
-      }
-      return "";
-    },
-    editLinkText() {
-      return (
-        this.$themeLocaleConfig.editLinkText ||
-        this.$themeConfig.editLinkText ||
-        `Edit this page`
-      );
-    }
-  },
-  methods: {
-    rediectTo: function(item) {
-      rediectTo(this, item);
-    },
-    setSelected: function() {
-      rediectTo(this, this.selectedValue);
-    },
-    selectLike: function(isLike) {
-      let context = this;
-      context.isSelectedLike = true;
-      context.isLike = isLike;
-      let { feedbackURL } = context.$themeConfig;
-      let url = feedbackURL || "//localhost:9095";
-      url = `${url}/like`;
-      let currentPath = getPath();
-      utils.request(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          isLike: isLike ? 1 : 0,
-          page: currentPath
-        })
-      });
-    },
-    isCategorySelected: function(category) {
-      return this.selectedCategory === category;
-    },
-    selectCategory: function(category) {
-      this.selectedCategory = category;
-      let languages = category.languages || [];
-      let lang = languages[0];
-      if (lang) {
-        this.$router.push(lang.link).catch(() => {});
-      }
-    },
-    navigateTo: function(url) {
-      let context = this;
-      if (url && url != this.$page.path) {
-        context.$router.push(url);
-      }
-      console.log(url);
-    },
-    formatNavName: function(name) {
-      return name.toLocaleLowerCase();
-    },
-    isSelected: function(item) {
-      let name = item.name.toLocaleLowerCase()
-      if (this.plat) {
-        return this.plat === name
-      }
-      if (name == "multi") {
-        name = item.groupName;
-      }
-      return this.$page.path.indexOf(name) > -1;
-    },
-    isAPI: function() {
-      return this.$frontmatter.APIConf;
-    },
-    getTitle: function() {
-      let { navs } = this;
-      let nav = navs[navs.length - 1] || { title: "" };
-      return nav.title;
-    },
-    createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
-      const bitbucket = /bitbucket.org/;
-      if (bitbucket.test(repo)) {
-        const base = outboundRE.test(docsRepo) ? docsRepo : repo;
-        return (
-          base.replace(endingSlashRE, "") +
-          `/src` +
-          `/${docsBranch}/` +
-          (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
-          path +
-          `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
-        );
-      }
-
-      const base = outboundRE.test(docsRepo)
-        ? docsRepo
-        : `https://github.com/${docsRepo}`;
-      return (
-        base.replace(endingSlashRE, "") +
-        `/edit` +
-        `/${docsBranch}/` +
-        (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
-        path
-      );
-    },
-    initCategorys: function() {
-      var categorys = this.$frontmatter.categorys || [];
-      var selectedCategory;
-      for (var i = 0, max = categorys.length; i < max; i++) {
-        var category = categorys[i];
-        var languages = category.languages || [];
-        for (var j = 0; j < languages.length; j++) {
-          var language = languages[j];
-          if (this.isSelected(language)) {
-            selectedCategory = category;
-          }
-        }
-      }
-
-      this.categorys = categorys;
-      if (selectedCategory) {
-        this.selectedCategory = selectedCategory;
-      } else if (categorys.length) {
-        this.selectedCategory = categorys[0];
-      }
-    }
-  },
-  created: function() {
-    getNavs(this);
-  },
-  mounted: function() {
-    this.initCategorys();
-    scrollToAnchor();
-    initDefaultSelected(this);
-    initSequence();
-    initTOCScroll();
-    this.plat = getUrlParam('plat')
-    window.onresize = function () {
-      setRightBarPosition() 
-    }
-    setRightBarPosition()
-    let link = window.localStorage.getItem("rong-current-page");
-    if (link && link.indexOf('?') !== -1) { // 兼容错误导致死循环
-      link = link.split('?')[0];
-      window.localStorage.setItem('rong-current-page', link);
-    }
-  },
-  watch: {
-    $route: function(newRoute, oldRoute) {
-      getNavs(this);
-      initSequence(newRoute, oldRoute);
-      this.initCategorys();
-      this.isSelectedLike = false;
-      this.selectedValue = this.selectedValue.text || this.selectedValue;
-      this.$nextTick(() => {
-        initTOCScroll(newRoute, oldRoute);
-        setRightBarPosition() 
-      });
+const scrollToAnchor = () => {
+  const hash = window.location.hash
+  if (hash) {
+    const node = document.querySelector(`a[href="${hash}"]`)
+    if (node) {
+      node.click()
     }
   }
-};
-function initTOCScroll(newRoute, oldRoute) {
-  newRoute = newRoute || { path: "new" };
-  oldRoute = oldRoute || { path: "old" };
+}
+
+function initSequence (newRoute, oldRoute) {
+  newRoute = newRoute || { path: 'new' }
+  oldRoute = oldRoute || { path: 'old' }
+  setTimeout(() => {
+    if (newRoute.path != oldRoute.path) {
+      common.Sequenced.renderAll()
+    }
+  }, 1000)
+}
+
+function initTOCScroll (newRoute, oldRoute) {
+  newRoute = newRoute || { path: 'new' }
+  oldRoute = oldRoute || { path: 'old' }
   if (newRoute.path == oldRoute.path) {
-    return;
+    return
   };
-  var filter = function(arrs, callback) {
-    var _arrs = [];
+  var filter = function (arrs, callback) {
+    var _arrs = []
     for (var i = 0; i < arrs.length; i++) {
-      var item = arrs[i];
+      var item = arrs[i]
       if (callback(item)) {
-        _arrs.push(item);
+        _arrs.push(item)
       }
     }
-    return _arrs;
-  };
+    return _arrs
+  }
   var getElements = () => {
-    var elements = [];
-    var root = document.querySelector(".rong-page-box.content__default");
-    if(!root){
-      return elements;
+    var elements = []
+    var root = document.querySelector('.rong-page-box.content__default');
+    if (!root) {
+      return elements
     }
-    var children = root.children;
+    var children = root.children
     for (var i = 0; i < children.length; i++) {
-      var element = children[i];
-      if (element.tagName.indexOf("H") > -1) {
-        elements.push(element);
+      var element = children[i]
+      if (element.tagName.indexOf('H') > -1) {
+        elements.push(element)
       }
     }
-    return elements;
-  };
-  var elements = getElements();
-  var beforeScrollTop = 0;
-  var lastNode = null;
-  var CLASS_NAME = "rong-scroll-active";
-  var addClass = function(id) {
-    var reg = /[\u4E00-\u9FFF]+/;
-    var isChina = reg.test(id);
+    return elements
+  }
+  var elements = getElements()
+  var beforeScrollTop = 0
+  var lastNode = null
+  var CLASS_NAME = 'rong-scroll-active'
+  var addClass = function (id) {
+    var reg = /[\u4E00-\u9FFF]+/
+    var isChina = reg.test(id)
     if (isChina) {
-      id = " " + id;
+      id = ' ' + id
     }
     var nextNavs = document.querySelectorAll('a[href="#' + id + '"]');
     var nextNav = filter(nextNavs, nav => {
-      return nav.className.indexOf("header-anchor") == -1;
-    })[0];
+      return nav.className.indexOf('header-anchor') == -1
+    })[0]
     if (nextNav && nextNav !== lastNode) {
-      removeClass();
-      nextNav.parentNode.classList.add(CLASS_NAME);
-      lastNode = nextNav;
+      removeClass()
+      nextNav.parentNode.classList.add(CLASS_NAME)
+      lastNode = nextNav
     }
-  };
-  var removeClass = function() {
+  }
+  var removeClass = function () {
     if (lastNode) {
-      lastNode.parentNode.classList.remove(CLASS_NAME);
+      lastNode.parentNode.classList.remove(CLASS_NAME)
     }
-  };
-  var getDownIndex = function(i, len) {
-    var _i = 0;
+  }
+  var getDownIndex = function (i, len) {
+    var _i = 0
     if (i != 0) {
-      _i = i - 1;
+      _i = i - 1
     }
     if (i == len - 1) {
-      _i = i;
+      _i = i
     }
-    return _i;
-  };
-  var getUpIndex = function(i, len) {
-    var _i = 0;
-    var maxIndex = len - 1;
+    return _i
+  }
+  var getUpIndex = function (i, len) {
+    var _i = 0
+    var maxIndex = len - 1
     if (i != maxIndex) {
-      _i = i + 1;
+      _i = i + 1
     }
     if (i == maxIndex) {
-      _i = maxIndex;
+      _i = maxIndex
     }
-    return _i;
-  };
+    return _i
+  }
   var direction = {
-    up: function(scrollTop) {
-      var first = elements[0];
-      var isTop = scrollTop < first.offsetTop;
+    up: function (scrollTop) {
+      var first = elements[0]
+      var isTop = scrollTop < first.offsetTop
       if (isTop) {
-        return addClass(first.id);
+        return addClass(first.id)
       }
       for (var i = elements.length - 1; i >= 0; i--) {
-        var el = elements[i];
+        var el = elements[i]
         if (el.offsetTop <= window.pageYOffset) {
-          var index = getUpIndex(i, elements.length);
-          el = elements[index];
-          return addClass(el.id);
+          var index = getUpIndex(i, elements.length)
+          el = elements[index]
+          return addClass(el.id)
         }
       }
     },
-    down: function(scrollTop) {
-      var last = elements[elements.length - 1];
-      var isBottom = scrollTop > last.offsetTop;
+    down: function (scrollTop) {
+      var last = elements[elements.length - 1]
+      var isBottom = scrollTop > last.offsetTop
       if (isBottom) {
-        return addClass(last.id);
+        return addClass(last.id)
       }
       for (var i = 0; i < elements.length; i++) {
-        var el = elements[i];
+        var el = elements[i]
         if (el.offsetTop >= window.pageYOffset) {
-          var index = getDownIndex(i, elements.length);
-          el = elements[index];
-          return addClass(el.id);
+          var index = getDownIndex(i, elements.length)
+          el = elements[index]
+          return addClass(el.id)
         }
       }
     }
-  };
-  var interval = 0;
-  var onScroll = function() {
-    clearTimeout(interval);
-    interval = setTimeout(function() {
-      var afterScrollTop = window.pageYOffset;
-      var delta = afterScrollTop - beforeScrollTop;
-      var type = delta > 0 ? "down" : "up";
-      direction[type](afterScrollTop);
-      beforeScrollTop = afterScrollTop;
-    }, 10);
-  };
+  }
+  var interval = 0
+  var onScroll = function () {
+    clearTimeout(interval)
+    interval = setTimeout(function () {
+      var afterScrollTop = window.pageYOffset
+      var delta = afterScrollTop - beforeScrollTop
+      var type = delta > 0 ? 'down' : 'up'
+      direction[type](afterScrollTop)
+      beforeScrollTop = afterScrollTop
+    }, 10)
+  }
   if (elements.length > 0) {
-    window.addEventListener("scroll", onScroll);
-    onScroll();
-  }
-}
-function rediectTo(context, item) {
-  var link = item.link || ''
-  context.plat = getUrlParam('plat', link)
-  var index = link.indexOf('?')
-  if (index !== -1) {
-    link = link.substring(0, index)
-  }
-  window.localStorage.setItem("rong-current-page", link)
-  context.selectedValue = context.selectedValue.text || context.selectedValue
-  context.$router
-    .push({
-      path: link
-    })
-    .catch(error => {});
-}
-function initSequence(newRoute, oldRoute) {
-  newRoute = newRoute || { path: "new" };
-  oldRoute = oldRoute || { path: "old" };
-  setTimeout(() => {
-    if (newRoute.path != oldRoute.path) {
-      common.Sequenced.renderAll();
-    }
-  }, 1000);
-}
-function initDefaultSelected(context) {
-  let link = window.localStorage.getItem("rong-current-page");
-  let pages = [];
-  let {
-    $page: { frontmatter }
-  } = context;
-  let languages = frontmatter.languages || [];
-  let platforms = frontmatter.platforms || [];
-  let categorys = frontmatter.categorys || [];
-
-  pages = pages.concat(languages);
-  pages = pages.concat(platforms);
-  for (let i = 0; i < categorys.length; i++) {
-    let category = categorys[i];
-    pages = pages.concat(category.languages);
-  }
-  let page = pages.filter(page => {
-    return page.name == "multi";
-  })[0];
-  if (page) {
-    console.log(page);
-    let { children } = page;
-    let child = children.filter(_child => {
-      return _child.link == link;
-    })[0];
-    if (child) {
-      context.selectedValue = child.text;
-    }
-  }
-}
-function scrollToAnchor() {
-  let hash = window.location.hash;
-  if (hash) {
-    let node = document.querySelector(`a[href="${hash}"]`);
-    if (node) {
-      node.click();
-    }
+    window.addEventListener('scroll', onScroll)
+    onScroll()
   }
 }
 
-function getPath() {
-  return window.location.href;
-}
-function getLinks(path) {
-  /** 路径项 */
-  const routePaths = path.split("#")[0].split("/");
-  /** 链接 */
-  const links = [];
-  let link = "";
-  // 生成链接
-  routePaths.forEach((element, index) => {
-    if (index !== routePaths.length - 1) {
-      link += `${element}/`;
-      links.push(link);
-    } else if (element !== "") {
-      link += element;
-      links.push(link);
-    }
-  });
-  return links;
-}
-function formatSidebars(bars, parent, root) {
-  parent = parent || "";
-  var sidebars = [];
-  bars.forEach(bar => {
-    var name = parent + bar.depth;
-    let hasChild = !!bar.children;
-
-    sidebars.push({
-      title: bar.title,
-      name: name,
-      url: bar.cpath
-    });
-    if (hasChild) {
-      let children = formatSidebars(bar.children, name, root);
-      sidebars = sidebars.concat(children);
-    }
-  });
-  return sidebars;
-}
-
-function getElements(sidebar, pages) {
-  let elements = [];
-  for (let name in sidebar) {
-    let bars = sidebar[name];
-    let sidebars = formatSidebars(bars, name, name);
-    sidebars.forEach(bar => {
-      elements.push(bar);
-    });
-  }
-
-  pages.forEach(({ title, path: url }) => {
-    elements.push({
-      title,
-      name: url,
-      url
-    });
-  });
-  return elements;
-}
-function getNavs(context) {
-  let {
-    $route,
-    $site: {
-      pages,
-      themeConfig: { sidebar }
-    }
-  } = context;
-  let links = getLinks($route.fullPath);
-  let elements = getElements(sidebar, pages);
-  let navs = [];
-  links.forEach(link => {
-    elements.forEach(element => {
-      let name = element.name;
-      if (name == link && name != "/" && element.title) {
-        navs.push(element);
-      }
-    });
-  });
-  context.navs = navs;
-}
-
-function resolvePrev(page, items) {
-  return find(page, items, -1);
-}
-
-function resolveNext(page, items) {
-  return find(page, items, 1);
-}
-
-function find(page, items, offset) {
-  const res = [];
-  flatten(items, res);
-  for (let i = 0; i < res.length; i++) {
-    const cur = res[i];
-    if (cur.type === "page" && cur.path === decodeURIComponent(page.path)) {
-      return res[i + offset];
-    }
-  }
-}
-
-function flatten(items, res) {
-  for (let i = 0, l = items.length; i < l; i++) {
-    if (items[i].type === "group") {
-      flatten(items[i].children || [], res);
-    } else {
-      res.push(items[i]);
-    }
-  }
-}
-
-function getUrlParam(name, url) {
-  if (!url)
-    url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"), results = regex
-    .exec(url);
-
-  if (!results)
-    return null;
-  if (!results[2])
-    return '';
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-function setRightBarPosition() {
+const setRightBarPosition = () => {
   var innerPageEl = document.querySelector('.rong-page')
   var rightBarEl = document.querySelector('.table-of-contents')
   if (innerPageEl && rightBarEl) {
     var width = innerPageEl.clientWidth - 50
     rightBarEl.style.marginLeft = width + 'px'
+  }
+}
+
+const initData = (context, newRoute, oldRoute) => {
+  context.likeStatus = LIKE_STATUS.UN_SELECT
+  initSelectedCategory(context)
+  initSequence(newRoute, oldRoute)
+  context.$nextTick(() => {
+    initTOCScroll(newRoute, oldRoute)
+    setRightBarPosition()
+  })
+}
+
+export default {
+  mixins: [moduleTransitonMixin],
+  props: ['sidebarItems'],
+  components: {
+    APIPage,
+    ModuleTransition,
+    vSelect
+  },
+  data () {
+    return {
+      likeStatus: LIKE_STATUS.UN_SELECT,
+      selectedCategory: {}
+    }
+  },
+  watch: {
+    $route (newRoute, oldRoute) {
+      initData(this, newRoute, oldRoute)
+    }
+  },
+  computed: {
+    LIKE_STATUS: () => LIKE_STATUS,
+    isLikePanelSelected () { // 点赞面板已经被选择
+      return this.likeStatus !== LIKE_STATUS.UN_SELECT
+    },
+    isAPI () {
+      return this.$frontmatter.APIConf
+    },
+    navs () {
+      const { $route, $site: { pages, themeConfig: { sidebar }}} = this
+      const links = getLinks($route.fullPath)
+      const elements = getElements(sidebar, pages)
+      const navs = []
+      links.forEach(link => {
+        elements.forEach(element => {
+          const { name } = element
+          if (name === link && name !== '/' && element.title) {
+            navs.push(element)
+          }
+        })
+      })
+      return navs
+    },
+    pageTitle () {
+      const { navs } = this
+      const nav = navs[navs.length - 1] || { title: '' }
+      return nav.title
+    },
+    prev () {
+      const prev = this.$frontmatter.prev
+      if (prev === false) {
+        return
+      } else if (prev) {
+        return resolvePage(this.$site.pages, prev, this.$route.path)
+      } else {
+        return resolvePrev(this.$page, this.sidebarItems)
+      }
+    },
+    next () {
+      const next = this.$frontmatter.next
+      if (next === false) {
+        return
+      } else if (next) {
+        return resolvePage(this.$site.pages, next, this.$route.path)
+      } else {
+        return resolveNext(this.$page, this.sidebarItems)
+      }
+    },
+    /**
+     * 分类
+     * 格式 1:
+     * categorys: [
+     *  { name: '客户端', languages: [ { name: 'ios', text: 'iOS', link: './ios' } ] },
+     *  { name: '服务端', platforms: [ { name: 'ios', text: 'iOS', link: './ios' } ] },
+     * ]
+     * 格式 2:
+     * languages: [
+     *  { name: 'ios', text: 'iOS', link: './ios' }
+     * ]
+     * 格式 3:
+     * platforms: [
+     *  { name: 'ios', text: 'iOS', link: './ios' }
+     * ]
+    */
+    categorys () {
+      const self = this
+      const { $frontmatter: { categorys, platforms, languages }} = this
+      let categoryList = []
+      if (categorys && categorys.length) {
+        categoryList = categorys
+      } else {
+        const platformList = platforms || languages
+        categoryList = [
+          { isHide: true, name: '', platforms: platformList }
+        ]
+      }
+      return utils.map(categoryList, (category) => {
+        const platformList = category.platforms || category.languages
+        category.platforms = utils.map(platformList, (platform) => {
+          if (!self.isMultiPlatform(platform)) {
+            return platform
+          }
+          if (!platform.selected) {
+            platform.selected = platform.children[0]
+          }
+          return platform
+        })
+        return category
+      })
+    }
+  },
+  created () {
+    // initData(this)
+  },
+  mounted () {
+    initData(this)
+    scrollToAnchor()
+    window.onresize = function () {
+      setRightBarPosition()
+    }
+
+    // 兼容 localstorage 存储中带 ? 导致死循环
+    let link = window.localStorage.getItem('rong-current-page')
+    if (link && link.indexOf('?') !== -1) {
+      link = link.split('?')[0]
+      window.localStorage.setItem('rong-current-page', link)
+    }
+  },
+  methods: {
+    isMultiPlatform (platform) {
+      return platform.name === 'multi' && platform.children
+    },
+    setSelected (platform) {
+      console.log('selected', platform)
+      const link = platform.link || ''
+      window.localStorage.setItem('rong-current-page', link)
+      this.$router
+        .push({
+          path: link
+        })
+        .catch(() => {})
+    },
+    navigateTo (url) {
+      if (url && url !== this.$page.path) {
+        this.$router.push(url)
+      }
+    },
+    isPlatformSelected (item) {
+      let name = item.name.toLocaleLowerCase()
+      if (name === 'multi') {
+        name = item.groupName
+      }
+      return this.$page.path.indexOf(name) > -1
+    },
+    isCategorySelected (category) {
+      return this.selectedCategory === category
+    },
+    selectCategory (category) {
+      this.selectedCategory = category
+      const platformList = category.platform || category.languages || []
+      const first = platformList[0]
+      if (first) {
+        this.$router.push(first.link).catch(() => {})
+      }
+    },
+    selectLike (isLike) {
+      const context = this
+      const { feedbackURL } = context.$themeConfig
+      let url = feedbackURL || '//localhost:9095'
+      url = `${url}/like`
+      const currentPath = window.location.href
+
+      context.likeStatus = isLike ? LIKE_STATUS.LIKED : LIKE_STATUS.UN_LIKED
+
+      utils.request(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          isLike: isLike ? 1 : 0,
+          page: currentPath
+        })
+      })
+    }
+  }
+}
+
+function formatSidebars (bars, parent, root) {
+  parent = parent || ''
+  var sidebars = []
+  bars.forEach(bar => {
+    var name = parent + bar.depth
+    const hasChild = !!bar.children
+
+    sidebars.push({
+      title: bar.title,
+      name: name,
+      url: bar.cpath
+    })
+    if (hasChild) {
+      const children = formatSidebars(bar.children, name, root)
+      sidebars = sidebars.concat(children)
+    }
+  })
+  return sidebars
+}
+
+function getLinks (path) {
+  // 路径项
+  const routePaths = path.split('#')[0].split('/')
+  // 链接
+  const links = []
+  let link = ''
+  // 生成链接
+  routePaths.forEach((element, index) => {
+    if (index !== routePaths.length - 1) {
+      link += `${element}/`
+      links.push(link)
+    } else if (element !== '') {
+      link += element
+      links.push(link)
+    }
+  })
+  return links
+}
+
+function getElements (sidebar, pages) {
+  const elements = []
+  for (const name in sidebar) {
+    const bars = sidebar[name]
+    const sidebars = formatSidebars(bars, name, name)
+    sidebars.forEach(bar => {
+      elements.push(bar)
+    })
+  }
+  pages.forEach(({ title, path: url }) => {
+    elements.push({
+      title, name: url, url
+    })
+  })
+  return elements
+}
+
+function resolvePrev (page, items) {
+  return find(page, items, -1)
+}
+
+function resolveNext (page, items) {
+  return find(page, items, 1)
+}
+
+function find (page, items, offset) {
+  const res = []
+  flatten(items, res)
+  for (let i = 0; i < res.length; i++) {
+    const cur = res[i]
+    if (cur.type === 'page' && cur.path === decodeURIComponent(page.path)) {
+      return res[i + offset]
+    }
+  }
+}
+
+function flatten (items, res) {
+  for (let i = 0, l = items.length; i < l; i++) {
+    if (items[i].type === 'group') {
+      flatten(items[i].children || [], res)
+    } else {
+      res.push(items[i])
+    }
   }
 }
 

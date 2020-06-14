@@ -212,8 +212,7 @@ export default {
       })
     },
     toUrl (url) {
-      url = '/v3' + url
-      window.open(url)
+      window.open(`${this.$themeConfig.base}/url`)
     },
     selectPage (page) {
       this.searchOffset = page - 1
