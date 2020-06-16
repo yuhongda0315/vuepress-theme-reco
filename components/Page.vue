@@ -128,7 +128,7 @@ const LIKE_STATUS = {
 }
 
 const initSelectedCategory = (context) => {
-  const { $frontmatter: { categorys = [] }} = context
+  const { categorys = [] } = context
   let selectedCategory
   utils.forEach(categorys, (cate, index) => {
     const platformList = cate.platforms || cate.languages
