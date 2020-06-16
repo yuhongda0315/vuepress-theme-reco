@@ -422,6 +422,9 @@ export default {
     categorys () {
       const self = this
       const { $frontmatter: { categorys, platforms, languages }} = this
+      if (utils.isEmpty(categorys) && utils.isEmpty(platforms) && utils.isEmpty(languages)) {
+        return []
+      }
       let categoryList = []
       if (categorys && categorys.length) {
         categoryList = categorys
@@ -790,11 +793,23 @@ function flatten (items, res) {
   }
 
   .rong-category-child .vs__selected {
+    // position: absolute;
+    white-space: nowrap;
+    position: relative;
+    margin-right: 40px;
+  }
+
+  .rong-category-child .vs__actions {
     position: absolute;
+    top: 9px;
+    right: 0;
   }
 
   .rong-category-child .vs__selected-options {
     display: block;
+    input {
+      position: absolute;
+    }
   }
 
   .page-title {
@@ -1023,7 +1038,7 @@ function flatten (items, res) {
 
     // border-bottom: 1px solid #F0F0F0;
     .category-item + .category-item {
-      margin: 0 38px;
+      margin: 0 25px;
     }
 
     .category-item {
