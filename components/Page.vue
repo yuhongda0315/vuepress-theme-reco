@@ -319,7 +319,7 @@ const initData = (context, newRoute, oldRoute) => {
 }
 
 const getUrlParam = (name, url) => {
-  if (!url) {
+  if (!url && typeof window !== 'undefined') {
     url = window.location.href
   }
   name = name.replace(/[\[\]]/g, '\\$&')
@@ -523,8 +523,13 @@ export default {
     },
     isPlatformSelected (item) {
       let name = item.name.toLocaleLowerCase()
+      let href
+      if (typeof location !== 'undefined') {
+        href = location.href
+      }
+      // const href = winLocation.href
       const { link = '' } = item
-      const locationVer = getUrlParam(VERSION_KEY, location.href)
+      const locationVer = getUrlParam(VERSION_KEY, href)
       const ver = getUrlParam(VERSION_KEY, link)
       if (link && locationVer && ver) {
         return locationVer === ver
@@ -533,7 +538,7 @@ export default {
       if (name === 'multi') {
         name = item.groupName
       }
-      const pathPlat = getUrlParam(PLATFORM_KEY, location.href)
+      const pathPlat = getUrlParam(PLATFORM_KEY, href)
       if (pathPlat) {
         return pathPlat === item.name
       }
