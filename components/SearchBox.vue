@@ -102,7 +102,7 @@ export default {
     showMore() {
       let base = this.$themeConfig.base || this.$site.base
       base = base === '/' ? '' : base
-      window.location.href = `${base}/summary.html?k=${this.query}`
+      window.location.href = `${base}summary.html?k=${this.query}`
       // this.$router.push({
       //   path: '/summary?keywork=' + this.query
       // }).catch((e) => {})
