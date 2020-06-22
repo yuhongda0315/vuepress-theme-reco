@@ -212,7 +212,13 @@ export default {
       })
     },
     toUrl (url) {
-      window.open(`${this.$themeConfig.base}/url`)
+      let base = this.$themeConfig.base || this.$site.base
+      base = base === '/' ? '' : base
+      if (url.indexOf('/') === 0) {
+        window.open(`${base}${url}`)
+      } else {
+        window.open(`${base}/${url}`)
+      }
     },
     selectPage (page) {
       this.searchOffset = page - 1
