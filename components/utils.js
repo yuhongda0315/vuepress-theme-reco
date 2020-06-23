@@ -252,6 +252,20 @@ function getUrlParam(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+const isSmallScreen = () => {
+  return document.body.clientWidth < 900
+}
+
+const setHomeBodyClass = (option = {}) => {
+  const { isRemove, className } = option
+  try {
+    const appEl = document.body
+    isRemove ? appEl.classList.remove(className) : appEl.classList.add(className)
+  } catch (e) {
+    //
+  }
+}
+
 export default {
   noop,
   isObject,
@@ -281,5 +295,7 @@ export default {
   isInclude,
   clone,
   getBrowser,
-  getUrlParam
+  getUrlParam,
+  isSmallScreen,
+  setHomeBodyClass
 }

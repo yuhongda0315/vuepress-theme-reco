@@ -121,10 +121,21 @@ import 'vue-select/dist/vue-select.css'
 const PLATFORM_KEY = 'plat'
 const VERSION_KEY = 'ver'
 
+const SmallScreenClassName = 'rong-small-screen-app'
+
 const LIKE_STATUS = {
   UN_SELECT: 0,
   LIKED: 1,
   UN_LIKED: 2
+}
+
+const setSmallScreen = () => {
+  const isSmall = utils.isSmallScreen()
+  utils.setHomeBodyClass({
+    className: SmallScreenClassName,
+    isRemove: !isSmall
+  })
+  return isSmall
 }
 
 const initSelectedCategory = (context) => {
@@ -178,7 +189,7 @@ function initTOCScroll (newRoute, oldRoute) {
   oldRoute = oldRoute || { path: 'old' }
   if (newRoute.path == oldRoute.path) {
     return
-  };
+  }
   var filter = function (arrs, callback) {
     var _arrs = []
     for (var i = 0; i < arrs.length; i++) {
@@ -191,7 +202,7 @@ function initTOCScroll (newRoute, oldRoute) {
   }
   var getElements = () => {
     var elements = []
-    var root = document.querySelector('.rong-page-box.content__default');
+    var root = document.querySelector('.rong-page-box.content__default')
     if (!root) {
       return elements
     }
@@ -214,7 +225,7 @@ function initTOCScroll (newRoute, oldRoute) {
     if (isChina) {
       id = ' ' + id
     }
-    var nextNavs = document.querySelectorAll('a[href="#' + id + '"]');
+    var nextNavs = document.querySelectorAll('a[href="#' + id + '"]')
     var nextNav = filter(nextNavs, nav => {
       return nav.className.indexOf('header-anchor') == -1
     })[0]
@@ -347,7 +358,8 @@ export default {
   data () {
     return {
       likeStatus: LIKE_STATUS.UN_SELECT,
-      selectedCategory: {}
+      selectedCategory: {},
+      isSmallScreen: setSmallScreen()
     }
   },
   watch: {
@@ -463,10 +475,12 @@ export default {
     // initData(this)
   },
   mounted () {
-    initData(this)
+    const self = this
+    initData(self)
     scrollToAnchor()
     window.onresize = function () {
       setRightBarPosition()
+      self.isSmallScreen = setSmallScreen()
     }
     window.test = this
     // 兼容 localstorage 存储中带 ? 导致死循环
@@ -1170,5 +1184,32 @@ function flatten (items, res) {
 
 .rong-like-success-icon {
   background-image: url('../images/like-success.svg');
+}
+.rong-small-screen-app {
+  .rong-nav .rong-nav-logo {
+    margin-left: 30px;
+  }
+  .rong-nav .search-box {
+    display: none;
+  }
+  .back-to-ceiling {
+    right: 10px !important;
+  }
+  .rong-page .rong-category-wrapper .category-item {
+    margin: 7px 0;
+    text-align: left;
+    display: block;
+  }
+  .rong-page .rong-category-wrapper .category-item .vs__selected-options {
+    padding-left: 0;
+  }
+  .rong-page .rong-category-wrapper .category-item .vs__selected {
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+.rong-small-screen-app .feed-back-buttonSpace {
+  display: none !important;
 }
 </style>

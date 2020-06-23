@@ -1,5 +1,25 @@
 <template>
-  <div class="home">
+  <div class="home rong-home-smallscreen" v-if="isSmallScreen">
+    <div class="rong-home-nav" v-for="(summary, index) in mainSummary" :key="index">
+      <a selected="selected">{{summary.name}}</a>
+      <p></p>
+      <div class="rong-home-vertical-list">
+        <div
+          class="rong-home-vertical-content"
+          v-for="(subSummary, index) in summary.sub"
+          :key="index"
+        >
+          <h4>{{subSummary.name}}</h4>
+          <ul>
+            <li v-for="(title, index) in subSummary.titles" :key="index">
+              <a :href="title.link">{{title.name}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="home" v-else>
     <div class="rong-home-nav" v-if="mainSummary">
       <a
         v-for="(summary, index) in mainSummary"
@@ -43,14 +63,22 @@
 // import NavLink from '@theme/components/NavLink'
 // import ModuleTransition from '@theme/components/ModuleTransition'
 import moduleTransitonMixin from "@theme/mixins/moduleTransiton";
+import utils from './utils'
+
+const HomeClassName = 'rong-in-home'
+
+const isSmallScreen = utils.isSmallScreen
+
+const setHomeBodyClass = utils.setHomeBodyClass
 
 export default {
   data: function() {
     return {
       mainSummary: [],
       otherSummary: [],
-      selectedSummary: {}
-    };
+      selectedSummary: {},
+      isSmallScreen: isSmallScreen()
+    }
   },
   mixins: [moduleTransitonMixin],
   // components: { NavLink, ModuleTransition },
@@ -86,6 +114,9 @@ export default {
     },
     select: function(summary) {
       this.selectedSummary = summary;
+    },
+    onWindowResize () {
+      this.isSmallScreen = isSmallScreen()
     }
   },
   mounted: function() {
@@ -93,8 +124,19 @@ export default {
     this.mainSummary = summary.main;
     this.otherSummary = summary.other;
     this.selectedSummary = this.mainSummary[0];
+    window.addEventListener('resize', this.onWindowResize)
+    setHomeBodyClass({
+      className: HomeClassName
+    })
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.onWindowResize)
+    setHomeBodyClass({
+      isRemove: true,
+      className: HomeClassName
+    })
   }
-};
+}
 </script>
 
 <style lang="stylus">
@@ -329,5 +371,53 @@ export default {
 
 .rong-outer .no-sidebar .rong-page-content {
   padding-right: 0;
+}
+.rong-home-smallscreen .rong-home-vertical-list {
+  display: block;
+}
+.rong-home-smallscreen .rong-home-vertical-list  .rong-home-vertical-content {
+  display: block;
+  text-align: center;
+}
+.rong-home-smallscreen {
+  padding-top: 50px;
+  .rong-home-nav {
+    margin-bottom 30px;
+    padding-right: 0;
+  }
+}
+.rong-home-smallscreen .rong-home-vertical-list  {
+  .rong-home-vertical-content {
+    margin-bottom: 20px;
+    ul {
+      margin: 5px;
+    }
+    li a {
+      border: none;
+      font-size: 12px;
+      height: 18px;
+      line-height: 18px;
+    }
+    li {
+      height: 18px;
+      line-height: 18px;
+      margin: 8px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .search-box, .feed-back-buttonSpace {
+    display: none !important;
+  }
+}
+
+.rong-in-home {
+  .sidebar-button {
+    display: none;
+  }
+  .back-to-ceiling {
+    right: 10px !important;
+  }
 }
 </style>
