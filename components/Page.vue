@@ -1,5 +1,5 @@
 <template>
-  <main class="page rong-page" :class="{ 'page-api': isAPI }">
+  <main class="page rong-page" :class="{ 'page-api': isAPI, 'rong-page-faq': isFaq }">
     <APIPage v-if="isAPI" />
     <div v-else>
       <ModuleTransition>
@@ -362,6 +362,9 @@ export default {
     },
     isAPI () {
       return this.$frontmatter.APIConf
+    },
+    isFaq () {
+      return this.$frontmatter.isFaq
     },
     navs () {
       const { $route, $site: { pages, themeConfig: { sidebar }}} = this
@@ -911,6 +914,18 @@ function flatten (items, res) {
   }
 }
 
+.rong-page-faq .table-of-contents {
+  ul li a {
+    color: rgba(0,0,0,.6);
+    font-size: 12px;
+  }
+}
+
+.rong-page-faq .rong-page-box {
+  code {
+    font-size: 0.95em;
+  }
+}
 .table-of-contents {
   position: fixed;
   top: 80px;
