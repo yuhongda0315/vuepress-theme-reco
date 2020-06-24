@@ -1186,6 +1186,9 @@ function flatten (items, res) {
   background-image: url('../images/like-success.svg');
 }
 .rong-small-screen-app {
+  .rong-small-screen-nav-title {
+    display: inline-block !important;
+  }
   .rong-nav .rong-nav-logo {
     margin-left: 30px;
   }
@@ -1196,7 +1199,7 @@ function flatten (items, res) {
     right: 10px !important;
   }
   .rong-page .rong-category-wrapper .category-item {
-    margin: 7px 0;
+    margin: 15px 0;
     text-align: left;
     display: block;
   }

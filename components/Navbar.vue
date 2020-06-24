@@ -2,6 +2,9 @@
   <header class="navbar rong-nav">
     <div class="rong-nav-box">
       <a :href="$themeConfig.nav.logo.link" target="_blank"><img class="rong-nav-logo" :src="$themeConfig.nav.logo.url" alt=""></a>
+      <a class="rong-nav-title rong-small-screen-nav-title" href="/">
+        文档首页
+      </a>
       <a
         class="rong-nav-title"
         v-for="title in $themeConfig.nav.titles"
