@@ -318,8 +318,10 @@ function initTOCScroll (newRoute, oldRoute) {
         const splitIndex = href.indexOf('#')
         if (splitIndex === 0) {
           href = href.substring(splitIndex + 1)
+          window.removeEventListener('scroll', onScroll)
+          addClass(href)
           setTimeout(() => {
-            addClass(href)
+            window.addEventListener('scroll', onScroll)
           }, 100)
         }
       }
