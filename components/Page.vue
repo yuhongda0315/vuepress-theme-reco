@@ -308,6 +308,24 @@ function initTOCScroll (newRoute, oldRoute) {
     window.addEventListener('scroll', onScroll)
     onScroll()
   }
+
+  function setRightBarClick () {
+    const rightBarLinkElList = document.querySelectorAll('.table-of-contents ul li a')
+    for (let i = 0, max = rightBarLinkElList.length; i < max; i++) {
+      const linkEl = rightBarLinkElList[i]
+      linkEl.onclick = ({ currentTarget }) => {
+        let href = currentTarget.getAttribute('href')
+        const splitIndex = href.indexOf('#')
+        if (splitIndex === 0) {
+          href = href.substring(splitIndex + 1)
+          setTimeout(() => {
+            addClass(href)
+          }, 100)
+        }
+      }
+    }
+  }
+  setRightBarClick()
 }
 
 const setRightBarPosition = () => {
