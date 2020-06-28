@@ -933,6 +933,11 @@ function flatten (items, res) {
     color: rgba(0,0,0,.6);
     font-size: 12px;
   }
+  ul li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .rong-page-faq .rong-page-box {
