@@ -253,7 +253,11 @@ function getUrlParam(name, url) {
 }
 
 const isSmallScreen = () => {
-  return document.body.clientWidth < 900
+  if (typeof document !== 'undefined') {
+    return document.body.clientWidth < 900
+  } else {
+    return false
+  }
 }
 
 const setHomeBodyClass = (option = {}) => {
