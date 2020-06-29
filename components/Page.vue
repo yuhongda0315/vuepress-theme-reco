@@ -948,6 +948,15 @@ function flatten (items, res) {
   }
 }
 
+.rong-outer .rong-page-faq {
+  .rong-page-box h5 {
+    font-size: 1.55em;
+  }
+  .rong-page-box h6 {
+    font-size: 1.20em;
+  }
+}
+
 .rong-page-faq .table-of-contents {
   ul li a {
     color: rgba(0,0,0,.6);
