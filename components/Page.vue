@@ -1249,4 +1249,11 @@ function flatten (items, res) {
 .rong-small-screen-app .feed-back-buttonSpace {
   display: none !important;
 }
+
+div.medium-zoom-overlay {
+  z-index: 9999999;
+}
+div.medium-zoom-overlay + img {
+  z-index: 99999999;
+}
 </style>
