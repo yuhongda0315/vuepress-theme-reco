@@ -151,7 +151,12 @@ export default {
       if (!this.showSuggestions || i == -1) {
         return;
       }
-      this.$router.push(this.suggestions[i].url);
+      let base = this.$themeConfig.base || this.$site.base
+      if (base && base[base.length - 1] === '/') {
+        base = base.substring(0, base.length - 1)
+      }
+      window.open(`${base}${this.suggestions[i].url}`)
+      // this.$router.push(this.suggestions[i].url);
       this.query = "";
       this.focusIndex = 0;
     },
