@@ -45,10 +45,10 @@ export function ensureExt(path) {
 const isPage = (name) => {
   name = name.replace('.html', '');
   let platforms = [
-      'android', 'ios', 'web', 'web3', 
-      'nodejs', 'serverapi', 'python', 'golang',
-      'rong', 'mi', 'hw', 'meizu', 'oppo', 'vivo','fcm'
-    ]
+    'android', 'android2', 'android4', 'ios', 'ios2', 'ios4', 'web', 'web3',
+    'nodejs', 'serverapi', 'python', 'golang',
+    'rong', 'mi', 'hw', 'meizu', 'oppo', 'vivo', 'fcm'
+  ]
   return platforms.some((platform) => { return platform == name });
 };
 export function isActive(route, path) {
