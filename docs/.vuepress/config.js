@@ -8,13 +8,13 @@ Summary = Summary({
 
 module.exports = {
   title: "融云开发者文档",
-  plugins: ['@vuepress/active-header-links','vuepress-plugin-element-tabs', 'vuepress-plugin-glossary', '@codeciting/vuepress-plugin-plantuml'],
+  plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs', 'vuepress-plugin-glossary', '@codeciting/vuepress-plugin-plantuml', 'element-ui', 'demo-code'],
   head: [
     ['link', { rel: 'icon', href: 'https://docs.rongcloud.cn/assets/images/favicon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
-    ['script', {src: '//cdn.ronghub.com/rongcloud-feedback.1.0.0.js'}],
-    ['script', {src: '//cdn.ronghub.com/docs-feedback-inject.1.0.0.js'}],
-    ['link', {rel: "stylesheet", href: '//cdn.ronghub.com/rongcloud-feedback.css'}],
+    ['script', { src: '//cdn.ronghub.com/rongcloud-feedback.1.0.0.js' }],
+    ['script', { src: '//cdn.ronghub.com/docs-feedback-inject.1.0.0.js' }],
+    ['link', { rel: "stylesheet", href: '//cdn.ronghub.com/rongcloud-feedback.css' }],
   ],
   theme: require.resolve('../../'),
   themeConfig: {
@@ -96,20 +96,20 @@ module.exports = {
   markdown: {
     lineNumbers: true,
     toc: {
-      includeLevel: [3,4,5],
+      includeLevel: [3, 4, 5],
     },
     extendMarkdown: md => {
       md.use(require('markdown-it-include'), 'docs/views/');
-      
+
       md.use(require('markdown-it-toc-done-right'), {
         listType: 'ul',
-        slugify: function(s){
+        slugify: function (s) {
           let matches = s.match(/\\?\{([^}]+)\}/) || [];
           let id = matches[1] || s;
           id = id.replace('#', '');
           return id;
         },
-        format: function(label, htmlencode){
+        format: function (label, htmlencode) {
           label = label.replace(/\\?\{([^}]+)\}/, '');
           return `${htmlencode(label)}`;
         }

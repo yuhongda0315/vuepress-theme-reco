@@ -17,6 +17,24 @@ categorys:
 
 [[toc]]
 
+!!!include(im/noui/intro/index.md)!!!
+
+:::: el-tabs
+::: el-tab-pane label=创建应用
+<el-tag type="danger">标签五</el-tag>
+
+<el-button type="danger" @click='function (){console.info(11)}'>标签五</el-button>
+
+:::
+::: el-tab-pane label=加入房间
+``` javascript
+() => {
+  console.log('Javascript code example')
+}
+```
+:::
+::::
+
 #### RTC-Media-Gateway
 
 各种协商网关
