@@ -580,7 +580,7 @@ export default {
         return pathPlat === item.name
       }
       // web 和 web3 页面会判断错误, 先强制做逻辑判断, 否则修改现有文档目录太复杂
-      if (this.$page.path.indexOf('web.html') && platform && platform.groupName === 'web' && platform.children && platform.children.length > 1 && name === 'web') {
+      if (this.$page.path.indexOf('web3.html') && platform && platform.groupName === 'web' && platform.children && platform.children.length > 1 && name === 'web') {
         return false
       }
       // const link = getPlatformLink(item)
