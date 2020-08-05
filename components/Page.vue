@@ -477,7 +477,7 @@ export default {
           }
           if (!platform.selected) {
             utils.forEach(platform.children, (child) => {
-              if (self.isPlatformSelected(child)) {
+              if (self.isPlatformSelected(child, platform)) {
                 platform.selected = child
               }
             })
@@ -558,7 +558,7 @@ export default {
         this.$router.push(url)
       }
     },
-    isPlatformSelected (item) {
+    isPlatformSelected (item, platform) {
       let name = item.name.toLocaleLowerCase()
       let href
       if (typeof location !== 'undefined') {
@@ -578,6 +578,10 @@ export default {
       const pathPlat = getUrlParam(PLATFORM_KEY, href)
       if (pathPlat) {
         return pathPlat === item.name
+      }
+      // web 和 web3 页面会判断错误, 先强制做逻辑判断, 否则修改现有文档目录太复杂
+      if (this.$page.path.indexOf('web.html') && platform && platform.groupName === 'web' && platform.children && platform.children.length > 1 && name === 'web') {
+        return false
       }
       // const link = getPlatformLink(item)
       return this.$page.path.indexOf(name) > -1
