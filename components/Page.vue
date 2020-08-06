@@ -456,7 +456,18 @@ export default {
     */
     categorys () {
       const self = this
-      const { $frontmatter: { categorys, platforms, languages }} = this
+      const { $frontmatter, $themeConfig: { tabs } } = this
+      let { $frontmatter: { categorys, platforms, languages }} = this
+      if (!categorys && !platforms && !languages) {
+        for (const key in $frontmatter) {
+          if ($frontmatter[key] && tabs[key]) {
+            const matchVal = tabs[key]
+            matchVal.categorys && (categorys = matchVal.categorys)
+            matchVal.platforms && (platforms = matchVal.platforms)
+            matchVal.languages && (languages = matchVal.languages)
+          }
+        }
+      }
       if (utils.isEmpty(categorys) && utils.isEmpty(platforms) && utils.isEmpty(languages)) {
         return []
       }

@@ -18,6 +18,28 @@ module.exports = {
   ],
   theme: require.resolve('../../'),
   themeConfig: {
+    tabs: {
+      hasIMTab: {
+        categorys: [
+          {
+            name: '客户端',
+            languages: [
+              { name: 'multi', groupName: 'ios', children: [{ name: 'ios4', text: 'iOS 4.x', link: './ios?ver=4', isFire: true }, { name: 'ios2', text: 'iOS 2.x', link: './ios' }] },
+              { name: 'multi', groupName: 'android', children: [{ name: 'android4', text: 'Android 4.x', link: './android?ver=4', isFire: true }, { name: 'android2', text: 'Android 2.x', link: './android' }] },
+              { name: 'multi', groupName: 'web', children: [{ name: 'web3', text: 'Web 3.x', isFire: true, link: './web3' }, { name: 'web', text: 'Web 2.x', link: './web' }] },
+              { name: 'mini', text: '小程序 3.x', link: './web3?plat=mini' },
+              { name: 'uniapp', text: 'uni-app 3.x', link: './web3?plat=uniapp' }
+            ]
+          },
+          {
+            name: '服务端',
+            languages: [
+              { name: 'serverapi', text: 'Server API', link: './serverapi' }
+            ]
+          }
+        ]
+      }
+    },
     base,
     nav: {
       logo: {
