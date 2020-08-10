@@ -300,11 +300,11 @@ const getDropdownVersions = (context) => {
   if (isIM) {
     const isMobile = ['ios.html', 'android.html', 'ios2.html', 'ios4.html', 'android2.html', 'android4.html'].indexOf(fileName) !== -1
     if (isMobile) {
-      return [{ name: 'version 4.x', click: newVersionClickEvent }, { name: 'version 2.x', click: oldVersionClickEvent }]
+      return [{ name: '4.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
     }
     const isWeb = ['web.html', 'web3.html'].indexOf(fileName) !== -1
     if (isWeb) {
-      return [{ name: 'version 3.x', click: newVersionClickEvent }, { name: 'version 2.x', click: oldVersionClickEvent }]
+      return [{ name: '3.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
     }
   }
 
@@ -312,7 +312,7 @@ const getDropdownVersions = (context) => {
   if (isRTC) {
     const isMobile = ['ios.html', 'android.html', 'ios3.html', 'ios4.html', 'android4.html', 'android4.html'].indexOf(fileName) !== -1
     if (isMobile) {
-      return [{ name: 'version 4.x', click: newVersionClickEvent }, { name: 'version 3.x', click: oldVersionClickEvent }]
+      return [{ name: '4.x 版本', click: newVersionClickEvent }, { name: '3.x 版本', click: oldVersionClickEvent }]
     }
   }
 }

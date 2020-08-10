@@ -57,10 +57,10 @@ const initData = (context) => {
     return
   }
   context.dropdownVersions = getDropdownVersions(context) || [
-    { name: 'version 4.x', click: () => {
+    { name: '4.x 版本', click: () => {
       window.location.href = window.location.origin + context.$themeConfig.newBase
     } },
-    { name: 'version 2.x', click: () => {
+    { name: '2.x 版本', click: () => {
       window.location.href = window.location.origin + context.$themeConfig.oldBase
     } }
   ]
