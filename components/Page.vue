@@ -12,6 +12,19 @@
 
       <ModuleTransition delay="0.08">
         <div class="page-title">
+          <el-dropdown v-if="dropdownVersions && dropdownVersions.length > 1" trigger="click" class="rong-version-dropdown-box">
+            <span class="el-dropdown-link">
+              {{selectedDropdownVersion.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu>
+              <el-dropdown-item
+                v-for="(versionItem, index) in dropdownVersions"
+                v-bind:key="index"
+                @click.native="handleDropdownVersionClick(versionItem)">
+                {{versionItem.name}}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <p class="page-title-content">{{pageTitle}}
             <span v-if="this.$page.frontmatter.time" class="page-title-time">( {{this.$page.frontmatter.time}} )</span>
           </p>
@@ -339,6 +352,39 @@ const setRightBarPosition = () => {
   }
 }
 
+const getDropdownVersions = (context) => {
+  const path = context.$route.path
+  const splitList = path.split('/')
+  const fileName = splitList[splitList.length - 1]
+  const isOldVersion = context.$themeConfig.isOldVersion
+  const newVersionClickEvent = isOldVersion ? () => {
+    window.location.href = window.location.host + context.$themeConfig.oldBase + window.location.pathname
+  } : () => {}
+  const oldVersionClickEvent = isOldVersion ? () => {} : () => {
+    window.location.href = window.location.host + context.$themeConfig.newBase + window.location.pathname
+  }
+
+  const isIM = path.indexOf('/views/im/') !== -1
+  if (isIM) {
+    const isMobile = ['ios.html', 'android.html', 'ios2.html', 'ios4.html', 'android2.html', 'android4.html'].indexOf(fileName) !== -1
+    if (isMobile) {
+      return [{ name: 'version 4.x', click: newVersionClickEvent }, { name: 'version 2.x', click: oldVersionClickEvent }]
+    }
+    const isWeb = ['web.html', 'web3.html'].indexOf(fileName) !== -1
+    if (isWeb) {
+      return [{ name: 'version 3.x', click: newVersionClickEvent }, { name: 'version 2.x', click: oldVersionClickEvent }]
+    }
+  }
+
+  const isRTC = path.indexOf('/views/rtc/') !== -1
+  if (isRTC) {
+    const isMobile = ['ios.html', 'android.html', 'ios3.html', 'ios4.html', 'android4.html', 'android4.html'].indexOf(fileName) !== -1
+    if (isMobile) {
+      return [{ name: 'version 4.x', click: newVersionClickEvent }, { name: 'version 3.x', click: oldVersionClickEvent }]
+    }
+  }
+}
+
 const initData = (context, newRoute, oldRoute) => {
   context.likeStatus = LIKE_STATUS.UN_SELECT
   initSelectedCategory(context)
@@ -347,6 +393,11 @@ const initData = (context, newRoute, oldRoute) => {
     initTOCScroll(newRoute, oldRoute)
     setRightBarPosition()
   })
+  context.dropdownVersions = getDropdownVersions(context) || []
+  const versionCount = context.dropdownVersions.length
+  if (context.dropdownVersions && versionCount) {
+    context.selectedDropdownVersion = context.$themeConfig.isOldVersion ? context.dropdownVersions[versionCount - 1] : context.dropdownVersions[0]
+  }
 }
 
 const getUrlParam = (name, url) => {
@@ -379,7 +430,9 @@ export default {
     return {
       likeStatus: LIKE_STATUS.UN_SELECT,
       selectedCategory: {},
-      isSmallScreen: setSmallScreen()
+      isSmallScreen: setSmallScreen(),
+      dropdownVersions: null,
+      selectedDropdownVersion: null
     }
   },
   watch: {
@@ -522,6 +575,10 @@ export default {
     }
   },
   methods: {
+    handleDropdownVersionClick (versionItem) {
+      this.selectedDropdownVersion = versionItem
+      versionItem.click && versionItem.click()
+    },
     isMultiPlatform (platform) {
       return platform.name === 'multi' && platform.children
     },
@@ -870,6 +927,7 @@ function flatten (items, res) {
   }
 
   .page-title {
+    position: relative;
     // max-width: 740px;
     margin: 0 auto;
     line-height: 50%;
@@ -1069,6 +1127,7 @@ function flatten (items, res) {
 }
 
 .rong-page {
+  position: relative;
   .rong-category-title {
     width: 112px;
     height: 32px;
@@ -1270,5 +1329,30 @@ div.medium-zoom-overlay {
 }
 div.medium-zoom-overlay + img {
   z-index: 99999999;
+}
+.rong-version-dropdown-box {
+  position: absolute;
+  right: 20px;
+  // top: 140px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #09f;
+  padding: 7px 10px;
+  border-radius: 5px;
+  vertical-align: middle;
+  z-index: 99;
+  .el-dropdown-link {
+    color: white;
+    cursor: pointer;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+  .demonstration {
+    display: block;
+    color: #8492a6;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
 }
 </style>

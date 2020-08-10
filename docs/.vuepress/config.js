@@ -18,6 +18,7 @@ module.exports = {
   ],
   theme: require.resolve('../../'),
   themeConfig: {
+    isOldVersion: false,
     tabs: {
       hasIMTab: {
         categorys: [
@@ -41,6 +42,8 @@ module.exports = {
       }
     },
     base,
+    oldBase: '/v2',
+    newBase: '/v4',
     nav: {
       logo: {
         url: 'https://www.rongcloud.cn/pc/images/logo.png',

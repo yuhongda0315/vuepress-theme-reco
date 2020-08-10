@@ -20,7 +20,19 @@ export default {
     };
     let getLinks = (page) => {
       let links = [];
-      let { frontmatter: { languages, categorys, platforms } } = page;
+      const { $frontmatter } = context
+      let { frontmatter: { languages, categorys, platforms }} = page
+      const { $themeConfig: { tabs }} = context
+      if (!categorys && !platforms && !languages) {
+        for (const key in $frontmatter) {
+          if ($frontmatter[key] && tabs[key]) {
+            const matchVal = tabs[key]
+            matchVal.categorys && (categorys = matchVal.categorys)
+            matchVal.platforms && (platforms = matchVal.platforms)
+            matchVal.languages && (languages = matchVal.languages)
+          }
+        }
+      }
       let add = (languages) => {
         languages.forEach((lan) => {
           if (lan.name == 'multi') {
