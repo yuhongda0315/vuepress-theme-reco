@@ -358,10 +358,20 @@ const getDropdownVersions = (context) => {
   const fileName = splitList[splitList.length - 1]
   const isOldVersion = context.$themeConfig.isOldVersion
   const newVersionClickEvent = isOldVersion ? () => {
-    window.location.href = window.location.host + context.$themeConfig.oldBase + window.location.pathname
+    const pathNameList = window.location.pathname.split(context.$themeConfig.oldBase)
+    if (pathNameList.length > 1 && context.$themeConfig.oldBase) {
+      window.location.href = window.location.host + context.$themeConfig.oldBase + pathNameList[1]
+    } else {
+      window.location.href = window.location.host + context.$themeConfig.oldBase
+    }
   } : () => {}
   const oldVersionClickEvent = isOldVersion ? () => {} : () => {
-    window.location.href = window.location.host + context.$themeConfig.newBase + window.location.pathname
+    const pathNameList = window.location.pathname.split(context.$themeConfig.newBase)
+    if (pathNameList.length > 1 && context.$themeConfig.newBase) {
+      window.location.href = window.location.host + context.$themeConfig.newBase + pathNameList[1]
+    } else {
+      window.location.href = window.location.host + context.$themeConfig.newBase
+    }
   }
 
   const isIM = path.indexOf('/views/im/') !== -1
