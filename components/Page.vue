@@ -357,20 +357,24 @@ const getDropdownVersions = (context) => {
   const splitList = path.split('/')
   const fileName = splitList[splitList.length - 1]
   const isOldVersion = context.$themeConfig.isOldVersion
+  const { $themeConfig: { oldBase, newBase }} = context
+  if (!oldBase || !newBase) {
+    return
+  }
   const newVersionClickEvent = isOldVersion ? () => {
-    const pathNameList = window.location.pathname.split(context.$themeConfig.oldBase)
-    if (pathNameList.length > 1 && context.$themeConfig.oldBase) {
-      window.location.href = window.location.host + context.$themeConfig.oldBase + pathNameList[1]
+    const pathNameList = window.location.pathname.split(oldBase)
+    if (pathNameList.length > 1) {
+      window.location.href = window.location.origin + newBase + pathNameList[1]
     } else {
-      window.location.href = window.location.host + context.$themeConfig.oldBase
+      window.location.href = window.location.origin + newBase
     }
   } : () => {}
   const oldVersionClickEvent = isOldVersion ? () => {} : () => {
     const pathNameList = window.location.pathname.split(context.$themeConfig.newBase)
-    if (pathNameList.length > 1 && context.$themeConfig.newBase) {
-      window.location.href = window.location.host + context.$themeConfig.newBase + pathNameList[1]
+    if (pathNameList.length > 1) {
+      window.location.href = window.location.origin + oldBase + pathNameList[1]
     } else {
-      window.location.href = window.location.host + context.$themeConfig.newBase
+      window.location.href = window.location.origin + oldBase
     }
   }
 
