@@ -20,7 +20,7 @@ export default {
     };
     let getLinks = (page) => {
       let links = [];
-      const { $frontmatter } = context
+      const { frontmatter: $frontmatter } = page
       let { frontmatter: { languages, categorys, platforms }} = page
       const { $themeConfig: { tabs }} = context
       if (!categorys && !platforms && !languages) {
@@ -63,6 +63,9 @@ export default {
       return isPage1 == isPage2;
     };
     context.$router.beforeEach((to, from, next) => {
+      if (window.testDebugger) {
+        debugger;
+      }
       let page = getPage(to.path);
       let links = getLinks(page);
       let current = localStorage.getItem('rong-current-page') || '';

@@ -270,7 +270,55 @@ const setHomeBodyClass = (option = {}) => {
   }
 }
 
+const getDropdownVersions = (context) => {
+  const path = context.$route.path
+  const splitList = path.split('/')
+  const fileName = splitList[splitList.length - 1]
+  const isOldVersion = context.$themeConfig.isOldVersion
+  const { $themeConfig: { oldBase, newBase }} = context
+  if (!oldBase || !newBase) {
+    return
+  }
+  const newVersionClickEvent = isOldVersion ? () => {
+    const pathNameList = window.location.pathname.split(oldBase)
+    if (pathNameList.length > 1) {
+      window.location.href = window.location.origin + newBase + pathNameList[1]
+    } else {
+      window.location.href = window.location.origin + newBase
+    }
+  } : () => { }
+  const oldVersionClickEvent = isOldVersion ? () => { } : () => {
+    const pathNameList = window.location.pathname.split(context.$themeConfig.newBase)
+    if (pathNameList.length > 1) {
+      window.location.href = window.location.origin + oldBase + pathNameList[1]
+    } else {
+      window.location.href = window.location.origin + oldBase
+    }
+  }
+
+  const isIM = path.indexOf('/views/im/') !== -1
+  if (isIM) {
+    const isMobile = ['ios.html', 'android.html', 'ios2.html', 'ios4.html', 'android2.html', 'android4.html'].indexOf(fileName) !== -1
+    if (isMobile) {
+      return [{ name: 'version 4.x', click: newVersionClickEvent }, { name: 'version 2.x', click: oldVersionClickEvent }]
+    }
+    const isWeb = ['web.html', 'web3.html'].indexOf(fileName) !== -1
+    if (isWeb) {
+      return [{ name: 'version 3.x', click: newVersionClickEvent }, { name: 'version 2.x', click: oldVersionClickEvent }]
+    }
+  }
+
+  const isRTC = path.indexOf('/views/rtc/') !== -1
+  if (isRTC) {
+    const isMobile = ['ios.html', 'android.html', 'ios3.html', 'ios4.html', 'android4.html', 'android4.html'].indexOf(fileName) !== -1
+    if (isMobile) {
+      return [{ name: 'version 4.x', click: newVersionClickEvent }, { name: 'version 3.x', click: oldVersionClickEvent }]
+    }
+  }
+}
+
 export default {
+  getDropdownVersions,
   noop,
   isObject,
   isArray,

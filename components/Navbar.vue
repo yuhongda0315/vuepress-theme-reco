@@ -21,6 +21,21 @@
         :href="subtitle.link">
         {{ subtitle.text }}
       </a>
+      <a class="rong-nav-subtitle" v-if="dropdownVersions && dropdownVersions.length > 1">
+        <el-dropdown class="rong-nav-version-dropdown-box">
+          <span class="el-dropdown-link">
+            切换文档
+          </span>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              v-for="(versionItem, index) in dropdownVersions"
+              v-bind:key="index"
+              @click.native="versionItem.click && versionItem.click()">
+              {{versionItem.name}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </a>
     </div>
     <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
   </header>
@@ -32,13 +47,43 @@ import SearchBox from '@SearchBox'
 import SidebarButton from '@theme/components/SidebarButton'
 import NavLinks from '@theme/components/NavLinks'
 import Mode from '@theme/components/Mode'
+import utils from '@theme/components/utils'
+
+const getDropdownVersions = utils.getDropdownVersions
+
+const initData = (context) => {
+  const { $themeConfig: { oldBase, newBase }} = context
+  if (!oldBase || !newBase) {
+    return
+  }
+  context.dropdownVersions = getDropdownVersions(context) || [
+    { name: 'version 4.x', click: () => {
+      window.location.href = window.location.origin + context.$themeConfig.newBase
+    } },
+    { name: 'version 2.x', click: () => {
+      window.location.href = window.location.origin + context.$themeConfig.oldBase
+    } }
+  ]
+  const versionCount = context.dropdownVersions.length
+  if (context.dropdownVersions && versionCount) {
+    context.selectedDropdownVersion = context.$themeConfig.isOldVersion ? context.dropdownVersions[versionCount - 1] : context.dropdownVersions[0]
+  }
+}
 
 export default {
   components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, Mode },
 
   data () {
     return {
-      linksWrapMaxWidth: null
+      linksWrapMaxWidth: null,
+      dropdownVersions: null,
+      selectedDropdownVersion: null
+    }
+  },
+
+  watch: {
+    $route (newRoute, oldRoute) {
+      initData(this)
     }
   },
 
@@ -55,6 +100,7 @@ export default {
     }
     handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
+    initData(this)
   },
 
   computed: {
@@ -121,4 +167,26 @@ $navbar-horizontal-padding = 1.5rem
       display none
     .links
       padding-left 1.5rem
+.rong-nav-version-dropdown-box {
+  position: relative;
+  // top: 140px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  vertical-align: middle;
+  z-index: 99;
+  .el-dropdown-link {
+    color: white;
+    cursor: pointer;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+  .demonstration {
+    display: block;
+    color: #8492a6;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+}
 </style>
