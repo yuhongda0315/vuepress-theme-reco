@@ -212,6 +212,9 @@ export default {
       })
     },
     toUrl (url) {
+      if (url.indexOf('http://') !== -1 || url.indexOf('https://') !== -1) {
+        return window.open(url)
+      }
       let base = this.$themeConfig.base || this.$site.base
       if (base && base[base.length - 1] === '/') {
         base = base.substring(0, base.length - 1)
