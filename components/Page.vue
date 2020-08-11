@@ -12,7 +12,7 @@
 
       <ModuleTransition delay="0.08">
         <div class="page-title">
-          <el-dropdown v-if="dropdownVersions && dropdownVersions.length > 1" trigger="click" class="rong-version-dropdown-box">
+          <!-- <el-dropdown v-if="dropdownVersions && dropdownVersions.length > 1" trigger="click" class="rong-version-dropdown-box">
             <span class="el-dropdown-link">
               {{selectedDropdownVersion.name}}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
@@ -24,7 +24,7 @@
                 {{versionItem.name}}
               </el-dropdown-item>
             </el-dropdown-menu>
-          </el-dropdown>
+          </el-dropdown> -->
           <p class="page-title-content">{{pageTitle}}
             <span v-if="this.$page.frontmatter.time" class="page-title-time">( {{this.$page.frontmatter.time}} )</span>
           </p>

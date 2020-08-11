@@ -24,7 +24,7 @@
       <a class="rong-nav-subtitle" v-if="dropdownVersions && dropdownVersions.length > 1">
         <el-dropdown class="rong-nav-version-dropdown-box">
           <span class="el-dropdown-link">
-            切换文档
+            {{selectedDropdownVersion.name}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
           </span>
           <el-dropdown-menu>
             <el-dropdown-item
@@ -175,6 +175,9 @@ $navbar-horizontal-padding = 1.5rem
   border-radius: 5px;
   vertical-align: middle;
   z-index: 99;
+  .rong-nav-version-dropdown-icon {
+    float: none;
+  }
   .el-dropdown-link {
     color: white;
     cursor: pointer;
