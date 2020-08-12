@@ -271,9 +271,9 @@ const setHomeBodyClass = (option = {}) => {
 }
 
 const getDropdownVersions = (context) => {
-  // const path = context.$route.path
-  // const splitList = path.split('/')
-  // const fileName = splitList[splitList.length - 1]
+  const path = context.$route.path
+  const splitList = path.split('/')
+  const fileName = splitList[splitList.length - 1]
   const isOldVersion = context.$themeConfig.isOldVersion
   const { $themeConfig: { oldBase, newBase }} = context
   if (!oldBase || !newBase) {
@@ -288,32 +288,32 @@ const getDropdownVersions = (context) => {
     window.location.href = window.location.origin + oldBase + pathNameList[1]
   }
 
-  // const isIM = path.indexOf('/views/im/') !== -1
-  // if (isIM) {
-  //   const isMobile = ['ios.html', 'android.html', 'ios2.html', 'ios4.html', 'android2.html', 'android4.html'].indexOf(fileName) !== -1
-  //   if (isMobile) {
-  //     return [{ name: '4.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
-  //   }
-  //   const isWeb = ['web.html', 'web3.html'].indexOf(fileName) !== -1
-  //   if (isWeb) {
-  //     return [{ name: '3.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
-  //   }
-  // }
+  const isIM = path.indexOf('/views/im/') !== -1
+  if (isIM) {
+    const isMobile = ['ios.html', 'android.html', 'ios2.html', 'ios4.html', 'android2.html', 'android4.html'].indexOf(fileName) !== -1
+    if (isMobile) {
+      return [{ name: '4.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
+    }
+    const isWeb = ['web.html', 'web3.html'].indexOf(fileName) !== -1
+    if (isWeb) {
+      return [{ name: '3.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
+    }
+  }
 
-  // const isRTC = path.indexOf('/views/rtc/') !== -1
-  // if (isRTC) {
-  //   const isMobile = ['ios.html', 'android.html', 'ios3.html', 'ios4.html', 'android4.html', 'android4.html'].indexOf(fileName) !== -1
-  //   if (isMobile) {
-  //     return [{ name: '4.x 版本', click: newVersionClickEvent }, { name: '3.x 版本', click: oldVersionClickEvent }]
-  //   }
-  // }
+  const isRTC = path.indexOf('/views/rtc/') !== -1
+  if (isRTC) {
+    const isMobile = ['ios.html', 'android.html', 'ios3.html', 'ios4.html', 'android4.html', 'android4.html'].indexOf(fileName) !== -1
+    if (isMobile) {
+      return [{ name: '4.x 版本', click: newVersionClickEvent }, { name: '3.x 版本', click: oldVersionClickEvent }]
+    }
+  }
 
   return [
     {
-      name: '4.x 版本', newVersionClickEvent
+      name: '4.x 版本', click: newVersionClickEvent
     },
     {
-      name: '2.x 版本', oldVersionClickEvent
+      name: '2.x 版本', click: oldVersionClickEvent
     }
   ]
 }
