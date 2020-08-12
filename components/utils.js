@@ -281,19 +281,11 @@ const getDropdownVersions = (context) => {
   }
   const newVersionClickEvent = isOldVersion ? () => {
     const pathNameList = window.location.pathname.split(oldBase)
-    if (pathNameList.length > 1) {
-      window.location.href = window.location.origin + newBase + pathNameList[1]
-    } else {
-      window.location.href = window.location.origin + newBase
-    }
+    window.location.href = window.location.origin + newBase + pathNameList[1]
   } : () => { }
   const oldVersionClickEvent = isOldVersion ? () => { } : () => {
     const pathNameList = window.location.pathname.split(context.$themeConfig.newBase)
-    if (pathNameList.length > 1) {
-      window.location.href = window.location.origin + oldBase + pathNameList[1]
-    } else {
-      window.location.href = window.location.origin + oldBase
-    }
+    window.location.href = window.location.origin + oldBase + pathNameList[1]
   }
 
   const isIM = path.indexOf('/views/im/') !== -1
