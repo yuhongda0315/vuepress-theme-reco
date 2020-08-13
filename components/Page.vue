@@ -478,7 +478,8 @@ export default {
     */
     categorys () {
       const self = this
-      const { $frontmatter, $themeConfig: { tabs }} = this
+      const { $frontmatter } = this
+      const tabs = this.$themeConfig.tabs || {}
       let { $frontmatter: { categorys, platforms, languages }} = this
       if (!categorys && !platforms && !languages) {
         for (const key in $frontmatter) {
