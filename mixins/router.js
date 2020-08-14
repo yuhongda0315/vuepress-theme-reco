@@ -22,7 +22,8 @@ export default {
       let links = [];
       const { frontmatter: $frontmatter } = page
       let { frontmatter: { languages, categorys, platforms }} = page
-      const { $themeConfig: { tabs }} = context
+      let { $themeConfig: { tabs }} = context
+      tabs = tabs || {}
       if (!categorys && !platforms && !languages) {
         for (const key in $frontmatter) {
           if ($frontmatter[key] && tabs[key]) {
