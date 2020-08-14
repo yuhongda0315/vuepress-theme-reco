@@ -45,9 +45,10 @@ export function ensureExt(path) {
 const isPage = (name) => {
   name = name.replace('.html', '');
   let platforms = [
-    'android', 'android2', 'android4', 'ios', 'ios2', 'ios4', 'web', 'web3',
+    'android', 'android2', 'android4', 'ios', 'ios2', 'ios4', 'web', 'web3', 'mini', 'uniapp',
     'nodejs', 'serverapi', 'python', 'golang',
-    'rong', 'mi', 'hw', 'meizu', 'oppo', 'vivo', 'fcm'
+    'rong', 'mi', 'hw', 'meizu', 'oppo', 'vivo', 'fcm',
+    'private', 'group', 'system', 'chatroom'
   ]
   return platforms.some((platform) => { return platform == name });
 };
