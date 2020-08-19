@@ -142,6 +142,25 @@ const LIKE_STATUS = {
   UN_LIKED: 2
 }
 
+// const copyRoutes = (context, $router) => {
+//   const { $themeConfig: { routerConfig: { copyRoute = {} } } } = context
+//   const { options: { routes } } = $router
+//   routes.forEach((route) => {
+//     const { path } = route
+//     for (const oldPath in copyRoute) {
+//       const copyPathList = copyRoute[oldPath]
+//       if (path.indexOf(oldPath) !== -1) {
+//         copyPathList.forEach((copyPath) => {
+//           const newPath = path.replace(oldPath, copyPath)
+//           context.$router.addRoutes(utils.extend(route, {
+//             path: newPath
+//           }))
+//         })
+//       }
+//     }
+//   })
+// }
+
 const setSmallScreen = () => {
   const isSmall = utils.isSmallScreen()
   utils.setHomeBodyClass({
@@ -530,6 +549,7 @@ export default {
   },
   mounted () {
     const self = this
+    // copyRoutes(self)
     initData(self)
     scrollToAnchor()
     window.onresize = function () {
@@ -699,11 +719,20 @@ function getLinks (path) {
 
 function getElements (sidebar, pages) {
   const elements = []
-  for (const name in sidebar) {
-    const bars = sidebar[name]
-    const sidebars = formatSidebars(bars, name, name)
-    sidebars.forEach(bar => {
-      elements.push(bar)
+  if (utils.isObject(sidebar)) {
+    for (const name in sidebar) {
+      const bars = sidebar[name]
+      const sidebars = formatSidebars(bars, name, name)
+      sidebars.forEach(bar => {
+        elements.push(bar)
+      })
+    }
+  } else {
+    utils.forEach(sidebar, ({ key, bars }) => {
+      const sidebars = formatSidebars(bars, '', '')
+      sidebars.forEach(bar => {
+        elements.push(bar)
+      })
     })
   }
   pages.forEach(({ title, path: url }) => {

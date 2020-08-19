@@ -64,6 +64,7 @@ export default {
       return isPage1 == isPage2;
     };
     context.$router.beforeEach((to, from, next) => {
+      localStorage.setItem('rong-referer-href', window.location.href)
       if (window.testDebugger) {
         debugger;
       }

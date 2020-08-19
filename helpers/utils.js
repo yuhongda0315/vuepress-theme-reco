@@ -207,6 +207,31 @@ export function resolveNavLinkItem(linkItem) {
  * @returns { base: string, config: SidebarConfig }
  */
 export function resolveMatchingConfig(regularPath, config) {
+  const refererHref = localStorage.getItem('rong-referer-href')
+  if (Array.isArray(config) && config.length && config[0].key) {
+    for (var i = 0, max = config.length; i < max; i++) {
+      const item = config[i]
+      const { key: base, bars, referMatch } = item
+      if (referMatch && refererHref && referMatch.length) {
+        for (var j = 0, jMax = referMatch.length; j < jMax; j++) {
+          const conf = referMatch[j]
+          const { key: matchKey, bars: matchBars } = conf
+          if (refererHref.indexOf(matchKey) !== -1) {
+            return {
+              base: '',
+              config: matchBars
+            }
+          }
+        }
+      }
+      if (ensureEndingSlash(regularPath).indexOf(encodeURI(base)) === 0) {
+        return {
+          base: '',
+          config: bars
+        }
+      }
+    }
+  }
   if (Array.isArray(config)) {
     return {
       base: '/',
