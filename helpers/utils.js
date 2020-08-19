@@ -58,8 +58,10 @@ export function isActive(route, path) {
   if (linkHash && routeHash !== linkHash) {
     return false
   }
+  const matchIndex = path.indexOf('?match')
+
   const routePath = route.path
-  const pagePath = path;
+  const pagePath = matchIndex !== -1 ? path.substring(0, matchIndex) : path;
 
   const routePathes = routePath.split('/');
   const name = routePathes.pop();
@@ -72,7 +74,8 @@ export function isActive(route, path) {
   return routePath === pagePath;
 }
 
-export function resolvePage(pages, rawPath, base, option) {
+export function resolvePage(pages, rawPath, base, option = {}) {
+  const { match } = option
   if (base) {
     rawPath = resolvePath(rawPath, base)
   }
@@ -81,10 +84,11 @@ export function resolvePage(pages, rawPath, base, option) {
   const path = normalize(rawPath)
   for (let i = 0; i < pages.length; i++) {
     if (normalize(pages[i].regularPath) === path) {
+      const path = ensureExt(pages[i].path)
       return Object.assign({}, pages[i], {
         type: 'page',
         isRoot: isRoot,
-        path: ensureExt(pages[i].path)
+        path: match ? `${path}?match=${match}` : path
       })
     }
   }
@@ -207,16 +211,16 @@ export function resolveNavLinkItem(linkItem) {
  * @returns { base: string, config: SidebarConfig }
  */
 export function resolveMatchingConfig(regularPath, config) {
-  const refererHref = localStorage.getItem('rong-referer-href')
+  const href = location.href
   if (Array.isArray(config) && config.length && config[0].key) {
     for (var i = 0, max = config.length; i < max; i++) {
       const item = config[i]
-      const { key: base, bars, referMatch } = item
-      if (referMatch && refererHref && referMatch.length) {
-        for (var j = 0, jMax = referMatch.length; j < jMax; j++) {
-          const conf = referMatch[j]
+      const { key: base, bars, matchs } = item
+      if (matchs && href && matchs.length) {
+        for (var j = 0, jMax = matchs.length; j < jMax; j++) {
+          const conf = matchs[j]
           const { key: matchKey, bars: matchBars } = conf
-          if (refererHref.indexOf(matchKey) !== -1) {
+          if (href.indexOf(matchKey) !== -1) {
             return {
               base: '',
               config: matchBars
