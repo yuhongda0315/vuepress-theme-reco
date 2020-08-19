@@ -211,27 +211,23 @@ export function resolveNavLinkItem(linkItem) {
  * @returns { base: string, config: SidebarConfig }
  */
 export function resolveMatchingConfig(regularPath, config) {
-  const href = location.href
   if (Array.isArray(config) && config.length && config[0].key) {
-    for (var i = 0, max = config.length; i < max; i++) {
-      const item = config[i]
-      const { key: base, bars, matchs } = item
-      if (matchs && href && matchs.length) {
-        for (var j = 0, jMax = matchs.length; j < jMax; j++) {
-          const conf = matchs[j]
-          const { key: matchKey, bars: matchBars } = conf
-          if (href.indexOf(matchKey) !== -1) {
-            return {
-              base: '',
-              config: matchBars
-            }
+    if (location && location.href) {
+      const href = location.href
+      for (var i = 0, max = config.length; i < max; i++) {
+        const item = config[i]
+        const { key: base, bars, isMatchQuery } = item
+        if (isMatchQuery && href.indexOf(base) !== -1) {
+          return {
+            base: '',
+            config: bars
           }
         }
-      }
-      if (ensureEndingSlash(regularPath).indexOf(encodeURI(base)) === 0) {
-        return {
-          base: '',
-          config: bars
+        if (ensureEndingSlash(regularPath).indexOf(encodeURI(base)) === 0) {
+          return {
+            base: '',
+            config: bars
+          }
         }
       }
     }
