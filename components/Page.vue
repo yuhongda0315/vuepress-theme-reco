@@ -442,7 +442,7 @@ export default {
     navs () {
       const { $route, $site: { pages, themeConfig: { sidebar }}} = this
       const links = getLinks($route.fullPath)
-      const elements = getElements(sidebar, pages)
+      const elements = getElements(sidebar, pages, $route.fullPath, $route)
       const navs = []
       links.forEach(link => {
         elements.forEach(element => {
@@ -688,7 +688,8 @@ function formatSidebars (bars, parent, root) {
     sidebars.push({
       title: bar.title,
       name: name,
-      url: bar.cpath
+      url: bar.cpath,
+      match: bar.match
     })
     if (hasChild) {
       const children = formatSidebars(bar.children, name, root)
@@ -717,7 +718,7 @@ function getLinks (path) {
   return links
 }
 
-function getElements (sidebar, pages) {
+function getElements (sidebar, pages, fullPath, $route) {
   const elements = []
   if (utils.isObject(sidebar)) {
     for (const name in sidebar) {
@@ -728,12 +729,20 @@ function getElements (sidebar, pages) {
       })
     }
   } else {
-    utils.forEach(sidebar, ({ key, bars }) => {
-      const sidebars = formatSidebars(bars, '', '')
-      sidebars.forEach(bar => {
-        elements.push(bar)
-      })
-    })
+    for (let i = 0, max = sidebar.length; i < max; i++) {
+      const { key, bars, isMatchQuery } = sidebar[i]
+      if (isMatchQuery && fullPath.indexOf(key) !== -1 || fullPath.indexOf(key) === 0) {
+        const sidebars = formatSidebars(bars, '', '')
+        sidebars.forEach(bar => {
+          if (bar.match) {
+            bar.match === $route.query.match && elements.push(bar)
+          } else {
+            elements.push(bar)
+          }
+        })
+        break
+      }
+    }
   }
   pages.forEach(({ title, path: url }) => {
     elements.push({

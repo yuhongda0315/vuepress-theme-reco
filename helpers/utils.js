@@ -42,6 +42,26 @@ export function ensureExt(path) {
   return normalized + '.html' + hash
 }
 
+function formatUrl(url) {
+  var obj = {}
+  var arr1 = url.split('?')
+  arr1 = arr1[1]
+  if (!arr1) {
+    return {}
+  }
+
+  if (arr1 && arr1.indexOf('#') !== -1) {
+    arr1 = arr1.split('#')[0]
+  }
+
+  var arr2 = arr1.split('&')
+  for (var i = 0; i < arr2.length; i++) {
+    var res = arr2[i].split('=')
+    obj[res[0]] = res[1]
+  }
+  return obj
+}
+
 const isPage = (name) => {
   name = name.replace('.html', '');
   let platforms = [
@@ -58,6 +78,12 @@ export function isActive(route, path) {
   if (linkHash && routeHash !== linkHash) {
     return false
   }
+  const matchVal = formatUrl(path).match
+  const queryMatchVal = route.query.match
+  if (matchVal && queryMatchVal !== matchVal) {
+    return false
+  }
+
   const matchIndex = path.indexOf('?match')
 
   const routePath = route.path
@@ -212,7 +238,7 @@ export function resolveNavLinkItem(linkItem) {
  */
 export function resolveMatchingConfig(regularPath, config) {
   if (Array.isArray(config) && config.length && config[0].key) {
-    if (location && location.href) {
+    if (typeof location !== 'undefined' && location && location.href) {
       const href = location.href
       for (var i = 0, max = config.length; i < max; i++) {
         const item = config[i]
