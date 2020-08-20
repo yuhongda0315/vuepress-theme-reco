@@ -206,6 +206,20 @@ const scrollToAnchor = () => {
 //   return path
 // }
 
+function uniqueNavs(navs) {
+  const newNavs = []
+  const newNavNames = []
+  for (let i = 0, max = navs.length; i < max; i++) {
+    const nav = navs[i]
+    const { name } = nav
+    if (newNavNames.indexOf(name) === -1) {
+      newNavs.push(nav)
+      newNavNames.push(name)
+    }
+  }
+  return newNavs
+}
+
 function initSequence (newRoute, oldRoute) {
   newRoute = newRoute || { path: 'new' }
   oldRoute = oldRoute || { path: 'old' }
@@ -446,13 +460,14 @@ export default {
       const navs = []
       links.forEach(link => {
         elements.forEach(element => {
-          const { name } = element
-          if (name === link && name !== '/' && element.title) {
+          const { name, match } = element
+          const isEqualLink = (name === link) || ((name + `?match=${match}`) === link)
+          if (isEqualLink && name !== '/' && element.title) {
             navs.push(element)
           }
         })
       })
-      return navs
+      return uniqueNavs(navs)
     },
     pageTitle () {
       const { navs } = this
@@ -734,7 +749,7 @@ function getElements (sidebar, pages, fullPath, $route) {
       if (isMatchQuery && fullPath.indexOf(key) !== -1 || fullPath.indexOf(key) === 0) {
         const sidebars = formatSidebars(bars, '', '')
         sidebars.forEach(bar => {
-          if (bar.match) {
+          if (bar.match || $route.query.match) {
             bar.match === $route.query.match && elements.push(bar)
           } else {
             elements.push(bar)
