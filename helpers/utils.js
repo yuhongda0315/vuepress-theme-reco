@@ -68,7 +68,7 @@ const isPage = (name) => {
     'android', 'android2', 'android4', 'ios', 'ios2', 'ios4', 'web', 'web3', 'mini', 'uniapp',
     'nodejs', 'serverapi', 'python', 'golang',
     'rong', 'mi', 'hw', 'meizu', 'oppo', 'vivo', 'fcm',
-    'private', 'group', 'system', 'chatroom'
+    'private-p', 'group-p', 'system-p', 'chatroom-p'
   ]
   return platforms.some((platform) => { return platform == name });
 };
@@ -80,7 +80,7 @@ export function isActive(route, path) {
   }
   const matchVal = formatUrl(path).match
   const queryMatchVal = route.query.match
-  if (matchVal && queryMatchVal !== matchVal) {
+  if (queryMatchVal && queryMatchVal !== matchVal) {
     return false
   }
 

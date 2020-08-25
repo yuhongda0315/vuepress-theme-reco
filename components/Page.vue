@@ -385,6 +385,20 @@ const setRightBarPosition = () => {
   }
 }
 
+const setNavTitles = (context) => {
+  context.navs = []
+  const elList = document.querySelectorAll('.sidebar-heading.rong-sidebar-heading.open') || []
+  elList.forEach((el, index) => {
+    el.textContent && (context.navs[index] = { title: el.textContent })
+  })
+  const activeEl = document.querySelector('.active.sidebar-link')
+  if (activeEl && activeEl.textContent) {
+    context.navs[context.navs.length] = {
+      title: activeEl.textContent
+    }
+  }
+}
+
 const getDropdownVersions = utils.getDropdownVersions
 
 const initData = (context, newRoute, oldRoute) => {
@@ -394,6 +408,7 @@ const initData = (context, newRoute, oldRoute) => {
   context.$nextTick(() => {
     initTOCScroll(newRoute, oldRoute)
     setRightBarPosition()
+    setNavTitles(context)
   })
   context.dropdownVersions = getDropdownVersions(context) || []
   const versionCount = context.dropdownVersions.length
@@ -434,7 +449,8 @@ export default {
       selectedCategory: {},
       isSmallScreen: setSmallScreen(),
       dropdownVersions: null,
-      selectedDropdownVersion: null
+      selectedDropdownVersion: null,
+      navs: []
     }
   },
   watch: {
@@ -453,22 +469,22 @@ export default {
     isFaq () {
       return this.$frontmatter.isFaq
     },
-    navs () {
-      const { $route, $site: { pages, themeConfig: { sidebar }}} = this
-      const links = getLinks($route.fullPath)
-      const elements = getElements(sidebar, pages, $route.fullPath, $route)
-      const navs = []
-      links.forEach(link => {
-        elements.forEach(element => {
-          const { name, match } = element
-          const isEqualLink = (name === link) || ((name + `?match=${match}`) === link)
-          if (isEqualLink && name !== '/' && element.title) {
-            navs.push(element)
-          }
-        })
-      })
-      return uniqueNavs(navs)
-    },
+    // navs () {
+    //   const { $route, $site: { pages, themeConfig: { sidebar }}} = this
+    //   const links = getLinks($route.fullPath)
+    //   const elements = getElements(sidebar, pages, $route.fullPath, $route)
+    //   const navs = []
+    //   links.forEach(link => {
+    //     elements.forEach(element => {
+    //       const { name, match } = element
+    //       const isEqualLink = (name === link) || ((name + `?match=${match}`) === link)
+    //       if (isEqualLink && name !== '/' && element.title) {
+    //         navs.push(element)
+    //       }
+    //     })
+    //   })
+    //   return uniqueNavs(navs)
+    // },
     pageTitle () {
       const { navs } = this
       const nav = navs[navs.length - 1] || { title: '' }
