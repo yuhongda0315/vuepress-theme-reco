@@ -1,3 +1,5 @@
+import utils from '../components/utils'
+
 export default {
   mounted() {
     let context = this;
@@ -85,6 +87,12 @@ export default {
             path: items.join('/')
           })
         }
+      }
+      if (!utils.isEmpty(from.query) && !from.query.plat && utils.isEmpty(to.query)) {
+        return next({
+          path: to.path,
+          query: from.query
+        })
       }
       next();
     })
