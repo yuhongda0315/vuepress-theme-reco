@@ -1,4 +1,5 @@
 const NoUINavs = require('./navs/noui');
+const TestNavs = require('./navs/test/index');
 
 let base = '';
 let Summary = require('./summary');
@@ -75,9 +76,13 @@ module.exports = {
         { text: '无 UI 集成', link: '/views/im/noui/intro/', keyword: '/views/im/noui' }
       ]
     },
-    sidebar: {
-      '/views/im/noui/': NoUINavs
-    },
+    // sidebar: {
+    //   '/views/im/noui/': NoUINavs
+    // },
+    sidebar: [
+      { key: 'test', bars: TestNavs, isMatchQuery: true },
+      { key: `/views/im/noui/`, bars: TestNavs }
+    ],
     // logo: '/head.png',
     // 搜索设置
     search: true,
