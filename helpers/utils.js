@@ -238,25 +238,26 @@ export function resolveNavLinkItem(linkItem) {
  */
 export function resolveMatchingConfig(regularPath, config) {
   if (Array.isArray(config) && config.length && config[0].key) {
-    if (typeof location !== 'undefined' && location && location.href) {
-      const href = location.href
-      for (var i = 0, max = config.length; i < max; i++) {
-        const item = config[i]
-        const { key: base, bars, isMatchQuery } = item
+    for (var i = 0, max = config.length; i < max; i++) {
+      const item = config[i]
+      const { key: base, bars, isMatchQuery } = item
+      if (typeof location !== 'undefined' && location && location.href) {
+        const href = location.href
         if (isMatchQuery && href.indexOf(base) !== -1) {
           return {
             base: '',
             config: bars
           }
         }
-        if (ensureEndingSlash(regularPath).indexOf(encodeURI(base)) === 0) {
-          return {
-            base: '',
-            config: bars
-          }
+      }
+      if (ensureEndingSlash(regularPath).indexOf(encodeURI(base)) === 0) {
+        return {
+          base: '',
+          config: bars
         }
       }
     }
+    return {}
   }
   if (Array.isArray(config)) {
     return {

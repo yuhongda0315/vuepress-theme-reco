@@ -5,15 +5,9 @@
     <router-link
       v-if="item.path"
       class="sidebar-heading clickable rong-sidebar-heading rong-root-heading"
-      :class="{
-        open,
-        'active': isActive($route, item.path)
-      }"
+      :class="{ open, 'active': isActive($route, item.path) }"
       :to="item.path"
-    >
-      {{ item.title }}
-      
-    </router-link>
+    >{{ item.title }}</router-link>
   </section>
 </template>
 
@@ -26,7 +20,7 @@ export default {
   methods: { isActive }
 }
 </script>
- 
+
 <style lang="stylus" scoped>
 .sidebar-group
   .sidebar-group

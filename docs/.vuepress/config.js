@@ -1,5 +1,6 @@
 const NoUINavs = require('./navs/noui');
 const TestNavs = require('./navs/test/index');
+const Test2Navs = require('./navs/test/test');
 
 let base = '';
 let Summary = require('./summary');
@@ -10,6 +11,7 @@ Summary = Summary({
 module.exports = {
   title: "融云开发者文档",
   plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs', 'vuepress-plugin-glossary', '@codeciting/vuepress-plugin-plantuml', 'element-ui', 'demo-code'],
+  patterns: ['views/im/noui/quick-start/test.md', 'views/im/noui/intro/test.md'],
   head: [
     ['link', { rel: 'icon', href: 'https://docs.rongcloud.cn/assets/images/favicon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
@@ -80,8 +82,9 @@ module.exports = {
     //   '/views/im/noui/': NoUINavs
     // },
     sidebar: [
-      { key: 'test', bars: TestNavs, isMatchQuery: true },
-      { key: `/views/im/noui/`, bars: TestNavs }
+      { key: 'hahatest2', bars: Test2Navs, isMatchQuery: true },
+      { key: `/views/im/noui/quick-start`, bars: TestNavs },
+      // { key: `/views/im/noui/intro`, bars: Test2Navs }
     ],
     // logo: '/head.png',
     // 搜索设置

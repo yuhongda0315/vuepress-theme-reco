@@ -113,12 +113,13 @@ export default {
     },
 
     sidebarItems () {
-      return resolveSidebarItems(
+      const items = resolveSidebarItems(
         this.$page,
         this.$page.regularPath,
         this.$site,
         this.$localePath
       )
+      return items
     },
 
     pageClasses () {
