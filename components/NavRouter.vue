@@ -6,6 +6,7 @@
 
 <script>
 const utils = require("../helpers/utils");
+import componentUtils from '../components/utils'
 
 export default {
   data() {
@@ -50,8 +51,13 @@ function selected(context) {
   let navs = routerConfig.navs || [];
   let _default =
     navs.filter(nav => {
-      return location.pathname.indexOf(nav.keyword) > -1;
-    })[0] || {};
+      if (nav.isMatchQuery) {
+        const href = location.href
+        const urlMatch = componentUtils.getUrlParam('match', href)
+        return urlMatch === nav.keyword
+      }
+      return location.pathname.indexOf(nav.keyword) > -1
+    })[0] || {}
   utils.extend(context, {
     navs,
     isShow: navs.length > 0,
