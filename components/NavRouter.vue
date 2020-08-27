@@ -1,5 +1,5 @@
 <template>
-  <div class="categories-wrapper" v-if="isShow">
+  <div class="categories-wrapper" v-show="isShow">
     <div class="category-current rong-category-current" @click="change">{{selectedText}}{{appendIM()}}</div>
   </div>
 </template>
@@ -29,9 +29,12 @@ export default {
     change: function() {
       this.showCategoryItem = true;
     },
-    appendIM: function(){
-      var isIM = window.location.href.indexOf('/im/') > -1;
-      return isIM ? '( 即时通讯 )' : ''
+    appendIM: () => {
+      if (typeof location !== 'undefined' && location.href) {
+        var isIM = location.href.indexOf('/im/') > -1;
+        return isIM ? '( 即时通讯 )' : ''
+      }
+      return ''
     },
     hide: function() {
       hide(this);

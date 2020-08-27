@@ -386,12 +386,21 @@ const setRightBarPosition = () => {
 }
 
 const setNavTitles = (context) => {
+  const activeNavSelector = '.active.sidebar-link'
+  const openNavSelector = '.sidebar-heading.rong-sidebar-heading.open'
   context.navs = []
-  const elList = document.querySelectorAll('.sidebar-heading.rong-sidebar-heading.open') || []
-  elList.forEach((el, index) => {
-    el.textContent && (context.navs[index] = { title: el.textContent })
+  const elList = document.querySelectorAll(openNavSelector) || []
+  elList.forEach((el) => {
+    if (!el.textContent) {
+      return
+    }
+    if (el.nextElementSibling) {
+      el.nextElementSibling.querySelector(activeNavSelector) && context.navs.push({ title: el.textContent })
+    } else {
+      context.navs.push({ title: el.textContent })
+    }
   })
-  const activeEl = document.querySelector('.active.sidebar-link')
+  const activeEl = document.querySelector(activeNavSelector)
   if (activeEl && activeEl.textContent) {
     context.navs[context.navs.length] = {
       title: activeEl.textContent

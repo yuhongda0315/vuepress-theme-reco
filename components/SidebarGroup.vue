@@ -43,9 +43,9 @@
 
     <DropdownTransition>
       <SidebarLinks
+        v-show="open || !collapsable"
         class="sidebar-group-items"
-        :items="item.children"
-        v-if="open || !collapsable"
+        :items="item.children || []"
         :sidebarDepth="item.sidebarDepth"
         :depth="depth + 1"
       />

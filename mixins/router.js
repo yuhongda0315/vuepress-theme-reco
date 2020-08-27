@@ -84,7 +84,8 @@ export default {
         if (_default != current && isSameCategory(_default, current)) {
           items.push(current);
           return next({
-            path: items.join('/')
+            path: items.join('/'),
+            query: to.query
           })
         }
       }
