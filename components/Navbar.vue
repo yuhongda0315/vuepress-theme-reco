@@ -19,7 +19,22 @@
         :key="subtitle.text"
         :target="subtitle.target"
         :href="subtitle.link">
-        {{ subtitle.text }}
+        <el-dropdown v-if="subtitle.type === 'select'" class="rong-nav-version-dropdown-box">
+          <span class="el-dropdown-link">
+            {{subtitle.text}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
+          </span>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              v-for="(child, index) in subtitle.children"
+              v-bind:key="index"
+              @click.native="linkUrl(child.link)">
+              {{child.text}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <template v-else>
+          {{ subtitle.text }}
+        </template>
       </a>
       <a class="rong-nav-subtitle" v-if="dropdownVersions && dropdownVersions.length > 1">
         <el-dropdown class="rong-nav-version-dropdown-box">
@@ -110,6 +125,12 @@ export default {
 
     isAlgoliaSearch () {
       return this.algolia && this.algolia.apiKey && this.algolia.indexName
+    }
+  },
+
+  methods: {
+    linkUrl (url) {
+      url && (window.location.href = url)
     }
   }
 }
