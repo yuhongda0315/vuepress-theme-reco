@@ -19,7 +19,7 @@
         :key="subtitle.text"
         :target="subtitle.target"
         :href="subtitle.link">
-        <el-dropdown v-if="subtitle.type === 'select'" class="rong-nav-version-dropdown-box">
+        <el-dropdown v-if="subtitle.type === 'select'" class="rong-nav-version-dropdown-box" :class="subtitle.class">
           <span class="el-dropdown-link">
             {{subtitle.text}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
           </span>
@@ -27,7 +27,7 @@
             <el-dropdown-item
               v-for="(child, index) in subtitle.children"
               v-bind:key="index"
-              @click.native="linkUrl(child.link)">
+              @click.native="linkUrl(child.link, child)">
               {{child.text}}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -129,8 +129,15 @@ export default {
   },
 
   methods: {
-    linkUrl (url) {
-      url && (window.location.href = url)
+    linkUrl (url, option = {}) {
+      if (!url) {
+        return
+      }
+      if (option.isOpenNewTab) {
+        window.open(url)
+      } else {
+        window.location.href = url
+      }
     }
   }
 }

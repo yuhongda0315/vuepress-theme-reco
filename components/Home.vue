@@ -34,7 +34,10 @@
         v-for="(subSummary, index) in selectedSummary.sub"
         :key="index"
       >
-        <h4>{{subSummary.name}}</h4>
+        <h4 :style="subSummary.style">
+          {{subSummary.name}}
+          <i class="rong-home-summary-icon" v-if="subSummary.icon" :style="{'background-image': 'url(' + subSummary.icon + ')'}"></i>
+        </h4>
         <ul>
           <li v-for="(title, index) in subSummary.titles" :key="index">
             <a :href="title.link">{{title.name}}</a>
@@ -419,5 +422,15 @@ export default {
   .back-to-ceiling {
     right: 10px !important;
   }
+}
+.rong-home-summary-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 2px;
+  margin-left: 1px;
 }
 </style>
