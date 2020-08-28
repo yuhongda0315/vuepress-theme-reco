@@ -430,7 +430,8 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
-  top: 2px;
-  margin-left: 1px;
+  top: 3px;
+  float: left;
+  margin-right: 9px;
 }
 </style>
