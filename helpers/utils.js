@@ -65,7 +65,7 @@ function formatUrl(url) {
 const isPage = (name) => {
   name = name.replace('.html', '');
   let platforms = [
-    'android', 'android2', 'android4', 'ios', 'ios2', 'ios4', 'web', 'web3', 'mini', 'uniapp',
+    'android', 'android2', 'android4', 'ios', 'ios2', 'ios4', 'web', 'web3', 'mini', 'uniapp', 'flutter',
     'nodejs', 'serverapi', 'python', 'golang',
     'rong', 'mi', 'hw', 'meizu', 'oppo', 'vivo', 'fcm',
     'private-p', 'group-p', 'system-p', 'chatroom-p'
