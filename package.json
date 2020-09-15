@@ -50,7 +50,7 @@
     "eslint": "6.4.0",
     "eslint-plugin-vue": "5.2.3",
     "markdown-it-super-header": "^1.0.1",
-    "vuepress": "https://github.com/YongHao0/vuepress.git",
+    "vuepress": "1.2.0",
     "vuepress-plugin-demo-code": "^0.5.0",
     "vuepress-plugin-reading-time": "^0.1.1"
   }
