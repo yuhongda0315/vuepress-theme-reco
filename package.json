@@ -43,8 +43,7 @@
     "vue-js-modal": "git+https://github.com/yuhongda0315/vue-js-modal.git",
     "vue-select": "^3.9.5",
     "vuepress-plugin-element-ui": "^1.1.0",
-    "vuepress-plugin-glossary": "^1.0.2",
-    "vuepress-theme-reco": "https://github.com/yuhongda0315/vuepress-theme-reco.git"
+    "vuepress-plugin-glossary": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "10.0.3",
