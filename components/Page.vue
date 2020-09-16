@@ -3,12 +3,10 @@
     <APIPage v-if="isAPI" />
     <div v-else>
       <ModuleTransition>
-        <ul class="header-navs">
-          <template v-show="navs && navs.length > 1">
-            <li class="header-nav" v-for="(item, index) in navs" :key="index" :class="{'is-active': navs.length -1 == index}">
-              <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
-            </li>
-          </template>
+        <ul class="header-navs" v-show="navs && navs.length > 1">
+          <li class="header-nav" v-for="(item, index) in navs" :key="index" :class="{'is-active': navs.length -1 == index}">
+            <a class="iconfont" @click="navigateTo(item.url)" v-text="item.title" />
+          </li>
         </ul>
       </ModuleTransition>
 
