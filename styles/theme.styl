@@ -170,7 +170,7 @@ table
 tr
   border-top 1px solid var(--border-color)
   &:nth-child(2n)
-    background-color var(--code-color)
+    background-color #f7f8fa
 
 th, td
   border 1px solid var(--border-color)
@@ -861,7 +861,7 @@ $rightBarWidth = 180px;
 }
 
 .rc-nav-wrapper {
-  width: 1320px;
+  max-width: 1320px;
   margin: 0 auto;
   position: relative;
   height: 100%;
@@ -875,4 +875,8 @@ $rightBarWidth = 180px;
 
 .rong-content-no-subnavi {
   padding-top: 60px;
+}
+
+.rong-page .rong-page-box .table-of-contents {
+  top: 135px;
 }

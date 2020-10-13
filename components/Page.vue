@@ -161,6 +161,10 @@ const LIKE_STATUS = {
 //   })
 // }
 
+const resetRightNavActions = () => {
+  var rootDom = document.querySelector('.table-of-contents')
+};
+
 const setSmallScreen = () => {
   const isSmall = utils.isSmallScreen()
   utils.setHomeBodyClass({

@@ -11,7 +11,7 @@ Summary = Summary({
 module.exports = {
   title: "融云开发者文档",
   plugins: ['@vuepress/active-header-links', 'vuepress-plugin-element-tabs', 'vuepress-plugin-glossary', '@codeciting/vuepress-plugin-plantuml', 'element-ui', 'demo-code'],
-  patterns: ['views/im/noui/quick-start/test.md', 'views/im/noui/intro/test.md'],
+  patterns: ['**/*.md', '**/*.vue'],
   head: [
     ['link', { rel: 'icon', href: 'https://docs.rongcloud.cn/assets/images/favicon.png' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
@@ -58,11 +58,18 @@ module.exports = {
         { text: '运营服务', link: '/views/im/noui/guide/private/message/web.html' },
         { text: '音视频', link: '/views/im/noui/guide/private/message/web.html' },
       ],
-      // subTitles: [
-      //   { text: 'SDK 下载', link: '' },
-      //   { text: '工单', link: '' },
-      //   { text: '登录', link: '' }
-      // ]
+      subTitles: [
+        {
+          type: 'select',
+          text: '4.x 版本',
+          children: [{ text: '2.x 版本', link: '/v2/' }]
+        },
+        {
+          type: 'select',
+          text: '场景阅读模式',
+          children: [{ text: '平台阅读模式', link: '' }]
+        }
+      ]
     },
     summary: Summary,
     apiSearchPlaceholder: '输入 API 快速检索',
@@ -78,14 +85,14 @@ module.exports = {
         { text: '无 UI 集成', link: '/views/im/noui/intro/', keyword: '/views/im/noui' }
       ]
     },
-    // sidebar: {
-    //   '/views/im/noui/': NoUINavs
-    // },
-    sidebar: [
-      { key: 'hahatest2', bars: Test2Navs, isMatchQuery: true },
-      { key: `/views/im/noui/quick-start`, bars: TestNavs },
-      // { key: `/views/im/noui/intro`, bars: Test2Navs }
-    ],
+    sidebar: {
+      '/views/im/noui/': NoUINavs
+    },
+    // sidebar: [
+    //   { key: 'hahatest2', bars: Test2Navs, isMatchQuery: true },
+    //   { key: `/views/im/noui/quick-start`, bars: TestNavs },
+    //   // { key: `/views/im/noui/intro`, bars: Test2Navs }
+    // ],
     // logo: '/head.png',
     // 搜索设置
     search: true,
