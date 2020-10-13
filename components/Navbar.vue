@@ -1,59 +1,75 @@
 <template>
-  <header class="navbar rong-nav">
-    <div class="rong-nav-box">
-      <a :href="$themeConfig.nav.logo.link" target="_blank"><img class="rong-nav-logo" :src="$themeConfig.nav.logo.url" alt=""></a>
-      <a class="rong-nav-title rong-small-screen-nav-title" :href="$site.base">
-        文档首页
-      </a>
-      <a
-        class="rong-nav-title"
-        v-for="title in $themeConfig.nav.titles"
-        :key="title.text"
-        :href="title.link">
-        {{ title.text }}
-      </a>
-      <SearchBox/>
-      <a
-        class="rong-nav-subtitle"
-        v-for="subtitle in $themeConfig.nav.subTitles"
-        :key="subtitle.text"
-        :target="subtitle.target"
-        :href="subtitle.link">
-        <el-dropdown v-if="subtitle.type === 'select'" class="rong-nav-version-dropdown-box" :class="subtitle.class">
-          <span class="el-dropdown-link">
-            {{subtitle.text}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu>
-            <el-dropdown-item
-              v-for="(child, index) in subtitle.children"
-              v-bind:key="index"
-              @click.native="linkUrl(child.link, child)">
-              {{child.text}}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <template v-else>
-          {{ subtitle.text }}
-        </template>
-      </a>
-      <a class="rong-nav-subtitle" v-if="dropdownVersions && dropdownVersions.length > 1">
-        <el-dropdown class="rong-nav-version-dropdown-box">
-          <span class="el-dropdown-link">
-            {{selectedDropdownVersion.name}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu>
-            <el-dropdown-item
-              v-for="(versionItem, index) in dropdownVersions"
-              v-bind:key="index"
-              @click.native="versionItem.click && versionItem.click()">
-              {{versionItem.name}}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </a>
+  <div>
+    <header class="navbar rong-nav">
+      <div class="rong-nav-box">
+        <a :href="$themeConfig.nav.logo.link" target="_blank"><img class="rong-nav-logo" :src="$themeConfig.nav.logo.url" alt=""></a>
+        <a class="rong-nav-title rong-small-screen-nav-title" :href="$site.base">
+          文档首页
+        </a>
+        <a
+          class="rong-nav-title"
+          v-for="title in $themeConfig.nav.titles"
+          :key="title.text"
+          :href="title.link">
+          {{ title.text }}
+        </a>
+        <div class="rong-nav-right-title-box">
+          <SearchBox/>
+          <a
+            class="rong-nav-subtitle"
+            v-for="subtitle in $themeConfig.nav.rightTitles"
+            :key="subtitle.text"
+            :target="subtitle.target"
+            :href="subtitle.link">
+            <el-dropdown v-if="subtitle.type === 'select'" class="rong-nav-version-dropdown-box" :class="subtitle.class">
+              <span class="el-dropdown-link">
+                {{subtitle.text}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
+              </span>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-for="(child, index) in subtitle.children"
+                  v-bind:key="index"
+                  @click.native="linkUrl(child.link, child)">
+                  {{child.text}}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <template v-else>
+              {{ subtitle.text }}
+            </template>
+          </a>
+          <a class="rong-nav-subtitle" v-if="dropdownVersions && dropdownVersions.length > 1">
+            <el-dropdown class="rong-nav-version-dropdown-box">
+              <span class="el-dropdown-link">
+                {{selectedDropdownVersion.name}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
+              </span>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-for="(versionItem, index) in dropdownVersions"
+                  v-bind:key="index"
+                  @click.native="versionItem.click && versionItem.click()">
+                  {{versionItem.name}}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </a>
+        </div>
+      </div>
+      <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+    </header>
+    <div class="rc-subnavi" v-if="$themeConfig.nav.subTitles && $themeConfig.nav.subTitles.length">
+      <div class="rc-nav-wrapper">
+        <a class="rc-subnavi-btn" v-for="(subtitle, index) in $themeConfig.nav.subTitles" :key="index">
+          <template v-if="subtitle.type === 'select'">
+            {{subtitle.text}}
+            <ul class="rc-subnav-selectlist">
+              <li v-for="(item, j) in subtitle.children" :key="j" @click="linkUrl(item.link)">{{item.text}}</li>
+            </ul>
+          </template>
+        </a>
+      </div>
     </div>
-    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
-  </header>
+  </div>
 </template>
 
 <script>

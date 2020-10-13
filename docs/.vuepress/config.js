@@ -58,11 +58,11 @@ module.exports = {
         { text: '运营服务', link: '/views/im/noui/guide/private/message/web.html' },
         { text: '音视频', link: '/views/im/noui/guide/private/message/web.html' },
       ],
-      subTitles: [
-        { text: 'SDK 下载', link: '' },
-        { text: '工单', link: '' },
-        { text: '登录', link: '' }
-      ]
+      // subTitles: [
+      //   { text: 'SDK 下载', link: '' },
+      //   { text: '工单', link: '' },
+      //   { text: '登录', link: '' }
+      // ]
     },
     summary: Summary,
     apiSearchPlaceholder: '输入 API 快速检索',

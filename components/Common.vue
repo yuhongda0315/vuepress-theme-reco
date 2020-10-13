@@ -15,7 +15,7 @@
             class="sidebar-mask"
             @click="toggleSidebar(false)"></div>
 
-          <div class="rong-content-box">
+          <div class="rong-content-box" :class="(!$themeConfig.nav.subTitles || !$themeConfig.nav.subTitles.length) && 'rong-content-no-subnavi'">
             <Sidebar
               :items="sidebarItems"
               :isSidebarOpen="isSidebarOpen"
