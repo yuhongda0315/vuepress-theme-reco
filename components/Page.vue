@@ -238,7 +238,7 @@ let isHashDirecting = false
 const toHashView = (href) => {
   href = decodeURI(href)
   const hash = getUrlHash(href)
-  if (!hash) return
+  if (!hash || typeof window === 'undefined') return
   window.location.href = href
   const titleDom = document.getElementById(hash)
   if (titleDom) {
@@ -267,7 +267,7 @@ const resetRightNavActions = (vueInstance) => {
       hash && linkDom.classList.add(`_${hash}_`)
       linkDom.onclick = (event) => {
         const targetHash = getHrefByClassName(event.target.className)
-        toHashView(window.location.origin + window.location.pathname + '#' + targetHash)
+        typeof window !== 'undefined' && toHashView(window.location.origin + window.location.pathname + '#' + targetHash)
       }
     }
   }).catch(() => {
@@ -587,15 +587,17 @@ const getActiveTitleDomId = () => {
 
 let scrollTimeout
 
-window.onscroll = () => {
-  if (isHashDirecting) {
-    return
+if (typeof window !== 'undefined') {
+  window.onscroll = () => {
+    if (isHashDirecting) {
+      return
+    }
+    clearTimeout(scrollTimeout)
+    scrollTimeout = setTimeout(() => {
+      getActiveTitleDomId()
+    }, 300)
+    // !isHashDirecting && getActiveTitleDomId()
   }
-  clearTimeout(scrollTimeout)
-  scrollTimeout = setTimeout(() => {
-    getActiveTitleDomId()
-  }, 300)
-  // !isHashDirecting && getActiveTitleDomId()
 }
 
 export default {
