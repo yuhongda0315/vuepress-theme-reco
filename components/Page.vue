@@ -267,7 +267,10 @@ const resetRightNavActions = (vueInstance) => {
       hash && linkDom.classList.add(`_${hash}_`)
       linkDom.onclick = (event) => {
         const targetHash = getHrefByClassName(event.target.className)
-        typeof window !== 'undefined' && toHashView(window.location.origin + window.location.pathname + '#' + targetHash)
+        if (typeof window !== 'undefined') {
+          const url = window.location.origin + window.location.pathname + window.location.search + '#' + targetHash
+          toHashView(url)
+        }
       }
     }
   }).catch(() => {
