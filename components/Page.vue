@@ -161,9 +161,119 @@ const LIKE_STATUS = {
 //   })
 // }
 
-const resetRightNavActions = () => {
-  var rootDom = document.querySelector('.table-of-contents')
-};
+const getDom = (query, parent = document) => {
+  return parent.querySelector(query)
+}
+
+/* 慎用 */
+const nextRender = (html) => {
+  return new Promise((resolve) => {
+    let dom = getDom(html)
+    if (dom) {
+      resolve(dom)
+    } else {
+      const intervalId = setInterval(() => {
+        dom = getDom(html)
+        if (dom) {
+          clearInterval(intervalId)
+          resolve(dom)
+        }
+      }, 100)
+    }
+  })
+}
+
+function getHrefByClassName (classNames) {
+  const reg = new RegExp('(?<=_).*(?=_)')
+  const matchs = classNames.match(reg)
+  if (matchs && matchs.length) {
+    return matchs[0]
+  }
+  return classNames
+}
+
+function getUrlHash (url) {
+  const matchs = url.match(/(?<=#).*/)
+  return matchs && matchs.length ? matchs[0] : null
+}
+
+function getElementViewTop (element) {
+  var actualTop = element.offsetTop
+  var current = element.offsetParent
+
+  while (current !== null) {
+    actualTop += current.offsetTop
+    current = current.offsetParent
+  }
+
+  var offsetTop = 60
+
+  return actualTop - offsetTop
+}
+
+const activeClassName = 'rong-scroll-active'
+
+const decodeURI = (url) => {
+  return decodeURIComponent(url).replace(' ', '')
+}
+
+const removeAllRightNaviActive = () => {
+  const rightNavDomList = document.querySelectorAll('.table-of-contents li')
+  for (let i = 0, max = rightNavDomList.length; i < max; i++) {
+    const rightNavDom = rightNavDomList[i]
+    rightNavDom && rightNavDom.classList.remove(activeClassName)
+  }
+}
+
+const setRightNaviActive = (hash) => {
+  const rightNavDom = document.querySelector(`.table-of-contents ._${hash}_`)
+  if (rightNavDom && rightNavDom.parentNode) {
+    rightNavDom.parentNode.classList.add(activeClassName)
+    // rightNavDom.parentNode.scrollIntoViewIfNeeded && rightNavDom.parentNode.scrollIntoViewIfNeeded()
+  }
+}
+
+let isHashDirecting = false
+
+const toHashView = (href) => {
+  href = decodeURI(href)
+  const hash = getUrlHash(href)
+  if (!hash) return
+  window.location.href = href
+  const titleDom = document.getElementById(hash)
+  if (titleDom) {
+    window.scrollTo(0, getElementViewTop(titleDom))
+    isHashDirecting = true
+    setTimeout(() => {
+      isHashDirecting = false
+    }, 1000)
+    removeAllRightNaviActive()
+    setRightNaviActive(hash)
+  }
+}
+
+const resetRightNavActions = (vueInstance) => {
+  nextRender('.table-of-contents').then(() => {
+    const rootDom = document.querySelector('.table-of-contents')
+    if (!rootDom) {
+      return Promise.reject()
+    }
+    const linkDomList = rootDom.querySelectorAll('a')
+    for (let i = 0, max = linkDomList.length; i < max; i++) {
+      const linkDom = linkDomList[i]
+      const href = decodeURI(linkDom.href)
+      const hash = getUrlHash(href)
+      linkDom.removeAttribute('href')
+      hash && linkDom.classList.add(`_${hash}_`)
+      linkDom.onclick = (event) => {
+        const targetHash = getHrefByClassName(event.target.className)
+        toHashView(window.location.origin + window.location.pathname + '#' + targetHash)
+      }
+    }
+  }).catch(() => {
+    console.log('no right navi')
+  })
+}
 
 const setSmallScreen = () => {
   const isSmall = utils.isSmallScreen()
@@ -210,19 +320,19 @@ const scrollToAnchor = () => {
 //   return path
 // }
 
-function uniqueNavs(navs) {
-  const newNavs = []
-  const newNavNames = []
-  for (let i = 0, max = navs.length; i < max; i++) {
-    const nav = navs[i]
-    const { name } = nav
-    if (newNavNames.indexOf(name) === -1) {
-      newNavs.push(nav)
-      newNavNames.push(name)
-    }
-  }
-  return newNavs
-}
+// function uniqueNavs (navs) {
+//   const newNavs = []
+//   const newNavNames = []
+//   for (let i = 0, max = navs.length; i < max; i++) {
+//     const nav = navs[i]
+//     const { name } = nav
+//     if (newNavNames.indexOf(name) === -1) {
+//       newNavs.push(nav)
+//       newNavNames.push(name)
+//     }
+//   }
+//   return newNavs
+// }
 
 function initSequence (newRoute, oldRoute) {
   newRoute = newRoute || { path: 'new' }
@@ -355,8 +465,8 @@ function initTOCScroll (newRoute, oldRoute) {
     }, 10)
   }
   if (elements.length > 0) {
-    window.addEventListener('scroll', onScroll)
-    onScroll()
+    // window.addEventListener('scroll', onScroll)
+    // onScroll()
   }
 
   function setRightBarClick () {
@@ -364,16 +474,16 @@ function initTOCScroll (newRoute, oldRoute) {
     for (let i = 0, max = rightBarLinkElList.length; i < max; i++) {
       const linkEl = rightBarLinkElList[i]
       linkEl.onclick = ({ currentTarget }) => {
-        let href = currentTarget.getAttribute('href')
-        const splitIndex = href.indexOf('#')
-        if (splitIndex === 0) {
-          href = href.substring(splitIndex + 1)
-          window.removeEventListener('scroll', onScroll)
-          addClass(href)
-          setTimeout(() => {
-            window.addEventListener('scroll', onScroll)
-          }, 100)
-        }
+        // let href = currentTarget.getAttribute('href')
+        // const splitIndex = href.indexOf('#')
+        // if (splitIndex === 0) {
+        //   href = href.substring(splitIndex + 1)
+        //   // window.removeEventListener('scroll', onScroll)
+        //   addClass(href)
+        //   setTimeout(() => {
+        //     // window.addEventListener('scroll', onScroll)
+        //   }, 100)
+        // }
       }
     }
   }
@@ -448,6 +558,46 @@ const getUrlParam = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
 
+function isUndefined (val) {
+  // IE 下 undefined 为 Object
+  return val === undefined || Object.prototype.toString.call(val) === '[object Undefined]';
+}
+
+const getActiveTitleDomId = () => {
+  const pageDom = document.querySelector('.rong-page')
+  if (!pageDom) return
+  const titleDomList = pageDom.querySelectorAll('h1,h2,h3,h4,h5,h6')
+  let min = {}
+  for (let i = 0, max = titleDomList.length; i < max; i++) {
+    const dom = titleDomList[i]
+    var offsetTop = dom.getBoundingClientRect().top
+    // console.log(offsetTop, dom)
+    if (offsetTop >= 0 && (isUndefined(min.offsetTop) || min.offsetTop > offsetTop)) {
+      min = { dom: dom, offsetTop: offsetTop }
+    }
+  }
+  const id = min.dom.id
+  const rightNavDom = document.querySelector(`.table-of-contents ._${id}_`)
+  // console.log('rightNavDom', rightNavDom)
+  if (rightNavDom) {
+    removeAllRightNaviActive()
+    setRightNaviActive(id)
+  }
+}
+
+let scrollTimeout
+
+window.onscroll = () => {
+  if (isHashDirecting) {
+    return
+  }
+  clearTimeout(scrollTimeout)
+  scrollTimeout = setTimeout(() => {
+    getActiveTitleDomId()
+  }, 300)
+  // !isHashDirecting && getActiveTitleDomId()
+}
+
 export default {
   mixins: [moduleTransitonMixin],
   props: ['sidebarItems'],
@@ -469,6 +619,7 @@ export default {
   watch: {
     $route (newRoute, oldRoute) {
       initData(this, newRoute, oldRoute)
+      newRoute && oldRoute && newRoute.path !== oldRoute.path && resetRightNavActions(this)
     }
   },
   computed: {
@@ -607,6 +758,10 @@ export default {
       link = link.split('?')[0]
       window.localStorage.setItem('rong-current-page', link)
     }
+    resetRightNavActions(this)
+    setTimeout(() => {
+      toHashView(window.location.href)
+    }, 300)
   },
   methods: {
     handleDropdownVersionClick (versionItem) {
