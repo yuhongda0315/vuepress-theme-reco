@@ -61,11 +61,6 @@ module.exports = {
       subTitles: [
         {
           type: 'select',
-          text: '4.x 版本',
-          children: [{ text: '2.x 版本', link: '/v2/' }]
-        },
-        {
-          type: 'select',
           text: '场景阅读模式',
           children: [{ text: '平台阅读模式', link: '' }]
         }

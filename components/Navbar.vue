@@ -38,7 +38,7 @@
               {{ subtitle.text }}
             </template>
           </a>
-          <a class="rong-nav-subtitle" v-if="dropdownVersions && dropdownVersions.length > 1">
+          <!-- <a class="rong-nav-subtitle" v-if="dropdownVersions && dropdownVersions.length > 1">
             <el-dropdown class="rong-nav-version-dropdown-box">
               <span class="el-dropdown-link">
                 {{selectedDropdownVersion.name}}<i class="rong-nav-version-dropdown-icon el-icon-caret-bottom el-icon--right"></i>
@@ -52,13 +52,19 @@
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-          </a>
+          </a> -->
         </div>
       </div>
       <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
     </header>
     <div class="rc-subnavi" v-if="$themeConfig.nav.subTitles && $themeConfig.nav.subTitles.length">
       <div class="rc-nav-wrapper">
+        <a class="rc-subnavi-btn" v-if="dropdownVersions && dropdownVersions.length > 1">
+          {{selectedDropdownVersion.name}}
+          <ul class="rc-subnav-selectlist">
+            <li v-for="(item, j) in dropdownVersions" :key="j" v-if="item.name !== selectedDropdownVersion.name" @click="item.click && item.click()">{{item.name}}</li>
+          </ul>
+        </a>
         <a class="rc-subnavi-btn" v-for="(subtitle, index) in $themeConfig.nav.subTitles" :key="index">
           <template v-if="subtitle.type === 'select'">
             {{subtitle.text}}
