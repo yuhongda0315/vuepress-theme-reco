@@ -595,7 +595,7 @@ if (typeof window !== 'undefined') {
     clearTimeout(scrollTimeout)
     scrollTimeout = setTimeout(() => {
       getActiveTitleDomId()
-    }, 300)
+    }, 100)
     // !isHashDirecting && getActiveTitleDomId()
   }
 }
