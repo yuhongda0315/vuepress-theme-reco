@@ -184,17 +184,17 @@ const nextRender = (html) => {
 }
 
 function getHrefByClassName (classNames) {
-  const reg = new RegExp('(?<=_).*(?=_)')
+  const reg = new RegExp('(?:_).*(?=_)')
   const matchs = classNames.match(reg)
   if (matchs && matchs.length) {
-    return matchs[0]
+    return matchs[0].replace('_', '')
   }
   return classNames
 }
 
 function getUrlHash (url) {
-  const matchs = url.match(/(?<=#).*/)
-  return matchs && matchs.length ? matchs[0] : null
+  const matchs = url.match(/(?:#).*/)
+  return matchs && matchs.length ? matchs[0].replace('#', '') : null
 }
 
 function getElementViewTop (element) {
@@ -242,8 +242,11 @@ const toHashView = (href) => {
   window.location.href = href
   const titleDom = document.getElementById(hash)
   if (titleDom) {
-    window.scrollTo(0, getElementViewTop(titleDom))
-    isHashDirecting = true
+    console.log(getElementViewTop(titleDom))
+    setTimeout(() => {
+      window.scrollTo(0, getElementViewTop(titleDom))
+      isHashDirecting = true
+    }, 10)
     setTimeout(() => {
       isHashDirecting = false
     }, 1000)
