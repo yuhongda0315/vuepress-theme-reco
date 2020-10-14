@@ -266,6 +266,8 @@ function search(context) {
     max-height: 435px;
     box-shadow: 0 2px 40px 0 rgba(168,168,168,0.68);
     border: 0;
+    left: 65%;
+    transform: translateX(-50%);
 
     &.align-right {
       right: 0;
