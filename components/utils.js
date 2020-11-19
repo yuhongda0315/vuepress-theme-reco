@@ -296,7 +296,7 @@ const getDropdownVersions = (context) => {
     }
     const isWeb = ['web.html', 'web3.html', 'web4.html'].indexOf(fileName) !== -1
     if (isWeb) {
-      return [{ name: '3.x/4.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
+      return [{ name: '4.x / 3.x 版本', click: newVersionClickEvent }, { name: '2.x 版本', click: oldVersionClickEvent }]
     }
   }
 
