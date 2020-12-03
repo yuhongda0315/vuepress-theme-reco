@@ -57,7 +57,7 @@
       </div>
       <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
     </header>
-    <div class="rc-subnavi" v-if="$themeConfig.nav.subTitles && $themeConfig.nav.subTitles.length">
+    <div class="rc-subnavi">
       <div class="rc-nav-wrapper">
         <a class="rc-subnavi-btn" v-if="dropdownVersions && dropdownVersions.length > 1">
           {{selectedDropdownVersion.name}}
